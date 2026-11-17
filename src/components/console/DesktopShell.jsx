@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from "@tanstack/react-router";
-import { ArrowLeft, Bot, CalendarClock, CreditCard, LayoutDashboard, ShieldCheck, Tag, Users, UserCog } from "lucide-react";
+import { ArrowLeft, Bot, Briefcase, CalendarClock, CreditCard, Dumbbell, LayoutDashboard, Salad, ShieldCheck, Tag, Users, UserCog } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
 import { BRAND_LOGO } from "@/lib/brand";
 import { Image } from "@/components/ui/image";
@@ -7,11 +7,14 @@ import { Image } from "@/components/ui/image";
 const PRO_NAV = [
   { to: "/console", label: "Clients", icon: Users, exact: true },
   { to: "/console/consultations", label: "Consultations", icon: CalendarClock },
+  { to: "/pro", label: "Professional portal", icon: Briefcase, exact: true },
 ];
 
 const ADMIN_NAV = [
   { to: "/command", label: "Overview", icon: LayoutDashboard, exact: true },
   { to: "/command/users", label: "Users", icon: UserCog },
+  { to: "/command/instructors", label: "Gym instructors", icon: Dumbbell },
+  { to: "/command/dietitians", label: "Dietitians", icon: Salad },
   { to: "/command/subscriptions", label: "Subscriptions & billing", icon: CreditCard },
   { to: "/command/pricing", label: "Plan pricing", icon: Tag },
   { to: "/command/professionals", label: "Professionals", icon: ShieldCheck },

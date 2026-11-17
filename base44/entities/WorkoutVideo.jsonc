@@ -1,0 +1,108 @@
+{
+  "name": "WorkoutVideo",
+  "type": "object",
+  "properties": {
+    "instructor_id": {
+      "type": "string"
+    },
+    "instructor_user_id": {
+      "type": "string"
+    },
+    "instructor_name": {
+      "type": "string"
+    },
+    "client_user_id": {
+      "type": "string"
+    },
+    "client_name": {
+      "type": "string"
+    },
+    "exercise": {
+      "type": "string"
+    },
+    "file_uri": {
+      "type": "string"
+    },
+    "note": {
+      "type": "string"
+    },
+    "ai_generated": {
+      "type": "boolean",
+      "default": false
+    },
+    "feedback": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "submitted",
+        "approved",
+        "needs_work"
+      ],
+      "enumColors": [
+        "yellow",
+        "green",
+        "red"
+      ],
+      "default": "submitted"
+    },
+    "reviewed_at": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "exercise",
+    "file_uri"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.client_user_id": "{{user.id}}"
+        },
+        {
+          "data.instructor_user_id": "{{user.id}}"
+        },
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "data.instructor_user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

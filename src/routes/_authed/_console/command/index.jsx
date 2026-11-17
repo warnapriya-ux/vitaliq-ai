@@ -5,6 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import Panel from "@/components/console/Panel";
 import Kpi from "@/components/console/Kpi";
+import ProfessionalKpis from "@/components/console/ProfessionalKpis";
 import StatusPill, { statusTone } from "@/components/console/StatusPill";
 import { formatDate } from "@/lib/health";
 
@@ -63,6 +64,8 @@ function CommandOverview() {
         <Kpi label="Collected revenue" value={`$${revenue}`} accent="text-cyan-300" hint="verified payments" />
         <Kpi label="Awaiting activation" value={pendingSubs.length} accent="text-amber-300" hint="payment verification" />
       </div>
+
+      <ProfessionalKpis />
 
       <div className="grid gap-4 lg:grid-cols-3">
         <Panel title="Members by plan" className="lg:col-span-2">
