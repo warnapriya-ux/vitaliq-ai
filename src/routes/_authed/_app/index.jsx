@@ -6,6 +6,7 @@ import DailyStats from "@/components/vitaliq/dashboard/DailyStats";
 import AiAdvice from "@/components/vitaliq/dashboard/AiAdvice";
 import PlanCards from "@/components/vitaliq/dashboard/PlanCards";
 import ProgressGrid from "@/components/vitaliq/dashboard/ProgressGrid";
+import TrainerCard from "@/components/vitaliq/dashboard/TrainerCard";
 import QuickLog from "@/components/vitaliq/dashboard/QuickLog";
 import GlassCard from "@/components/vitaliq/GlassCard";
 import { useVitaliq } from "@/hooks/useVitaliq";
@@ -80,6 +81,7 @@ function Dashboard() {
         <GoalCard percent={percent} current={current} target={target} toGo={toGo} />
         <DailyStats stats={stats} />
         <AiAdvice advice={advice} />
+        <TrainerCard />
         <div className="hidden lg:block">
           <QuickLog profile={profile} today={today} onSaved={reload} />
         </div>

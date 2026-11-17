@@ -91,3 +91,70 @@ Client: ${data.question}`;
     const reply = await context.getBase44().asServiceRole.integrations.Core.InvokeLLM({ prompt });
     return { reply: typeof reply === "string" ? reply : JSON.stringify(reply) };
   });
+
+const formSchema = {
+  type: "object",
+  properties: {
+    exercise_detected: { type: "string" },
+    reps_estimate: { type: "number" },
+    form_score: { type: "number" },
+    summary: { type: "string" },
+    issues: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          area: { type: "string" },
+          issue: { type: "string" },
+          severity: { type: "string", enum: ["low", "medium", "high"] },
+          fix: { type: "string" },
+        },
+        required: ["area", "issue", "severity", "fix"],
+      },
+    },
+    cues: { type: "array", items: { type: "string" } },
+    drills: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: { name: { type: "string" }, dose: { type: "string" } },
+        required: ["name", "dose"],
+      },
+    },
+  },
+  required: ["exercise_detected", "reps_estimate", "form_score", "summary", "issues", "cues", "drills"],
+};
+
+export const analyzeWorkoutForm = createServerFn({ method: "POST" })
+  .middleware([requireUser])
+  .validator(
+    z.object({
+      exercise: z.string().min(2).max(40),
+      durationSec: z.number().min(0).max(3600).optional(),
+      frameUrls: z.array(z.string().min(10).max(1200)).min(1).max(6),
+    }),
+  )
+  .handler(async ({ data, context }) => {
+    const prompt = `You are VITALIQ Form Coach, a strength coach reviewing a recorded set for a health platform.
+${SAFETY}
+You are given ${data.frameUrls.length} still frames sampled evenly across a ${Math.round(data.durationSec ?? 0)} second clip of the client training: ${data.exercise}.
+
+Review posture and technique frame by frame. Describe only what is actually visible: torso position, joint alignment, depth or range of motion, head and spine position, and control of the movement.
+
+Return JSON:
+- "exercise_detected": the movement you can see, or "${data.exercise}" if unclear.
+- "reps_estimate": the best estimate of completed repetitions visible across the frames (0 if a static hold).
+- "form_score": 0-100 rating of technique across the frames.
+- "summary": 2-3 sentences a client can act on today.
+- "issues": up to 4 items, each with the body "area", the "issue" you see, a "severity" of low, medium or high, and a concrete "fix".
+- "cues": up to 4 short spoken reminders the client can repeat in their next set.
+- "drills": up to 3 corrective "name" plus "dose" entries.`;
+
+    return context
+      .getBase44()
+      .asServiceRole.integrations.Core.InvokeLLM({
+        prompt,
+        file_urls: data.frameUrls,
+        response_json_schema: formSchema,
+      });
+  });
