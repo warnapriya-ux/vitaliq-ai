@@ -1,5 +1,5 @@
 import { Link, Outlet, useLocation } from "@tanstack/react-router";
-import { Activity, ArrowLeft, Bot, CalendarClock, CreditCard, LayoutDashboard, ShieldCheck, Users, UserCog } from "lucide-react";
+import { Activity, ArrowLeft, Bot, CalendarClock, CreditCard, LayoutDashboard, ShieldCheck, Tag, Users, UserCog } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
 
 const PRO_NAV = [
@@ -11,6 +11,7 @@ const ADMIN_NAV = [
   { to: "/command", label: "Overview", icon: LayoutDashboard, exact: true },
   { to: "/command/users", label: "Users", icon: UserCog },
   { to: "/command/subscriptions", label: "Subscriptions & billing", icon: CreditCard },
+  { to: "/command/pricing", label: "Plan pricing", icon: Tag },
   { to: "/command/professionals", label: "Professionals", icon: ShieldCheck },
   { to: "/command/ai", label: "AI engine", icon: Bot },
 ];

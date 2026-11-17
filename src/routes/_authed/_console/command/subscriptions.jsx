@@ -4,7 +4,8 @@ import { toast } from "sonner";
 import { base44 } from "@/api/base44Client";
 import Panel from "@/components/console/Panel";
 import StatusPill, { statusTone } from "@/components/console/StatusPill";
-import { formatDate } from "@/lib/health";
+import { formatDate, todayISO } from "@/lib/health";
+import { addMonthsISO, monthsFor } from "@/lib/pricing";
 
 export const Route = createFileRoute("/_authed/_console/command/subscriptions")({
   head: () => ({ meta: [{ title: "VITALIQ Command — Subscriptions" }] }),
@@ -32,7 +33,13 @@ function SubscriptionsPage() {
 
   async function setStatus(sub, status) {
     try {
-      await base44.entities.Subscription.update(sub.id, { status });
+      const patch = { status };
+      // Activating starts the paid cycle from today so the renewal date always matches the cycle.
+      if (status === "active") {
+        patch.started_on = sub.started_on || todayISO();
+        patch.renews_on = addMonthsISO(monthsFor(sub.billing_cycle));
+      }
+      await base44.entities.Subscription.update(sub.id, patch);
       await load();
       toast.success(`${sub.user_name || sub.user_email} is now ${status}`);
     } catch (error) {

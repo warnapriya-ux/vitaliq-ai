@@ -1,0 +1,57 @@
+{
+  "name": "PlanPrice",
+  "type": "object",
+  "properties": {
+    "plan": {
+      "type": "string",
+      "enum": [
+        "free",
+        "basic",
+        "premium",
+        "professional",
+        "family"
+      ],
+      "enumColors": [
+        "gray",
+        "blue",
+        "purple",
+        "pink",
+        "yellow"
+      ]
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD"
+    },
+    "monthly": {
+      "type": "number"
+    },
+    "quarterly": {
+      "type": "number"
+    },
+    "annual": {
+      "type": "number"
+    }
+  },
+  "required": [
+    "plan"
+  ],
+  "rls": {
+    "read": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

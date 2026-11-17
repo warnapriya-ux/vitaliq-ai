@@ -69,13 +69,21 @@ export function useVitaliq() {
           : Promise.resolve({ items: [] }),
       ]);
 
+      let subscription = subPage.items?.[0] ?? null;
+      if (subscription?.status === "active" && subscription.renews_on && subscription.renews_on < todayISO()) {
+        subscription = await base44.entities.Subscription.update(subscription.id, {
+          status: "expired",
+          auto_renew: false,
+        });
+      }
+
       setState({
         loading: false,
         profile,
         today: todayPage.items?.[0] ?? null,
         diet: dietPage.items?.[0] ?? null,
         workout: workoutPage.items?.[0] ?? null,
-        subscription: subPage.items?.[0] ?? null,
+        subscription,
         measurements: measurePage.items ?? [],
         logs: logsPage.items ?? [],
       });
