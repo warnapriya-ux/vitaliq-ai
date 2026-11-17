@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { base44 } from "@/api/base44Client";
 import PageTitle from "@/components/vitaliq/PageTitle";
 import GlassCard from "@/components/vitaliq/GlassCard";
+import VideoStudio from "@/components/vitaliq/workout/VideoStudio";
 import { useVitaliq } from "@/hooks/useVitaliq";
 import { generateHealthPlan } from "@/lib/server-fns";
 import { planItems, profileSummary, todayISO } from "@/lib/health";
@@ -144,6 +145,8 @@ function WorkoutPage() {
           })}
         </ul>
       </GlassCard>
+
+      <VideoStudio profile={profile} workout={workout} items={items} user={user} />
 
       <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.03] px-4 py-3 text-[11px] text-white/45">
         <Flame className="h-4 w-4 text-amber-300" />

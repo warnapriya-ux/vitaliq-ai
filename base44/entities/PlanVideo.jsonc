@@ -1,0 +1,79 @@
+{
+  "name": "PlanVideo",
+  "type": "object",
+  "properties": {
+    "client_id": {
+      "type": "string"
+    },
+    "plan_title": {
+      "type": "string"
+    },
+    "goal": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "video_url": {
+      "type": "string"
+    },
+    "duration_sec": {
+      "type": "number"
+    },
+    "aspect_ratio": {
+      "type": "string",
+      "enum": [
+        "9:16",
+        "16:9"
+      ],
+      "enumColors": [
+        "purple",
+        "blue"
+      ]
+    }
+  },
+  "required": [
+    "video_url"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
