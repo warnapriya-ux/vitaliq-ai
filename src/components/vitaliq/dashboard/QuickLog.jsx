@@ -47,7 +47,7 @@ export default function QuickLog({ profile, today, onSaved }) {
         <p className="font-heading text-sm font-semibold text-white">Today's check-in</p>
         <span className="text-[10px] uppercase tracking-wider text-white/30">{todayISO()}</span>
       </div>
-      <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
+      <div className="mt-3 grid grid-cols-2 gap-2">
         <label className="space-y-1">
           <span className="text-[11px] uppercase tracking-wider text-white/35">Steps</span>
           <input className={INPUT} type="number" value={form.steps} onChange={set("steps")} placeholder="0" />

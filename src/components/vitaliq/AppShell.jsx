@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { Apple, Bot, Dumbbell, Home, TrendingUp, User } from "lucide-react";
-import { cn } from "@/lib/utils";
 
 const NAV = [
   { to: "/", label: "Home", icon: Home },
@@ -13,14 +12,11 @@ const NAV = [
   { to: "/profile", label: "Profile", icon: User },
 ];
 
-function Dock({ wide = false }) {
+function Dock() {
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] md:px-6">
+    <div className="fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
       <nav
-        className={cn(
-          "flex w-full max-w-[398px] items-center justify-between rounded-[24px] border border-white/10 bg-[#080d16]/92 px-1 py-1.5 backdrop-blur-2xl",
-          wide && "md:max-w-[672px]",
-        )}
+        className="flex w-full max-w-[398px] items-center justify-between rounded-[24px] border border-white/10 bg-[#080d16]/92 px-1 py-1.5 backdrop-blur-2xl"
       >
         {NAV.map(({ to, label, icon: Icon }) => (
           <Link
@@ -43,8 +39,6 @@ function Dock({ wide = false }) {
 export default function AppShell({ children }) {
   const { pathname } = useLocation();
   const positions = useRef(new Map());
-  // The home dashboard is the one screen that uses the extra tablet width.
-  const wide = pathname === "/";
 
   // Remember where each tab was left, so switching tabs feels native instead of resetting.
   useEffect(() => {
@@ -60,13 +54,8 @@ export default function AppShell({ children }) {
 
   return (
     <div className="min-h-screen pt-[env(safe-area-inset-top)]">
-      <div
-        className={cn(
-          "relative mx-auto flex min-h-screen w-full max-w-[430px] flex-col bg-white/[0.015] sm:border-x sm:border-white/[0.06]",
-          wide && "md:max-w-[720px]",
-        )}
-      >
-        <main className={cn("flex-1 px-4 pb-[calc(8rem+env(safe-area-inset-bottom))] pt-5", wide && "md:px-6")}>
+      <div className="relative mx-auto flex min-h-screen w-full max-w-[430px] flex-col bg-white/[0.015] sm:border-x sm:border-white/[0.06]">
+        <main className="flex-1 px-4 pb-[calc(8rem+env(safe-area-inset-bottom))] pt-5">
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={pathname}
@@ -80,7 +69,7 @@ export default function AppShell({ children }) {
           </AnimatePresence>
         </main>
       </div>
-      <Dock wide={wide} />
+      <Dock />
     </div>
   );
 }

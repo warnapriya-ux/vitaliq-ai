@@ -76,20 +76,14 @@ function Dashboard() {
 
   return (
     <PullToRefresh onRefresh={reload}>
-    <div className="space-y-4 md:grid md:grid-flow-row-dense md:grid-cols-2 md:items-start md:gap-4 md:space-y-0">
-      <div className="md:col-span-2">
-        <BrandBar />
-      </div>
-      <div className="md:col-span-2">
-        <Header name={profile.display_name || "there"} plan={subscription?.plan || "Free"} />
-      </div>
-      <div className="md:col-span-2">
-        <GoalCard percent={percent} current={current} target={target} toGo={toGo} />
-      </div>
+    <div className="space-y-4">
+      <BrandBar />
+      <Header name={profile.display_name || "there"} plan={subscription?.plan || "Free"} />
+      <GoalCard percent={percent} current={current} target={target} toGo={toGo} />
       <DailyStats stats={stats} />
       <AiAdvice advice={advice} />
       <TrainerCard />
-      <div className="md:col-span-2">
+      <div>
         <PlanCards
           workout={{
             title: workout?.title || "No workout yet",
@@ -100,9 +94,7 @@ function Dashboard() {
         />
       </div>
       <ProgressGrid items={progress} />
-      <div className="md:col-span-2">
-        <QuickLog profile={profile} today={today} onSaved={reload} />
-      </div>
+      <QuickLog profile={profile} today={today} onSaved={reload} />
     </div>
     </PullToRefresh>
   );
