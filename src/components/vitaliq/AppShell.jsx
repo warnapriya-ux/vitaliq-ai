@@ -50,7 +50,7 @@ export default function AppShell({ children }) {
   }, [pathname]);
 
   return (
-    <div className="min-h-screen bg-background pt-[env(safe-area-inset-top)]">
+    <div className="min-h-screen pt-[env(safe-area-inset-top)]">
       <div className="relative mx-auto flex min-h-screen w-full max-w-[430px] flex-col bg-white/[0.015] sm:border-x sm:border-white/[0.06]">
         <main className="flex-1 px-4 pb-[calc(8rem+env(safe-area-inset-bottom))] pt-5">
           <AnimatePresence mode="wait" initial={false}>

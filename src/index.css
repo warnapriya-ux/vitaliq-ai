@@ -61,6 +61,8 @@
 
   body {
     @apply bg-background text-foreground font-body antialiased;
+    background-image: linear-gradient(180deg, hsl(222 50% 13%) 0%, hsl(225 55% 8%) 45%, hsl(230 45% 4%) 100%);
+    background-attachment: fixed;
     min-height: 100vh;
     user-select: none;
     -webkit-user-select: none;
@@ -178,6 +180,11 @@
     --sidebar-accent-foreground: 222 47% 11%;
     --sidebar-border: 215 25% 84%;
     --sidebar-ring: 187 90% 30%;
+  }
+
+  /* The gradient canvas belongs to the dark theme only. */
+  body {
+    background-image: none;
   }
 
   .glass,
