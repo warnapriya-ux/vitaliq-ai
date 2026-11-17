@@ -130,6 +130,24 @@ function ProfilePage() {
         </div>
       </GlassCard>
 
+      <GlassCard className="space-y-1.5">
+        <p className="font-heading text-sm font-semibold text-white">Portals</p>
+        <Link
+          to="/console"
+          className="flex items-center justify-between rounded-xl bg-white/[0.03] px-3 py-2.5 text-[11px] text-white/70"
+        >
+          Professional portal <Stethoscope className="h-3.5 w-3.5 text-cyan-300" />
+        </Link>
+        {user?.role === "admin" && (
+          <Link
+            to="/command"
+            className="flex items-center justify-between rounded-xl bg-white/[0.03] px-3 py-2.5 text-[11px] text-white/70"
+          >
+            VITALIQ Command <Settings2 className="h-3.5 w-3.5 text-cyan-300" />
+          </Link>
+        )}
+      </GlassCard>
+
       <button
         type="button"
         onClick={async () => {
