@@ -83,7 +83,7 @@ function WorkoutPage() {
             type="button"
             onClick={regenerate}
             disabled={busy}
-            className="grid h-9 w-9 place-items-center rounded-full border border-white/10 text-white/60 transition hover:text-white disabled:opacity-40"
+            className="grid h-11 w-11 place-items-center rounded-full border border-white/10 text-white/60 transition hover:text-white disabled:opacity-40"
           >
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
           </button>

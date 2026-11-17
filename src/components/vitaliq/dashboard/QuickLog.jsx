@@ -6,7 +6,7 @@ import GlassCard from "@/components/vitaliq/GlassCard";
 import { todayISO } from "@/lib/health";
 
 const INPUT =
-  "h-9 w-full rounded-xl border border-white/10 bg-white/[0.03] px-2.5 text-sm text-white placeholder:text-white/25 focus:border-cyan-400/60 focus:outline-none";
+  "h-11 w-full rounded-xl border border-white/10 bg-white/[0.03] px-2.5 text-sm text-white placeholder:text-white/25 focus:border-cyan-400/60 focus:outline-none";
 
 export default function QuickLog({ profile, today, onSaved }) {
   const [form, setForm] = useState({

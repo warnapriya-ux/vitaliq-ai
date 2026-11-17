@@ -128,7 +128,7 @@ function NutritionPage() {
             type="button"
             onClick={regenerate}
             disabled={busy}
-            className="grid h-9 w-9 place-items-center rounded-full border border-white/10 text-white/60 transition hover:text-white disabled:opacity-40"
+            className="grid h-11 w-11 place-items-center rounded-full border border-white/10 text-white/60 transition hover:text-white disabled:opacity-40"
           >
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
           </button>
@@ -187,7 +187,7 @@ function NutritionPage() {
           <p className="font-heading text-sm text-white">{Number(log?.water_l ?? 0).toFixed(2)} L</p>
         </div>
         <div className="mt-3 flex items-center gap-2">
-          <button type="button" onClick={() => addWater(-0.25)} className="h-9 w-9 rounded-full border border-white/10 text-white/60">
+          <button type="button" onClick={() => addWater(-0.25)} className="h-11 w-11 rounded-full border border-white/10 text-white/60">
             −
           </button>
           <div className="h-2 flex-1 overflow-hidden rounded-full bg-white/10">
@@ -196,7 +196,7 @@ function NutritionPage() {
               style={{ width: `${Math.min(100, ((log?.water_l ?? 0) / 3) * 100)}%` }}
             />
           </div>
-          <button type="button" onClick={() => addWater(0.25)} className="h-9 w-9 rounded-full border border-white/10 text-white/60">
+          <button type="button" onClick={() => addWater(0.25)} className="h-11 w-11 rounded-full border border-white/10 text-white/60">
             +
           </button>
         </div>

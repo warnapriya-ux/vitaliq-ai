@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
 import { Apple, Bot, Dumbbell, Home, User } from "lucide-react";
@@ -18,6 +19,7 @@ function Dock() {
           <Link
             key={to}
             to={to}
+            resetScroll={false}
             activeOptions={{ exact: to === "/" }}
             className="flex flex-1 flex-col items-center gap-1 rounded-2xl py-1.5 text-white/35 transition"
             activeProps={{ className: "text-cyan-300" }}
@@ -33,6 +35,19 @@ function Dock() {
 
 export default function AppShell({ children }) {
   const { pathname } = useLocation();
+  const positions = useRef(new Map());
+
+  // Remember where each tab was left, so switching tabs feels native instead of resetting.
+  useEffect(() => {
+    const save = () => positions.current.set(pathname, window.scrollY);
+    window.addEventListener("scroll", save, { passive: true });
+    const restore = window.setTimeout(() => window.scrollTo(0, positions.current.get(pathname) ?? 0), 240);
+    return () => {
+      save();
+      window.removeEventListener("scroll", save);
+      window.clearTimeout(restore);
+    };
+  }, [pathname]);
 
   return (
     <div className="min-h-screen bg-background pt-[env(safe-area-inset-top)]">

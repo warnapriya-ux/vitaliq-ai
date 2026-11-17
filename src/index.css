@@ -136,3 +136,128 @@
     scrollbar-width: none;
   }
 }
+
+/* System light theme.
+   The member app is authored on a dark neon surface, so a light preference
+   remaps the tokens and the white-on-dark utilities used across screens. */
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+    --background: 210 40% 97%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 187 90% 30%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 24 92% 40%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 210 30% 93%;
+    --muted-foreground: 215 22% 37%;
+    --accent: 210 30% 94%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 72% 40%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 158 84% 26%;
+    --success-foreground: 0 0% 100%;
+    --border: 215 25% 84%;
+    --input: 215 25% 84%;
+    --ring: 187 90% 30%;
+    --chart-1: 187 90% 30%;
+    --chart-2: 24 92% 40%;
+    --chart-3: 158 84% 26%;
+    --chart-4: 215 22% 45%;
+    --chart-5: 222 80% 45%;
+    --sidebar-background: 210 35% 95%;
+    --sidebar-foreground: 222 40% 20%;
+    --sidebar-primary: 187 90% 30%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 30% 90%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 215 25% 84%;
+    --sidebar-ring: 187 90% 30%;
+  }
+
+  .glass,
+  .glass-solid {
+    background-color: rgb(255 255 255 / 0.82);
+    border-color: rgb(15 23 42 / 0.10);
+    box-shadow: 0 24px 70px -46px rgb(15 23 42 / 0.45);
+  }
+
+  .text-gradient {
+    background: linear-gradient(96deg, #0e7490 0%, #047857 48%, #c2410c 100%);
+  }
+
+  /* White-on-dark utilities become theme-aware text and surfaces. */
+  .text-white,
+  [class*="text-white/"] {
+    color: hsl(var(--foreground));
+  }
+
+  [class*="text-white/2"],
+  [class*="text-white/3"],
+  [class*="text-white/4"],
+  [class*="text-white/5"] {
+    color: hsl(var(--muted-foreground));
+  }
+
+  [class*="bg-white/"] {
+    background-color: rgb(15 23 42 / 0.045);
+  }
+
+  [class*="border-white/"] {
+    border-color: rgb(15 23 42 / 0.10);
+  }
+
+  [class*="bg-[#0"],
+  [class*="bg-[#1"] {
+    background-color: hsl(var(--card));
+  }
+
+  /* Pastel neon accents darken so they stay readable on light surfaces. */
+  [class*="text-cyan-2"],
+  [class*="text-cyan-3"] {
+    color: #0e7490;
+  }
+
+  [class*="text-sky-2"],
+  [class*="text-sky-3"] {
+    color: #0369a1;
+  }
+
+  [class*="text-orange-2"],
+  [class*="text-orange-3"] {
+    color: #c2410c;
+  }
+
+  [class*="text-amber-2"],
+  [class*="text-amber-3"] {
+    color: #92400e;
+  }
+
+  [class*="text-emerald-2"],
+  [class*="text-emerald-3"] {
+    color: #047857;
+  }
+
+  [class*="text-green-2"],
+  [class*="text-green-3"] {
+    color: #15803d;
+  }
+
+  [class*="text-rose-2"],
+  [class*="text-rose-3"],
+  [class*="text-red-2"],
+  [class*="text-red-3"] {
+    color: #b91c1c;
+  }
+
+  [class*="text-violet-2"],
+  [class*="text-violet-3"],
+  [class*="text-purple-2"],
+  [class*="text-purple-3"] {
+    color: #6d28d9;
+  }
+}

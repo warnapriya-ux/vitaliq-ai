@@ -147,7 +147,7 @@ function CoachPage() {
         <button
           type="submit"
           disabled={sending || !input.trim()}
-          className="grid h-9 w-9 place-items-center rounded-full bg-gradient-to-br from-cyan-300 to-cyan-500 text-slate-950 transition disabled:opacity-40"
+          className="grid h-11 w-11 place-items-center rounded-full bg-gradient-to-br from-cyan-300 to-cyan-500 text-slate-950 transition disabled:opacity-40"
         >
           <Send className="h-4 w-4" />
         </button>
