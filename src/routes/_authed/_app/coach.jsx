@@ -64,41 +64,41 @@ function CoachPage() {
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3.5 pb-16">
       <PageTitle eyebrow="Vitaliq Coach" title="Your AI personal trainer" />
 
-      <div className="rounded-[26px] border border-white/10 bg-gradient-to-br from-cyan-500/20 via-orange-500/10 to-transparent p-4">
-        <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-white/60">
-          <Sparkles className="h-3.5 w-3.5" /> Guidance, not diagnosis
+      <div className="rounded-[22px] border border-white/10 bg-gradient-to-br from-cyan-500/20 via-orange-500/10 to-transparent p-3.5">
+        <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-white/60">
+          <Sparkles className="h-3.5 w-3.5 shrink-0" /> Guidance, not diagnosis
         </div>
-        <p className="mt-1.5 text-xs leading-relaxed text-white/55">
+        <p className="mt-1.5 text-[11px] leading-relaxed text-white/55">
           Your coach reads your profile, measurements and recent activity. For medical concerns it will always send you to a professional.
         </p>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-2.5">
         {messages.length === 0 && (
-          <div className="flex items-start gap-3">
-            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-cyan-400 to-orange-500 text-white">
+          <div className="flex items-start gap-2.5">
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-cyan-400 to-orange-500 text-white">
               <Bot className="h-4 w-4" />
             </span>
-            <div className="rounded-2xl rounded-tl-sm border border-white/10 bg-white/[0.05] px-4 py-3 text-sm leading-relaxed text-white/75">
+            <div className="max-w-[78%] rounded-2xl rounded-tl-sm border border-white/10 bg-white/[0.05] px-3.5 py-2.5 text-[13px] leading-relaxed text-white/75">
               Hi {profile?.display_name || "there"} — I'm VITALIQ Coach. Ask me about training, recovery or how to hit your target weight.
             </div>
           </div>
         )}
 
         {messages.map((message) => (
-          <div key={message.id} className={`flex items-start gap-3 ${message.role === "user" ? "flex-row-reverse" : ""}`}>
+          <div key={message.id} className={`flex items-start gap-2.5 ${message.role === "user" ? "flex-row-reverse" : ""}`}>
             <span
-              className={`grid h-9 w-9 shrink-0 place-items-center rounded-2xl text-white ${
-                message.role === "user" ? "bg-white/10 text-xs font-semibold" : "bg-gradient-to-br from-cyan-400 to-orange-500"
+              className={`grid h-8 w-8 shrink-0 place-items-center rounded-xl text-white ${
+                message.role === "user" ? "bg-white/10 text-[11px] font-semibold" : "bg-gradient-to-br from-cyan-400 to-orange-500"
               }`}
             >
               {message.role === "user" ? (user?.full_name || "Y").charAt(0) : <Bot className="h-4 w-4" />}
             </span>
             <div
-              className={`max-w-[82%] whitespace-pre-wrap rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+              className={`max-w-[78%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-[13px] leading-relaxed ${
                 message.role === "user"
                   ? "rounded-tr-sm bg-cyan-400/15 text-cyan-50 ring-1 ring-cyan-300/20"
                   : "rounded-tl-sm border border-white/10 bg-white/[0.05] text-white/75"
@@ -117,14 +117,14 @@ function CoachPage() {
         <div ref={endRef} />
       </div>
 
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-1.5">
         {PROMPTS.map((prompt) => (
           <button
             key={prompt}
             type="button"
             onClick={() => send(prompt)}
             disabled={sending}
-            className="rounded-full border border-white/10 px-3 py-1.5 text-[11px] text-white/55 transition hover:border-cyan-300/40 hover:text-white disabled:opacity-40"
+            className="rounded-full border border-white/10 px-3 py-1.5 text-[10.5px] leading-snug text-white/55 transition hover:border-cyan-300/40 hover:text-white disabled:opacity-40"
           >
             {prompt}
           </button>
@@ -136,7 +136,7 @@ function CoachPage() {
           event.preventDefault();
           send();
         }}
-        className="sticky bottom-24 flex items-center gap-2 rounded-full border border-white/10 bg-[#0a1020]/90 p-1.5 backdrop-blur-xl lg:bottom-4"
+        className="fixed bottom-[92px] left-1/2 z-30 flex w-[calc(100%-2.5rem)] max-w-[390px] -translate-x-1/2 items-center gap-2 rounded-full border border-white/10 bg-[#0a1020]/95 p-1.5 shadow-[0_18px_40px_-24px_rgba(0,0,0,1)] backdrop-blur-xl"
       >
         <input
           value={input}

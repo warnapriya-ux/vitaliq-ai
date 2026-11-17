@@ -61,23 +61,25 @@ function InsightsPage() {
     <div className="space-y-4">
       <PageTitle eyebrow="Vitaliq Insights" title="Your progress" />
 
-      <div className="grid grid-cols-3 gap-2">
-        <GlassCard className="p-3">
-          <p className="text-[9px] uppercase tracking-wider text-white/35">Weight change</p>
-          <p className="mt-1 font-heading text-lg font-semibold text-emerald-300">-{lost} kg</p>
-        </GlassCard>
-        <GlassCard className="p-3">
-          <p className="text-[9px] uppercase tracking-wider text-white/35">BMI</p>
-          <p className="mt-1 font-heading text-lg font-semibold text-white">{index ?? "—"}</p>
-          <p className="text-[9px] text-white/35">{bmiLabel(index)}</p>
-        </GlassCard>
-        <GlassCard className="p-3">
-          <p className="text-[9px] uppercase tracking-wider text-white/35">To target</p>
-          <p className="mt-1 font-heading text-lg font-semibold text-cyan-300">
-            {latest && profile?.target_weight ? `${Math.round((latest.weight - profile.target_weight) * 10) / 10} kg` : "—"}
-          </p>
-        </GlassCard>
-      </div>
+      <GlassCard className="p-0">
+        <div className="grid grid-cols-3 divide-x divide-white/[0.07]">
+          <div className="px-3 py-3">
+            <p className="text-[9px] uppercase tracking-[0.1em] text-white/35">Weight change</p>
+            <p className="mt-1 font-heading text-base font-semibold text-emerald-300">-{lost} kg</p>
+          </div>
+          <div className="px-3 py-3">
+            <p className="text-[9px] uppercase tracking-[0.1em] text-white/35">BMI</p>
+            <p className="mt-1 font-heading text-base font-semibold text-white">{index ?? "—"}</p>
+            <p className="text-[9px] leading-tight text-white/35">{bmiLabel(index)}</p>
+          </div>
+          <div className="px-3 py-3">
+            <p className="text-[9px] uppercase tracking-[0.1em] text-white/35">To target</p>
+            <p className="mt-1 font-heading text-base font-semibold text-cyan-300">
+              {latest && profile?.target_weight ? `${Math.round((latest.weight - profile.target_weight) * 10) / 10} kg` : "—"}
+            </p>
+          </div>
+        </div>
+      </GlassCard>
 
       <GlassCard>
         <div className="flex items-center justify-between">
@@ -88,10 +90,10 @@ function InsightsPage() {
         </div>
         <div className="mt-3 h-40 w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={weightData} margin={{ top: 6, right: 6, left: -22, bottom: 0 }}>
+            <LineChart data={weightData} margin={{ top: 8, right: 8, left: -12, bottom: 0 }}>
               <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
-              <XAxis dataKey="date" tick={{ fill: "rgba(255,255,255,0.35)", fontSize: 10 }} axisLine={false} tickLine={false} />
-              <YAxis domain={["dataMin - 2", "dataMax + 1"]} tick={{ fill: "rgba(255,255,255,0.35)", fontSize: 10 }} axisLine={false} tickLine={false} />
+              <XAxis dataKey="date" minTickGap={14} tick={{ fill: "rgba(255,255,255,0.35)", fontSize: 10 }} axisLine={false} tickLine={false} tickMargin={6} />
+              <YAxis width={34} domain={["dataMin - 2", "dataMax + 1"]} tick={{ fill: "rgba(255,255,255,0.35)", fontSize: 10 }} axisLine={false} tickLine={false} />
               <Tooltip contentStyle={tooltipStyle} />
               <Line type="monotone" dataKey="weight" stroke="#00f0ff" strokeWidth={2.5} dot={{ r: 3, fill: "#00f0ff" }} />
             </LineChart>
@@ -103,10 +105,10 @@ function InsightsPage() {
         <p className="font-heading text-sm font-semibold text-white">Diet adherence</p>
         <div className="mt-3 h-32 w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={adherenceData} margin={{ top: 6, right: 6, left: -26, bottom: 0 }}>
+            <BarChart data={adherenceData} margin={{ top: 8, right: 8, left: -12, bottom: 0 }}>
               <CartesianGrid stroke="rgba(255,255,255,0.06)" vertical={false} />
-              <XAxis dataKey="date" tick={{ fill: "rgba(255,255,255,0.35)", fontSize: 10 }} axisLine={false} tickLine={false} />
-              <YAxis domain={[0, 100]} tick={{ fill: "rgba(255,255,255,0.35)", fontSize: 10 }} axisLine={false} tickLine={false} />
+              <XAxis dataKey="date" minTickGap={14} tick={{ fill: "rgba(255,255,255,0.35)", fontSize: 10 }} axisLine={false} tickLine={false} tickMargin={6} />
+              <YAxis width={34} domain={[0, 100]} ticks={[0, 50, 100]} tick={{ fill: "rgba(255,255,255,0.35)", fontSize: 10 }} axisLine={false} tickLine={false} />
               <Tooltip contentStyle={tooltipStyle} />
               <Bar dataKey="value" radius={[6, 6, 0, 0]} fill="url(#adherence)" />
               <defs>
@@ -127,26 +129,29 @@ function InsightsPage() {
         </div>
         <div className="mt-3 space-y-2">
           {[...measurements].reverse().slice(0, 4).map((m) => (
-            <div key={m.id} className="flex items-center justify-between rounded-xl bg-white/[0.03] px-3 py-2 text-[11px]">
-              <span className="text-white/45">{formatDate(m.measured_on)}</span>
-              <span className="text-white/75">
-                {m.weight ?? "—"} kg · waist {m.waist ?? "—"} cm · fat {m.body_fat ?? "—"}%
-              </span>
+            <div key={m.id} className="rounded-xl bg-white/[0.03] px-3 py-2">
+              <div className="flex items-baseline justify-between gap-2 text-[11px]">
+                <span className="text-white/45">{formatDate(m.measured_on)}</span>
+                <span className="font-medium text-white/80">{m.weight ?? "—"} kg</span>
+              </div>
+              <p className="mt-0.5 text-[10px] leading-tight text-white/35">
+                Waist {m.waist ?? "—"} cm · Body fat {m.body_fat ?? "—"}%
+              </p>
             </div>
           ))}
         </div>
       </GlassCard>
 
       <GlassCard className="bg-gradient-to-br from-cyan-500/20 via-orange-500/10 to-transparent">
-        <div className="flex items-center justify-between">
-          <p className="flex items-center gap-1.5 font-heading text-sm font-semibold text-white">
-            <Sparkles className="h-3.5 w-3.5" /> AI progress review
+        <div className="flex items-start justify-between gap-3">
+          <p className="flex items-center gap-1.5 font-heading text-sm font-semibold leading-snug text-white">
+            <Sparkles className="h-3.5 w-3.5 shrink-0" /> AI progress review
           </p>
           <button
             type="button"
             onClick={review}
             disabled={busy}
-            className="rounded-full bg-white/15 px-3 py-1.5 text-[11px] font-semibold text-white ring-1 ring-white/20 disabled:opacity-50"
+            className="shrink-0 rounded-full bg-white/15 px-3 py-1.5 text-[11px] font-semibold text-white ring-1 ring-white/20 disabled:opacity-50"
           >
             {busy ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : "Analyse"}
           </button>
