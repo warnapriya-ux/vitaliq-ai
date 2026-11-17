@@ -7,9 +7,9 @@ const MASCOT =
 
 export default function AiAdvice({ advice, to = "/coach" }) {
   return (
-    <div className="relative overflow-hidden rounded-[26px] border border-cyan-300/25 bg-gradient-to-br from-[#131B2E] via-[#12233a] to-[#0B132B] p-4 neon-cyan">
-      <div className="pointer-events-none absolute -right-10 -top-12 h-40 w-40 rounded-full bg-cyan-400/20 blur-2xl" />
-      <div className="pointer-events-none absolute -bottom-16 -left-8 h-36 w-36 rounded-full bg-orange-500/25 blur-2xl" />
+    <div className="relative overflow-hidden rounded-[26px] border border-violet-300/20 bg-gradient-to-br from-[#151B33] via-[#1B1740] to-[#0B1024] p-4">
+      <div className="pointer-events-none absolute -right-10 -top-12 h-40 w-40 rounded-full bg-violet-500/25 blur-2xl" />
+      <div className="pointer-events-none absolute -bottom-16 -left-8 h-36 w-36 rounded-full bg-fuchsia-500/20 blur-2xl" />
       <div className="relative flex items-start gap-3">
         <Image
           src={MASCOT}
@@ -18,15 +18,15 @@ export default function AiAdvice({ advice, to = "/coach" }) {
           focalPointY={0.42}
         />
         <div className="min-w-0">
-          <div className="flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-cyan-200/90">
-            <Sparkles className="h-3 w-3" /> Today's AI recommendation
+          <div className="flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-[0.18em] text-amber-200/90">
+            <Sparkles className="h-3 w-3 text-amber-300" /> Today's AI recommendation
           </div>
           <p className="mt-1.5 font-heading text-[13.5px] font-medium leading-relaxed text-white">{advice}</p>
           <Link
             to={to}
-            className="mt-3 inline-flex items-center gap-2 rounded-full bg-cyan-400/15 px-3.5 py-1.5 text-[11px] font-semibold text-cyan-100 ring-1 ring-cyan-300/30 backdrop-blur-md transition hover:bg-cyan-400/25"
+            className="mt-3 inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-violet-500 to-blue-500 px-4 py-2 text-[11px] font-semibold text-white shadow-[0_10px_28px_-12px_rgba(139,92,246,0.9)] transition hover:from-violet-400 hover:to-blue-400"
           >
-            <Play className="h-3 w-3" /> View details
+            <Play className="h-3 w-3" /> View Details
           </Link>
         </div>
       </div>

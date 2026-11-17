@@ -1,13 +1,14 @@
 import { useEffect, useRef } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import { Apple, Bot, Dumbbell, Home, User } from "lucide-react";
+import { Apple, Bot, Dumbbell, Home, TrendingUp, User } from "lucide-react";
 
 const NAV = [
   { to: "/", label: "Home", icon: Home },
-  { to: "/coach", label: "Coach", icon: Bot },
+  { to: "/coach", label: "AI Coach", icon: Bot },
+  { to: "/nutrition", label: "Diet Plan", icon: Apple },
   { to: "/workout", label: "Workout", icon: Dumbbell },
-  { to: "/nutrition", label: "Diet", icon: Apple },
+  { to: "/insights", label: "Progress", icon: TrendingUp },
   { to: "/profile", label: "Profile", icon: User },
 ];
 
@@ -22,10 +23,10 @@ function Dock() {
             resetScroll={false}
             activeOptions={{ exact: to === "/" }}
             className="flex flex-1 flex-col items-center gap-1 rounded-2xl py-1.5 text-white/35 transition"
-            activeProps={{ className: "text-cyan-300" }}
+            activeProps={{ className: "text-cyan-300 bg-cyan-400/10" }}
           >
-            <Icon className="h-5 w-5" />
-            <span className="text-[11px] font-medium leading-none tracking-tight">{label}</span>
+            <Icon className="h-[18px] w-[18px]" />
+            <span className="text-[10px] font-medium leading-none tracking-tight">{label}</span>
           </Link>
         ))}
       </nav>
