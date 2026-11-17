@@ -1,20 +1,12 @@
 import { useEffect, useRef } from "react";
 import { Link, useLocation } from "@tanstack/react-router";
 import { AnimatePresence, motion } from "framer-motion";
-import { Apple, Bot, Dumbbell, Home, TrendingUp, User } from "lucide-react";
-
-const NAV = [
-  { to: "/", label: "Home", icon: Home },
-  { to: "/coach", label: "AI Coach", icon: Bot },
-  { to: "/nutrition", label: "Diet Plan", icon: Apple },
-  { to: "/workout", label: "Workout", icon: Dumbbell },
-  { to: "/insights", label: "Progress", icon: TrendingUp },
-  { to: "/profile", label: "Profile", icon: User },
-];
+import { NAV } from "@/components/vitaliq/nav";
+import DesktopSidebar from "@/components/vitaliq/DesktopSidebar";
 
 function Dock() {
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))]">
+    <div className="fixed inset-x-0 bottom-0 z-40 flex justify-center px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] lg:hidden">
       <nav
         className="flex w-full max-w-[398px] items-center justify-between rounded-[24px] border border-white/10 bg-[#080d16]/92 px-1 py-1.5 backdrop-blur-2xl"
       >
@@ -54,8 +46,9 @@ export default function AppShell({ children }) {
 
   return (
     <div className="min-h-screen pt-[env(safe-area-inset-top)]">
-      <div className="relative mx-auto flex min-h-screen w-full max-w-[430px] flex-col bg-white/[0.015] sm:border-x sm:border-white/[0.06]">
-        <main className="flex-1 px-4 pb-[calc(8rem+env(safe-area-inset-bottom))] pt-5">
+      <DesktopSidebar />
+      <div className="relative mx-auto flex min-h-screen w-full max-w-[430px] flex-col bg-white/[0.015] sm:border-x sm:border-white/[0.06] lg:max-w-none lg:border-x-0 lg:pl-[264px]">
+        <main className="flex-1 px-4 pb-[calc(8rem+env(safe-area-inset-bottom))] pt-5 lg:px-10 lg:pb-16 lg:pt-8">
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={pathname}
@@ -64,7 +57,7 @@ export default function AppShell({ children }) {
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.18, ease: "easeOut" }}
             >
-              {children}
+              <div className="mx-auto w-full lg:max-w-[1180px]">{children}</div>
             </motion.div>
           </AnimatePresence>
         </main>

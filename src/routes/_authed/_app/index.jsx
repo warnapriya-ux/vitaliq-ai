@@ -76,14 +76,17 @@ function Dashboard() {
 
   return (
     <PullToRefresh onRefresh={reload}>
-    <div className="space-y-4">
-      <BrandBar />
-      <Header name={profile.display_name || "there"} plan={subscription?.plan || "Free"} />
-      <GoalCard percent={percent} current={current} target={target} toGo={toGo} />
-      <DailyStats stats={stats} />
-      <AiAdvice advice={advice} />
-      <TrainerCard />
-      <div>
+    <div className="space-y-4 lg:grid lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)] lg:items-start lg:gap-6 lg:space-y-0">
+      <div className="lg:hidden">
+        <BrandBar />
+      </div>
+      <div className="lg:col-span-2">
+        <Header name={profile.display_name || "there"} plan={subscription?.plan || "Free"} />
+      </div>
+
+      <div className="space-y-4">
+        <GoalCard percent={percent} current={current} target={target} toGo={toGo} />
+        <DailyStats stats={stats} />
         <PlanCards
           workout={{
             title: workout?.title || "No workout yet",
@@ -92,9 +95,14 @@ function Dashboard() {
           }}
           diet={items.slice(0, 3).map((item) => `${item.label}: ${item.detail}`)}
         />
+        <QuickLog profile={profile} today={today} onSaved={reload} />
       </div>
-      <ProgressGrid items={progress} />
-      <QuickLog profile={profile} today={today} onSaved={reload} />
+
+      <div className="space-y-4">
+        <AiAdvice advice={advice} />
+        <TrainerCard />
+        <ProgressGrid items={progress} />
+      </div>
     </div>
     </PullToRefresh>
   );
