@@ -30,8 +30,8 @@ export default function PlanPriceEditor() {
           plan: tier.id,
           currency: "USD",
           monthly: tier.price,
-          quarterly: tier.price * 3,
-          annual: tier.price * 10,
+          quarterly: Math.round(tier.price * 3 * 0.9),
+          annual: Math.round(tier.price * 12 * 0.75),
         }),
       );
     }
