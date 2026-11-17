@@ -1,5 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Apple, ArrowLeft, Dumbbell, LayoutDashboard, Layers, CreditCard } from "lucide-react";
+import { Apple, ArrowLeft, Dumbbell, LayoutDashboard, Layers, LayoutTemplate, CreditCard } from "lucide-react";
 import { Image } from "@/components/ui/image";
 import { BRAND_LOGO } from "@/lib/brand";
 import { TRACKS } from "@/lib/professional";
@@ -16,7 +16,12 @@ export default function ProShell({ track, children }) {
   const tabs = [
     tab(track, base, "Dashboard", LayoutDashboard, true),
     tab(track, `${base}/plans`, track === "diet" ? "Diet plans" : "Workout plans", Layers),
-    ...(track === "gym" ? [tab(track, `${base}/library`, "Virtual gym", Dumbbell)] : []),
+    ...(track === "gym"
+      ? [
+          tab(track, `${base}/templates`, "Templates", LayoutTemplate),
+          tab(track, `${base}/library`, "Virtual gym", Dumbbell),
+        ]
+      : []),
     tab(track, `${base}/subscription`, "Subscription", CreditCard),
   ];
 
