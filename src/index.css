@@ -6,44 +6,45 @@
 
 @layer base {
   :root {
-    --background: 225 59% 11%;
-    --foreground: 0 0% 100%;
-    --card: 222 41% 13%;
-    --card-foreground: 0 0% 100%;
-    --popover: 222 41% 11%;
-    --popover-foreground: 0 0% 100%;
+    color-scheme: dark;
+    --background: 225 55% 8%;
+    --foreground: 210 40% 98%;
+    --card: 224 44% 12%;
+    --card-foreground: 210 40% 98%;
+    --popover: 224 46% 11%;
+    --popover-foreground: 210 40% 98%;
     --primary: 184 100% 50%;
     --primary-foreground: 225 59% 8%;
-    --secondary: 29 100% 50%;
-    --secondary-foreground: 0 0% 100%;
-    --muted: 222 33% 16%;
-    --muted-foreground: 215 20% 65%;
-    --accent: 222 33% 18%;
-    --accent-foreground: 0 0% 100%;
-    --destructive: 350 84% 56%;
+    --secondary: 29 100% 52%;
+    --secondary-foreground: 225 59% 8%;
+    --muted: 223 35% 16%;
+    --muted-foreground: 214 25% 71%;
+    --accent: 223 34% 19%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 350 85% 58%;
     --destructive-foreground: 0 0% 100%;
     --success: 152 100% 50%;
     --success-foreground: 225 59% 8%;
-    --border: 222 25% 22%;
-    --input: 222 25% 22%;
+    --border: 222 28% 25%;
+    --input: 222 28% 25%;
     --ring: 184 100% 50%;
     --chart-1: 184 100% 50%;
-    --chart-2: 29 100% 50%;
+    --chart-2: 29 100% 52%;
     --chart-3: 152 100% 50%;
-    --chart-4: 215 20% 65%;
-    --chart-5: 222 80% 60%;
+    --chart-4: 214 25% 71%;
+    --chart-5: 222 85% 66%;
     --radius: 1rem;
     --font-heading: "Sora", ui-sans-serif, system-ui, sans-serif;
     --font-body: "Inter", ui-sans-serif, system-ui, sans-serif;
     --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-    --sidebar-background: 225 50% 9%;
-    --sidebar-foreground: 215 25% 82%;
+    --sidebar-background: 225 55% 6%;
+    --sidebar-foreground: 214 25% 84%;
     --sidebar-primary: 184 100% 50%;
     --sidebar-primary-foreground: 225 59% 8%;
-    --sidebar-accent: 222 33% 18%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 222 25% 22%;
+    --sidebar-accent: 223 34% 17%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 222 28% 24%;
     --sidebar-ring: 184 100% 50%;
   }
 }
