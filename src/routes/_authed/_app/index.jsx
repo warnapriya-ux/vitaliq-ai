@@ -1,4 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import BrandBar from "@/components/vitaliq/dashboard/BrandBar";
 import Header from "@/components/vitaliq/dashboard/Header";
 import GoalCard from "@/components/vitaliq/dashboard/GoalCard";
 import DailyStats from "@/components/vitaliq/dashboard/DailyStats";
@@ -74,7 +75,8 @@ function Dashboard() {
   return (
     <div className="space-y-4 lg:grid lg:grid-cols-12 lg:gap-5 lg:space-y-0">
       <div className="space-y-4 lg:col-span-7">
-        <Header name={profile.display_name || "there"} plan={subscription?.plan ? `${subscription.plan}` : "Free"} />
+        <BrandBar />
+        <Header name={profile.display_name || "there"} plan={subscription?.plan || "Free"} />
         <GoalCard percent={percent} current={current} target={target} toGo={toGo} />
         <DailyStats stats={stats} />
         <AiAdvice advice={advice} />
@@ -89,7 +91,7 @@ function Dashboard() {
             duration: planItems(workout).length ? `${planItems(workout).length} exercises` : "—",
             detail: workout?.status?.replace("_", " ") || "generate one",
           }}
-          diet={items.slice(0, 3).map((item) => `${item.label} · ${item.detail}`)}
+          diet={items.slice(0, 3).map((item) => `${item.label}: ${item.detail}`)}
         />
         <ProgressGrid items={progress} />
         <div className="lg:hidden">

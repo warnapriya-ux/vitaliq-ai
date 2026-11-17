@@ -1,33 +1,18 @@
-import { Bell } from "lucide-react";
+import { Crown } from "lucide-react";
 
-export default function Header({ name = "Sarah", plan = "Premium", subtitle = "You're on track to reach your goal" }) {
+export default function Header({ name = "there", plan = "Free", subtitle = "You're on track to reach your goal" }) {
   return (
-    <header className="flex items-start justify-between gap-3">
-      <div>
-        <p className="text-[10px] uppercase tracking-[0.32em] text-white/35">Vitaliq AI</p>
-        <h1 className="mt-2 font-heading text-[26px] font-semibold leading-tight tracking-tight text-white">
-          Hello, {name}!
-        </h1>
-        <p className="mt-1 text-[13px] text-white/45">{subtitle} 💪</p>
-        <span className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-gradient-to-r from-amber-300/90 to-amber-500/80 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide text-amber-950">
-          👑 {plan} Plan
-        </span>
+    <div className="flex items-center gap-3">
+      <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gradient-to-br from-cyan-400/45 to-fuchsia-500/45 font-heading text-lg font-semibold text-white ring-1 ring-white/20">
+        {name.charAt(0).toUpperCase()}
       </div>
-      <div className="flex items-center gap-2">
-        <button
-          type="button"
-          aria-label="Notifications"
-          className="relative grid h-10 w-10 place-items-center rounded-full border border-white/10 bg-white/[0.05] text-white/65 backdrop-blur-xl transition hover:text-white"
-        >
-          <Bell className="h-4 w-4" />
-          <span className="absolute -right-0.5 -top-0.5 grid h-4 w-4 place-items-center rounded-full bg-rose-500 text-[9px] font-bold text-white">
-            2
-          </span>
-        </button>
-        <div className="grid h-10 w-10 place-items-center rounded-full bg-gradient-to-br from-cyan-400/40 to-fuchsia-500/40 text-sm font-semibold text-white ring-1 ring-white/20">
-          {name.charAt(0)}
-        </div>
+      <div className="min-w-0 flex-1">
+        <h1 className="truncate font-heading text-xl font-semibold leading-tight text-white">Hello, {name}!</h1>
+        <p className="truncate text-[11px] text-white/45">{subtitle} 💪</p>
       </div>
-    </header>
+      <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-gradient-to-r from-amber-200 via-amber-300 to-amber-500 px-3 py-1.5 text-[9px] font-bold uppercase tracking-wide text-amber-950 shadow-[0_10px_26px_-14px_rgba(251,191,36,0.9)]">
+        <Crown className="h-3 w-3" /> <span className="capitalize">{plan} plan</span>
+      </span>
+    </div>
   );
 }
