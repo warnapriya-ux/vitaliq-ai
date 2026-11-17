@@ -10,7 +10,7 @@ const MEAL_IMAGE =
 
 export default function PlanCards({ workout, diet = [] }) {
   return (
-    <div className="grid gap-4 sm:grid-cols-2">
+    <div className="grid grid-cols-2 gap-3">
       <GlassCard className="border-emerald-400/20 bg-emerald-400/[0.06] p-3">
         <Image
           src={SQUAT_IMAGE}
