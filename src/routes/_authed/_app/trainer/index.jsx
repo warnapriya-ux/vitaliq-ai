@@ -3,6 +3,7 @@ import { Camera, ChevronRight, FileVideo, ScanFace } from "lucide-react";
 import PageTitle from "@/components/vitaliq/PageTitle";
 import GlassCard from "@/components/vitaliq/GlassCard";
 import RecentSessions from "@/components/trainer/RecentSessions";
+import WeeklyFormSummary from "@/components/trainer/WeeklyFormSummary";
 
 export const Route = createFileRoute("/_authed/_app/trainer/")({
   head: () => ({ meta: [{ title: "AI Personal Trainer — VITALIQ AI" }] }),
@@ -50,6 +51,8 @@ function TrainerHub() {
           </GlassCard>
         </Link>
       ))}
+
+      <WeeklyFormSummary />
 
       <GlassCard>
         <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.2em] text-white/35">
