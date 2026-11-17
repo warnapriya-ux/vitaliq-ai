@@ -11,7 +11,7 @@ const MEAL_IMAGE =
 export default function PlanCards({ workout, diet = [] }) {
   return (
     <div className="grid grid-cols-2 gap-3">
-      <GlassCard className="border-emerald-400/20 bg-emerald-400/[0.06] p-3">
+      <GlassCard className="flex h-full flex-col border-emerald-400/20 bg-emerald-400/[0.06] p-3">
         <Image
           src={SQUAT_IMAGE}
           alt="Bodyweight squat demonstration"
@@ -25,15 +25,17 @@ export default function PlanCards({ workout, diet = [] }) {
         <p className="text-[11px] text-white/45">
           {workout.duration} · {workout.detail}
         </p>
-        <Link
-          to="/workout"
-          className="mt-3 flex items-center justify-center rounded-full bg-primary py-2 text-[11px] font-semibold text-primary-foreground transition hover:bg-primary/90"
-        >
-          Start workout
-        </Link>
+        <div className="mt-auto pt-3">
+          <Link
+            to="/workout"
+            className="flex items-center justify-center rounded-full bg-primary py-2 text-[11px] font-semibold text-primary-foreground transition hover:bg-primary/90"
+          >
+            Start workout
+          </Link>
+        </div>
       </GlassCard>
 
-      <GlassCard className="border-amber-400/20 bg-amber-400/[0.06] p-3">
+      <GlassCard className="flex h-full flex-col border-amber-400/20 bg-amber-400/[0.06] p-3">
         <Image src={MEAL_IMAGE} alt="Healthy meal bowl" className="h-24 w-full overflow-hidden rounded-2xl" />
         <div className="mt-3 flex items-center gap-2 text-[10px] uppercase tracking-[0.18em] text-amber-200/80">
           <Apple className="h-3.5 w-3.5" /> Diet plan
@@ -46,12 +48,14 @@ export default function PlanCards({ workout, diet = [] }) {
             </li>
           ))}
         </ul>
-        <Link
-          to="/nutrition"
-          className="mt-3 flex items-center justify-center gap-1.5 rounded-full bg-primary py-2 text-[11px] font-semibold text-primary-foreground transition hover:bg-primary/90"
-        >
-          <UtensilsCrossed className="h-3.5 w-3.5" /> View diet plan
-        </Link>
+        <div className="mt-auto pt-3">
+          <Link
+            to="/nutrition"
+            className="flex items-center justify-center gap-1.5 rounded-full bg-primary py-2 text-[11px] font-semibold text-primary-foreground transition hover:bg-primary/90"
+          >
+            <UtensilsCrossed className="h-3.5 w-3.5" /> View diet plan
+          </Link>
+        </div>
       </GlassCard>
     </div>
   );
