@@ -1,5 +1,5 @@
 import { Link, useLocation } from "@tanstack/react-router";
-import { Activity, Apple, Bot, Dumbbell, Home, PersonStanding, TrendingUp, User, LayoutDashboard } from "lucide-react";
+import { Activity, Apple, Bot, Dumbbell, Home, Map, PersonStanding, TrendingUp, User, LayoutDashboard } from "lucide-react";
 import { useAuth } from "@/lib/AuthContext";
 
 const NAV = [
@@ -9,6 +9,7 @@ const NAV = [
   { to: "/workout", label: "Workout", icon: Dumbbell },
   { to: "/trainer", label: "Trainer", icon: PersonStanding },
   { to: "/insights", label: "Progress", icon: TrendingUp },
+  { to: "/journey", label: "Journey", icon: Map },
   { to: "/profile", label: "Profile", icon: User },
 ];
 
