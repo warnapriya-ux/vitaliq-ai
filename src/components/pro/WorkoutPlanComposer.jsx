@@ -1,11 +1,14 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
 import { toast } from "sonner";
 import { Loader2, Mic, Sparkles, Square, Trash2 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import { generateWorkoutPlan } from "@/lib/professional-fns";
 import { LEVELS } from "@/lib/professional";
+import { useAuth } from "@/lib/AuthContext";
 import { useVoiceInput } from "@/components/pro/useVoiceInput";
+import WorkoutTemplatePicker from "@/components/pro/WorkoutTemplatePicker";
+import SaveTemplateDialog from "@/components/pro/SaveTemplateDialog";
 import SelectSheet from "@/components/vitaliq/SelectSheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,7 +32,11 @@ export default function WorkoutPlanComposer({ links, onSaved }) {
   const [draft, setDraft] = useState(null);
   const [busy, setBusy] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [templates, setTemplates] = useState([]);
+  const [templateOpen, setTemplateOpen] = useState(false);
+  const [appliedTemplate, setAppliedTemplate] = useState(null);
   const generate = useServerFn(generateWorkoutPlan);
+  const { user } = useAuth();
 
   const { listening, supported, toggle } = useVoiceInput((text) =>
     setTranscript((current) => `${current} ${text}`.trim()),
@@ -37,8 +44,65 @@ export default function WorkoutPlanComposer({ links, onSaved }) {
 
   const client = useMemo(() => links.find((link) => link.id === linkId), [links, linkId]);
 
+  async function loadTemplates() {
+    if (!user) return;
+    const page = await base44.entities.WorkoutTemplate.filter(
+      { instructor_user_id: user.id },
+      { sort: "-created_date", limit: 50 },
+    );
+    setTemplates(page.items ?? []);
+  }
+
+  useEffect(() => {
+    loadTemplates().catch((error) => console.error(error));
+  }, [user?.id]);
+
+  function applyTemplate(template) {
+    setDraft({
+      title: template.title || "Workout programme",
+      goal: template.goal || "",
+      level: LEVELS.includes(template.level) ? template.level : "beginner",
+      summary: template.summary || "",
+      days: (template.days?.length ? template.days : blankDraft().days).map((day) => ({
+        day: day.day || "Day",
+        focus: day.focus || "",
+        exercises: (day.exercises ?? []).map((ex) => ({ rest: "60s", sets: "3", reps: "10", notes: "", ...ex })),
+      })),
+    });
+    setAppliedTemplate(template);
+    setMode("manual");
+    setTranscript("");
+    toast.success(`Loaded “${template.title}”.`);
+  }
+
+  async function saveTemplate(name) {
+    if (!draft) return;
+    try {
+      await base44.entities.WorkoutTemplate.create({
+        instructor_id: client?.instructor_id,
+        instructor_user_id: client?.instructor_user_id ?? user?.id,
+        instructor_name: client?.instructor_name,
+        title: name,
+        goal: draft.goal,
+        level: draft.level,
+        summary: draft.summary,
+        days: draft.days,
+      });
+      toast.success("Template saved.");
+      await loadTemplates();
+    } catch (error) {
+      toast.error("Could not save the template.");
+    }
+  }
+
+  async function removeTemplate(template) {
+    await base44.entities.WorkoutTemplate.delete(template.id);
+    setTemplates((current) => current.filter((item) => item.id !== template.id));
+  }
+
   async function run() {
     if (!linkId) return toast.error("Select a client first.");
+    setAppliedTemplate(null);
     if (mode === "manual") {
       setDraft(blankDraft());
       return;
@@ -95,8 +159,16 @@ export default function WorkoutPlanComposer({ links, onSaved }) {
           exercises: (day.exercises || []).map((ex) => ({ ...ex, ai_generated: mode !== "manual" })),
         })),
       });
+      if (appliedTemplate) {
+        await base44.entities.WorkoutTemplate.update(appliedTemplate.id, {
+          use_count: (appliedTemplate.use_count ?? 0) + 1,
+          last_used_on: new Date().toISOString().slice(0, 10),
+        });
+        await loadTemplates();
+      }
       toast.success(status === "approved" ? "Plan sent to your client." : "Draft saved.");
       setDraft(null);
+      setAppliedTemplate(null);
       setTranscript("");
       await onSaved();
     } catch (error) {
@@ -123,6 +195,9 @@ export default function WorkoutPlanComposer({ links, onSaved }) {
         onChange={setLinkId}
         options={links.map((link) => ({ value: link.id, label: `${link.client_name}${link.goal ? ` · ${link.goal}` : ""}` }))}
       />
+
+      {!draft && <WorkoutTemplatePicker templates={templates} onPick={applyTemplate} onRemove={removeTemplate} />}
+
       <div className="flex gap-2">
         {[
           { id: "ai", label: "AI assisted", icon: Sparkles },
@@ -251,8 +326,22 @@ export default function WorkoutPlanComposer({ links, onSaved }) {
               Approve & send
             </Button>
           </div>
+          <button
+            type="button"
+            onClick={() => setTemplateOpen(true)}
+            className="w-full rounded-xl border border-dashed border-white/15 py-2 text-[11px] text-white/45 hover:text-white/70"
+          >
+            Save as a reusable template
+          </button>
         </div>
       )}
+
+      <SaveTemplateDialog
+        open={templateOpen}
+        onOpenChange={setTemplateOpen}
+        defaultName={draft?.title || ""}
+        onSave={saveTemplate}
+      />
     </div>
   );
 }
