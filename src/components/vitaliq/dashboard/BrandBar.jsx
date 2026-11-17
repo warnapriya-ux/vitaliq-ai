@@ -1,8 +1,7 @@
 import { Bell } from "lucide-react";
 import { Image } from "@/components/ui/image";
 
-const LOGO =
-  "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/b3b51d7e7_vitaliq-app-icon.webp";
+import { BRAND_LOGO as LOGO } from "@/lib/brand";
 
 export default function BrandBar({ unread = 2 }) {
   return (
