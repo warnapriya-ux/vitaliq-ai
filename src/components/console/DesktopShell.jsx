@@ -39,7 +39,7 @@ export default function DesktopShell({ children }) {
     <div className="min-h-screen">
       <aside className="fixed left-0 top-0 z-30 flex h-screen w-64 flex-col border-r border-white/10 bg-[#070b13]/80 px-4 py-6 backdrop-blur-xl">
         <div className="flex items-center gap-2.5 px-2">
-          <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-cyan-300 to-fuchsia-500 text-slate-950">
+          <span className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-cyan-300 to-orange-500 text-slate-950">
             <Activity className="h-4 w-4" strokeWidth={2.6} />
           </span>
           <div>

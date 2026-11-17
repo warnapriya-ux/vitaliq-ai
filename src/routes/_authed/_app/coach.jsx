@@ -67,7 +67,7 @@ function CoachPage() {
     <div className="space-y-4">
       <PageTitle eyebrow="Vitaliq Coach" title="Your AI personal trainer" />
 
-      <div className="rounded-[26px] border border-white/10 bg-gradient-to-br from-violet-500/20 via-fuchsia-500/10 to-transparent p-4">
+      <div className="rounded-[26px] border border-white/10 bg-gradient-to-br from-cyan-500/20 via-orange-500/10 to-transparent p-4">
         <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-white/60">
           <Sparkles className="h-3.5 w-3.5" /> Guidance, not diagnosis
         </div>
@@ -79,7 +79,7 @@ function CoachPage() {
       <div className="space-y-3">
         {messages.length === 0 && (
           <div className="flex items-start gap-3">
-            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-violet-400 to-fuchsia-500 text-white">
+            <span className="grid h-9 w-9 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-cyan-400 to-orange-500 text-white">
               <Bot className="h-4 w-4" />
             </span>
             <div className="rounded-2xl rounded-tl-sm border border-white/10 bg-white/[0.05] px-4 py-3 text-sm leading-relaxed text-white/75">
@@ -92,7 +92,7 @@ function CoachPage() {
           <div key={message.id} className={`flex items-start gap-3 ${message.role === "user" ? "flex-row-reverse" : ""}`}>
             <span
               className={`grid h-9 w-9 shrink-0 place-items-center rounded-2xl text-white ${
-                message.role === "user" ? "bg-white/10 text-xs font-semibold" : "bg-gradient-to-br from-violet-400 to-fuchsia-500"
+                message.role === "user" ? "bg-white/10 text-xs font-semibold" : "bg-gradient-to-br from-cyan-400 to-orange-500"
               }`}
             >
               {message.role === "user" ? (user?.full_name || "Y").charAt(0) : <Bot className="h-4 w-4" />}
@@ -111,7 +111,7 @@ function CoachPage() {
 
         {sending && (
           <div className="flex items-center gap-3 pl-1 text-xs text-white/40">
-            <Bot className="h-4 w-4 animate-pulse text-fuchsia-300" /> Coach is thinking…
+            <Bot className="h-4 w-4 animate-pulse text-orange-300" /> Coach is thinking…
           </div>
         )}
         <div ref={endRef} />

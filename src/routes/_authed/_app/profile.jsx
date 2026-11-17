@@ -53,7 +53,7 @@ function ProfilePage() {
       <PageTitle eyebrow="Your account" title="Profile" />
 
       <GlassCard className="flex items-center gap-3">
-        <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-cyan-400/40 to-fuchsia-500/40 font-heading text-lg font-semibold text-white ring-1 ring-white/20">
+        <div className="grid h-14 w-14 place-items-center rounded-2xl bg-gradient-to-br from-cyan-400/40 to-orange-500/40 font-heading text-lg font-semibold text-white ring-1 ring-white/20">
           {(profile?.display_name || user?.full_name || "V").charAt(0)}
         </div>
         <div className="flex-1">
@@ -94,7 +94,7 @@ function ProfilePage() {
               {subscription ? `${subscription.status} · renews ${formatDate(subscription.renews_on)}` : "No active subscription"}
             </p>
           </div>
-          <Link to="/plans" className="rounded-full bg-white/90 px-3 py-1.5 text-[11px] font-semibold text-slate-900">
+          <Link to="/plans" className="rounded-full bg-primary px-3 py-1.5 text-[11px] font-semibold text-primary-foreground">
             Manage
           </Link>
         </div>

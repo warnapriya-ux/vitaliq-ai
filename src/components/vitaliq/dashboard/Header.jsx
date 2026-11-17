@@ -3,7 +3,7 @@ import { Crown } from "lucide-react";
 export default function Header({ name = "there", plan = "Free", subtitle = "You're on track to reach your goal" }) {
   return (
     <div className="flex items-center gap-3">
-      <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gradient-to-br from-cyan-400/45 to-fuchsia-500/45 font-heading text-lg font-semibold text-white ring-1 ring-white/20">
+      <div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-gradient-to-br from-cyan-400/45 to-orange-500/45 font-heading text-lg font-semibold text-white ring-1 ring-white/20">
         {name.charAt(0).toUpperCase()}
       </div>
       <div className="min-w-0 flex-1">

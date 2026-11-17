@@ -82,7 +82,7 @@ function PlansPage() {
               type="button"
               onClick={() => setCycle(option.id)}
               className={`rounded-xl py-2 text-[11px] font-semibold transition ${
-                cycle === option.id ? "bg-white text-slate-900" : "text-white/50 hover:text-white"
+                cycle === option.id ? "bg-primary text-primary-foreground" : "text-white/50 hover:text-white"
               }`}
             >
               {option.label}
@@ -121,7 +121,7 @@ function PlansPage() {
                 active
                   ? "border-cyan-300/40 bg-cyan-400/[0.08]"
                   : tier.id === "premium"
-                    ? "border-violet-400/30 bg-gradient-to-br from-violet-500/15 to-transparent"
+                    ? "border-orange-400/30 bg-gradient-to-br from-orange-500/15 to-transparent"
                     : "border-white/10 bg-white/[0.03]"
               }`}
             >
@@ -159,7 +159,9 @@ function PlansPage() {
                 disabled={active || busy === tier.id || awaitingActivation}
                 onClick={() => request(tier)}
                 className={`mt-4 flex w-full items-center justify-center gap-2 rounded-full py-2.5 text-xs font-semibold transition ${
-                  active || awaitingActivation ? "bg-white/10 text-white/40" : "bg-white text-slate-900 hover:bg-white/90"
+                  active || awaitingActivation
+                    ? "bg-white/10 text-white/40"
+                    : "bg-primary text-primary-foreground hover:bg-primary/90"
                 }`}
               >
                 {busy === tier.id && <Loader2 className="h-3.5 w-3.5 animate-spin" />}

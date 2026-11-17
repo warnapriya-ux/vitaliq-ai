@@ -27,7 +27,7 @@ export default function PlanCards({ workout, diet = [] }) {
         </p>
         <Link
           to="/workout"
-          className="mt-3 flex items-center justify-center rounded-full bg-white py-2 text-[11px] font-semibold text-slate-900 transition hover:bg-white/90"
+          className="mt-3 flex items-center justify-center rounded-full bg-primary py-2 text-[11px] font-semibold text-primary-foreground transition hover:bg-primary/90"
         >
           Start workout
         </Link>
@@ -48,7 +48,7 @@ export default function PlanCards({ workout, diet = [] }) {
         </ul>
         <Link
           to="/nutrition"
-          className="mt-3 flex items-center justify-center gap-1.5 rounded-full bg-white py-2 text-[11px] font-semibold text-slate-900 transition hover:bg-white/90"
+          className="mt-3 flex items-center justify-center gap-1.5 rounded-full bg-primary py-2 text-[11px] font-semibold text-primary-foreground transition hover:bg-primary/90"
         >
           <UtensilsCrossed className="h-3.5 w-3.5" /> View diet plan
         </Link>

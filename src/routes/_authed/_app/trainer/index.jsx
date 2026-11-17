@@ -25,7 +25,7 @@ const MODES = [
     eyebrow: "Recorded",
     title: "Video form analysis",
     detail: "Upload a set you already filmed and get a full written breakdown with corrective drills.",
-    accent: "border-fuchsia-400/30 bg-fuchsia-500/[0.07] text-fuchsia-200",
+    accent: "border-orange-400/30 bg-orange-500/[0.07] text-orange-200",
   },
 ];
 

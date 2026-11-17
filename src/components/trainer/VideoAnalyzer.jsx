@@ -83,9 +83,9 @@ export default function VideoAnalyzer() {
     <div className="space-y-4">
       <ExercisePicker value={exerciseId} onChange={setExerciseId} disabled={busy} />
 
-      <GlassCard className="border-fuchsia-400/20 bg-fuchsia-500/[0.05]">
+      <GlassCard className="border-orange-400/20 bg-orange-500/[0.05]">
         <div className="flex items-start gap-3">
-          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-fuchsia-400/15 text-fuchsia-200">
+          <span className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-orange-400/15 text-orange-200">
             <FileVideo className="h-4 w-4" />
           </span>
           <div className="flex-1">

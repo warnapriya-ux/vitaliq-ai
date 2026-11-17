@@ -45,10 +45,10 @@ export default function AnalysisResult({ analysis, durationSec }) {
 
   return (
     <div className="space-y-3">
-      <GlassCard className="border-fuchsia-400/25 bg-fuchsia-500/[0.07]">
+      <GlassCard className="border-orange-400/25 bg-orange-500/[0.07]">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.22em] text-fuchsia-200/70">Form report</p>
+            <p className="text-[10px] uppercase tracking-[0.22em] text-orange-200/70">Form report</p>
             <p className="mt-1 font-heading text-base font-semibold text-white">{analysis.exercise_detected || "Movement"}</p>
             <p className="mt-1 text-[11px] text-white/45">
               {analysis.reps_estimate ?? 0} reps detected

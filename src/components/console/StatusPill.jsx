@@ -3,7 +3,7 @@ const TONES = {
   yellow: "bg-amber-400/15 text-amber-300 ring-amber-400/25",
   red: "bg-rose-500/15 text-rose-300 ring-rose-400/25",
   blue: "bg-sky-400/15 text-sky-300 ring-sky-400/25",
-  purple: "bg-violet-400/15 text-violet-300 ring-violet-400/25",
+  purple: "bg-sky-400/15 text-sky-300 ring-sky-400/25",
   gray: "bg-white/8 text-white/50 ring-white/15",
 };
 

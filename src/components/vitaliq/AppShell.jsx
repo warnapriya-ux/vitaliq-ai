@@ -15,7 +15,7 @@ const NAV = [
 function Brand({ compact }) {
   return (
     <Link to="/" className="flex items-center gap-2.5">
-      <span className="grid h-9 w-9 place-items-center rounded-2xl bg-gradient-to-br from-cyan-300 via-cyan-400 to-fuchsia-500 text-slate-950 neon-cyan">
+      <span className="grid h-9 w-9 place-items-center rounded-2xl bg-gradient-to-br from-cyan-300 via-cyan-400 to-orange-500 text-slate-950 neon-cyan">
         <Activity className="h-4 w-4" strokeWidth={2.6} />
       </span>
       {!compact && (

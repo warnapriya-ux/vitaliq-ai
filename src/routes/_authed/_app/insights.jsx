@@ -137,7 +137,7 @@ function InsightsPage() {
         </div>
       </GlassCard>
 
-      <GlassCard className="bg-gradient-to-br from-violet-500/20 via-fuchsia-500/10 to-transparent">
+      <GlassCard className="bg-gradient-to-br from-cyan-500/20 via-orange-500/10 to-transparent">
         <div className="flex items-center justify-between">
           <p className="flex items-center gap-1.5 font-heading text-sm font-semibold text-white">
             <Sparkles className="h-3.5 w-3.5" /> AI progress review

@@ -104,7 +104,7 @@ export default function WeeklyFormSummary() {
             <div key={day.key} className="flex h-full flex-1 flex-col items-center justify-end gap-1">
               <div className="flex h-full w-full items-end rounded-md bg-white/[0.04]">
                 <div
-                  className="w-full rounded-md bg-gradient-to-t from-cyan-400/70 to-fuchsia-400/80"
+                  className="w-full rounded-md bg-gradient-to-t from-cyan-400/70 to-orange-400/80"
                   style={{ height: `${dayScore ? Math.max(10, dayScore) : 0}%` }}
                 />
               </div>
