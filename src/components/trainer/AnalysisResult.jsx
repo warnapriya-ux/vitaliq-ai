@@ -1,4 +1,7 @@
+import { useEffect, useState } from "react";
+import { Play, Volume2, VolumeX } from "lucide-react";
 import GlassCard from "@/components/vitaliq/GlassCard";
+import { setVoiceEnabled, speak, speakSequence, stopVoice } from "@/lib/voiceCoach";
 
 const SEVERITY = {
   high: "border-rose-400/30 bg-rose-500/10",
@@ -6,7 +9,34 @@ const SEVERITY = {
   low: "border-white/10 bg-white/[0.03]",
 };
 
+// What the voice coach reads out loud after a video review.
+function coachingLines(analysis) {
+  if (!analysis) return [];
+  const score = Math.round(Number(analysis.form_score) || 0);
+  const fixes = (analysis.issues ?? []).slice(0, 2).map((issue) => issue.fix || issue.issue);
+  return [
+    `Form score ${score} out of 100.`,
+    analysis.summary,
+    ...fixes,
+    ...(analysis.cues ?? []).slice(0, 3),
+    "That is your review. Go again and keep it clean.",
+  ].filter((line) => typeof line === "string" && line.trim().length > 0);
+}
+
 export default function AnalysisResult({ analysis, durationSec }) {
+  const [voice, setVoice] = useState(true);
+
+  useEffect(() => () => stopVoice(), []);
+
+  useEffect(() => {
+    setVoiceEnabled(voice);
+    if (!analysis || !voice) {
+      stopVoice();
+      return;
+    }
+    speakSequence(coachingLines(analysis));
+  }, [analysis, voice]);
+
   if (!analysis) return null;
   const issues = Array.isArray(analysis.issues) ? analysis.issues : [];
   const cues = Array.isArray(analysis.cues) ? analysis.cues : [];
@@ -33,6 +63,28 @@ export default function AnalysisResult({ analysis, durationSec }) {
           </div>
         </div>
         {analysis.summary && <p className="mt-3 text-[12px] leading-relaxed text-white/65">{analysis.summary}</p>}
+
+        <div className="mt-3 flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => {
+              setVoice(true);
+              setVoiceEnabled(true);
+              speakSequence(coachingLines(analysis));
+            }}
+            className="flex items-center gap-1.5 rounded-full border border-cyan-300/30 bg-cyan-400/10 px-3 py-1.5 text-[11px] font-semibold text-cyan-100"
+          >
+            <Play className="h-3 w-3" /> Play voice coaching
+          </button>
+          <button
+            type="button"
+            onClick={() => setVoice((value) => !value)}
+            aria-label={voice ? "Mute voice coaching" : "Unmute voice coaching"}
+            className="grid h-8 w-8 place-items-center rounded-full border border-white/15 text-white/55"
+          >
+            {voice ? <Volume2 className="h-3.5 w-3.5 text-cyan-300" /> : <VolumeX className="h-3.5 w-3.5" />}
+          </button>
+        </div>
       </GlassCard>
 
       {issues.length > 0 && (
@@ -58,11 +110,21 @@ export default function AnalysisResult({ analysis, durationSec }) {
           <p className="text-[10px] uppercase tracking-[0.22em] text-white/35">Say this next set</p>
           <div className="mt-3 flex flex-wrap gap-2">
             {cues.map((cue, index) => (
-              <span key={index} className="rounded-full border border-cyan-300/25 bg-cyan-400/10 px-3 py-1.5 text-[11px] text-cyan-100">
-                {cue}
-              </span>
+              <button
+                key={index}
+                type="button"
+                onClick={() => {
+                  setVoice(true);
+                  setVoiceEnabled(true);
+                  speak(cue);
+                }}
+                className="flex items-center gap-1.5 rounded-full border border-cyan-300/25 bg-cyan-400/10 px-3 py-1.5 text-left text-[11px] text-cyan-100 transition hover:bg-cyan-400/20"
+              >
+                <Volume2 className="h-3 w-3 shrink-0" /> {cue}
+              </button>
             ))}
           </div>
+          <p className="mt-2 text-[10px] text-white/30">Tap a cue to hear it spoken.</p>
         </GlassCard>
       )}
 
