@@ -9,13 +9,13 @@ const HYDRATION_IMAGE =
 
 function Stat({ icon: Icon, tone, label, value }) {
   return (
-    <div className="flex items-center gap-2">
+    <div className="flex min-w-0 items-center gap-2">
       <span className={cn("grid h-7 w-7 shrink-0 place-items-center rounded-full", tone)}>
         <Icon className="h-3.5 w-3.5" />
       </span>
       <div className="min-w-0">
-        <p className="text-[10px] uppercase tracking-[0.18em] text-white/40">{label}</p>
-        <p className="font-heading text-[13px] font-semibold leading-tight text-white">{value}</p>
+        <p className="truncate text-[9px] uppercase tracking-[0.14em] text-white/40">{label}</p>
+        <p className="truncate font-heading text-[12px] font-semibold leading-tight text-white">{value}</p>
       </div>
     </div>
   );
@@ -25,7 +25,7 @@ export default function GoalCard({ percent, current, target, toGo, unit = "kg" }
   return (
     <GlassCard className="bg-gradient-to-br from-white/[0.07] via-white/[0.03] to-transparent">
       <div className="flex items-center gap-3">
-        <ProgressRing value={percent} size={104} stroke={11} from="#00d4ff" to="#ffcc00">
+        <ProgressRing value={percent} size={96} stroke={10} from="#00d4ff" to="#ffcc00">
           <div>
             <p className="font-heading text-xl font-semibold text-white">{percent}%</p>
             <p className="text-[8px] uppercase tracking-[0.14em] text-white/40">daily goal</p>
@@ -46,7 +46,7 @@ export default function GoalCard({ percent, current, target, toGo, unit = "kg" }
         <Image
           src={HYDRATION_IMAGE}
           alt="Drinking water after training"
-          className="h-[104px] w-[72px] shrink-0 overflow-hidden rounded-2xl ring-1 ring-white/10"
+          className="h-[92px] w-[60px] shrink-0 overflow-hidden rounded-2xl ring-1 ring-white/10 sm:h-[104px] sm:w-[72px]"
           focalPointX={0.5}
           focalPointY={0.3}
         />
