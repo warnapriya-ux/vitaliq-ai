@@ -49,19 +49,19 @@ export default function QuickLog({ profile, today, onSaved }) {
       </div>
       <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-4">
         <label className="space-y-1">
-          <span className="text-[9px] uppercase tracking-wider text-white/35">Steps</span>
+          <span className="text-[11px] uppercase tracking-wider text-white/35">Steps</span>
           <input className={INPUT} type="number" value={form.steps} onChange={set("steps")} placeholder="0" />
         </label>
         <label className="space-y-1">
-          <span className="text-[9px] uppercase tracking-wider text-white/35">Water (L)</span>
+          <span className="text-[11px] uppercase tracking-wider text-white/35">Water (L)</span>
           <input className={INPUT} type="number" step="0.25" value={form.water_l} onChange={set("water_l")} placeholder="0" />
         </label>
         <label className="space-y-1">
-          <span className="text-[9px] uppercase tracking-wider text-white/35">Sleep (h)</span>
+          <span className="text-[11px] uppercase tracking-wider text-white/35">Sleep (h)</span>
           <input className={INPUT} type="number" step="0.5" value={form.sleep_hours} onChange={set("sleep_hours")} placeholder="0" />
         </label>
         <label className="space-y-1">
-          <span className="text-[9px] uppercase tracking-wider text-white/35">Calories</span>
+          <span className="text-[11px] uppercase tracking-wider text-white/35">Calories</span>
           <input className={INPUT} type="number" value={form.calories_in} onChange={set("calories_in")} placeholder="0" />
         </label>
       </div>

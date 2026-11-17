@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { LogOut, Settings2, Stethoscope } from "lucide-react";
+import { LogOut, Map, PersonStanding, Settings2, Stethoscope, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
 import { base44 } from "@/api/base44Client";
 import PageTitle from "@/components/vitaliq/PageTitle";
@@ -129,6 +129,28 @@ function ProfilePage() {
         <div className="mt-4">
           <ProfileForm initial={profile ?? {}} onSubmit={save} saving={saving} />
         </div>
+      </GlassCard>
+
+      <GlassCard className="space-y-1.5">
+        <p className="font-heading text-sm font-semibold text-white">Explore</p>
+        <Link
+          to="/trainer"
+          className="flex items-center justify-between rounded-xl bg-white/[0.03] px-3 py-2.5 text-[11px] text-white/70"
+        >
+          AI personal trainer <PersonStanding className="h-3.5 w-3.5 text-cyan-300" />
+        </Link>
+        <Link
+          to="/insights"
+          className="flex items-center justify-between rounded-xl bg-white/[0.03] px-3 py-2.5 text-[11px] text-white/70"
+        >
+          Progress insights <TrendingUp className="h-3.5 w-3.5 text-cyan-300" />
+        </Link>
+        <Link
+          to="/journey"
+          className="flex items-center justify-between rounded-xl bg-white/[0.03] px-3 py-2.5 text-[11px] text-white/70"
+        >
+          Your journey <Map className="h-3.5 w-3.5 text-cyan-300" />
+        </Link>
       </GlassCard>
 
       <GlassCard className="space-y-1.5">

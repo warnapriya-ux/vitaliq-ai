@@ -16,7 +16,7 @@ export default function BrandBar({ unread = 2 }) {
           <p className="font-heading text-[13px] font-semibold tracking-[0.16em] text-white">
             VITALIQ <span className="text-cyan-300">AI</span>
           </p>
-          <p className="truncate text-[9px] text-white/40">Your Intelligent Health &amp; Fitness Companion</p>
+          <p className="truncate text-[11px] text-white/40">Your Intelligent Health &amp; Fitness Companion</p>
         </div>
       </div>
       <button
@@ -25,7 +25,7 @@ export default function BrandBar({ unread = 2 }) {
         className="relative grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/10 bg-white/[0.05] text-white/65 backdrop-blur-xl transition hover:text-white"
       >
         <Bell className="h-4 w-4" />
-        <span className="absolute -right-0.5 -top-0.5 grid h-4 w-4 place-items-center rounded-full bg-rose-500 text-[9px] font-bold text-white">
+        <span className="absolute -right-0.5 -top-0.5 grid h-4 w-4 place-items-center rounded-full bg-rose-500 text-[11px] font-bold text-white">
           {unread}
         </span>
       </button>

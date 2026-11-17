@@ -10,7 +10,7 @@ export default function Header({ name = "there", plan = "Free", subtitle = "You'
         <h1 className="truncate font-heading text-xl font-semibold leading-tight text-white">Hello, {name}!</h1>
         <p className="truncate text-[11px] text-white/45">{subtitle} 💪</p>
       </div>
-      <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-gradient-to-r from-amber-200 via-amber-300 to-amber-500 px-3 py-1.5 text-[9px] font-bold uppercase tracking-wide text-amber-950 shadow-[0_10px_26px_-14px_rgba(251,191,36,0.9)]">
+      <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-gradient-to-r from-amber-200 via-amber-300 to-amber-500 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wide text-amber-950 shadow-[0_10px_26px_-14px_rgba(251,191,36,0.9)]">
         <Crown className="h-3 w-3" /> <span className="capitalize">{plan} plan</span>
       </span>
     </div>

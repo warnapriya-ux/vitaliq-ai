@@ -27,14 +27,14 @@ export default function GoalCard({ percent, current, target, toGo, unit = "kg" }
 
         <div className="min-w-0 flex-1 space-y-2">
           <div>
-            <p className="text-[9px] uppercase tracking-[0.18em] text-white/35">Current</p>
+            <p className="text-[11px] uppercase tracking-[0.18em] text-white/35">Current</p>
             <p className="font-heading text-lg font-semibold leading-tight text-white">
               {current} <span className="text-[10px] font-normal text-white/40">{unit}</span>
             </p>
           </div>
           <div className="h-px bg-white/10" />
           <div>
-            <p className="text-[9px] uppercase tracking-[0.18em] text-white/35">Target</p>
+            <p className="text-[11px] uppercase tracking-[0.18em] text-white/35">Target</p>
             <p className="font-heading text-sm font-semibold text-white/80">
               {target} {unit}
             </p>

@@ -18,7 +18,7 @@ export default function ProgressGrid({ items = [] }) {
             <ProgressRing value={item.pct} size={62} stroke={6} from={item.from} to={item.to}>
               <span className="text-[10px] font-semibold text-white">{item.value}</span>
             </ProgressRing>
-            <p className="text-[9px] uppercase tracking-wider text-white/35">{item.label}</p>
+            <p className="text-[11px] uppercase tracking-wider text-white/35">{item.label}</p>
           </div>
         ))}
       </div>

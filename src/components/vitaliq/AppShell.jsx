@@ -1,14 +1,12 @@
-import { Link } from "@tanstack/react-router";
-import { Apple, Bot, Dumbbell, Home, Map, PersonStanding, TrendingUp, User } from "lucide-react";
+import { Link, useLocation } from "@tanstack/react-router";
+import { AnimatePresence, motion } from "framer-motion";
+import { Apple, Bot, Dumbbell, Home, User } from "lucide-react";
 
 const NAV = [
   { to: "/", label: "Home", icon: Home },
   { to: "/coach", label: "Coach", icon: Bot },
-  { to: "/nutrition", label: "Diet", icon: Apple },
   { to: "/workout", label: "Workout", icon: Dumbbell },
-  { to: "/trainer", label: "Trainer", icon: PersonStanding },
-  { to: "/insights", label: "Progress", icon: TrendingUp },
-  { to: "/journey", label: "Journey", icon: Map },
+  { to: "/nutrition", label: "Diet", icon: Apple },
   { to: "/profile", label: "Profile", icon: User },
 ];
 
@@ -21,11 +19,11 @@ function Dock() {
             key={to}
             to={to}
             activeOptions={{ exact: to === "/" }}
-            className="flex flex-1 flex-col items-center gap-1 rounded-2xl py-1 text-white/35 transition"
+            className="flex flex-1 flex-col items-center gap-1 rounded-2xl py-1.5 text-white/35 transition"
             activeProps={{ className: "text-cyan-300" }}
           >
-            <Icon className="h-[18px] w-[18px]" />
-            <span className="text-[9px] font-medium tracking-tight">{label}</span>
+            <Icon className="h-5 w-5" />
+            <span className="text-[11px] font-medium leading-none tracking-tight">{label}</span>
           </Link>
         ))}
       </nav>
@@ -34,10 +32,24 @@ function Dock() {
 }
 
 export default function AppShell({ children }) {
+  const { pathname } = useLocation();
+
   return (
     <div className="min-h-screen bg-background pt-[env(safe-area-inset-top)]">
       <div className="relative mx-auto flex min-h-screen w-full max-w-[430px] flex-col bg-white/[0.015] sm:border-x sm:border-white/[0.06]">
-        <main className="flex-1 px-4 pb-[calc(8rem+env(safe-area-inset-bottom))] pt-5">{children}</main>
+        <main className="flex-1 px-4 pb-[calc(8rem+env(safe-area-inset-bottom))] pt-5">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={pathname}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.18, ease: "easeOut" }}
+            >
+              {children}
+            </motion.div>
+          </AnimatePresence>
+        </main>
       </div>
       <Dock />
     </div>

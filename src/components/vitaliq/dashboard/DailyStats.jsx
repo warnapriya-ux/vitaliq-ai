@@ -15,7 +15,7 @@ export default function DailyStats({ stats = [] }) {
                 <Icon className="h-4 w-4" />
               </span>
               <p className="text-[13px] font-semibold text-white">{stat.value}</p>
-              <p className="text-[9px] uppercase tracking-wider text-white/35">{stat.label}</p>
+              <p className="text-[11px] uppercase tracking-wider text-white/35">{stat.label}</p>
             </div>
           );
         })}

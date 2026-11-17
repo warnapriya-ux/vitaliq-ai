@@ -9,6 +9,7 @@ import ProgressGrid from "@/components/vitaliq/dashboard/ProgressGrid";
 import TrainerCard from "@/components/vitaliq/dashboard/TrainerCard";
 import QuickLog from "@/components/vitaliq/dashboard/QuickLog";
 import GlassCard from "@/components/vitaliq/GlassCard";
+import PullToRefresh from "@/components/vitaliq/PullToRefresh";
 import { useVitaliq } from "@/hooks/useVitaliq";
 import { goalPercent, planItems } from "@/lib/health";
 
@@ -74,6 +75,7 @@ function Dashboard() {
   ];
 
   return (
+    <PullToRefresh onRefresh={reload}>
     <div className="space-y-4 lg:grid lg:grid-cols-12 lg:gap-5 lg:space-y-0">
       <div className="space-y-4 lg:col-span-7">
         <BrandBar />
@@ -101,5 +103,6 @@ function Dashboard() {
         </div>
       </div>
     </div>
+    </PullToRefresh>
   );
 }

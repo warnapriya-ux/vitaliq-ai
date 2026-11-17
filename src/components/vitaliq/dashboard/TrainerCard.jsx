@@ -10,7 +10,7 @@ export default function TrainerCard() {
             <PersonStanding className="h-5 w-5" />
           </span>
           <div className="flex-1">
-            <p className="text-[9px] uppercase tracking-[0.22em] text-cyan-200/70">AI personal trainer</p>
+            <p className="text-[11px] uppercase tracking-[0.22em] text-cyan-200/70">AI personal trainer</p>
             <p className="font-heading text-[13px] font-semibold text-white">Live form check & voice coaching</p>
             <p className="mt-0.5 text-[10px] leading-relaxed text-white/45">
               Pose tracking counts reps and corrects technique in real time.
