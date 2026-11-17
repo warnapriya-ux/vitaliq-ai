@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import SelectSheet from "@/components/vitaliq/SelectSheet";
 
 function Field({ label, children }) {
   return (
@@ -12,8 +13,6 @@ function Field({ label, children }) {
     </div>
   );
 }
-
-const SELECT = "h-10 w-full rounded-xl border border-white/10 bg-[#0b1220] px-3 text-sm text-white focus:border-cyan-400/60 focus:outline-none";
 
 export default function ProfileForm({ initial = {}, onSubmit, saving, submitLabel = "Save profile" }) {
   const [form, setForm] = useState({
@@ -37,6 +36,7 @@ export default function ProfileForm({ initial = {}, onSubmit, saving, submitLabe
   });
 
   const set = (key) => (event) => setForm((f) => ({ ...f, [key]: event.target.value }));
+  const setValue = (key) => (value) => setForm((f) => ({ ...f, [key]: value }));
 
   function submit(event) {
     event.preventDefault();
@@ -58,18 +58,28 @@ export default function ProfileForm({ initial = {}, onSubmit, saving, submitLabe
           <Input type="date" value={form.birth_date?.slice(0, 10) || ""} onChange={set("birth_date")} />
         </Field>
         <Field label="Programme">
-          <select className={SELECT} value={form.program} onChange={set("program")}>
-            <option value="women">Women's health & fitness</option>
-            <option value="men">Men's health & fitness</option>
-            <option value="general">General wellness</option>
-          </select>
+          <SelectSheet
+            label="Programme"
+            value={form.program}
+            onChange={setValue("program")}
+            options={[
+              { value: "women", label: "Women's health & fitness" },
+              { value: "men", label: "Men's health & fitness" },
+              { value: "general", label: "General wellness" },
+            ]}
+          />
         </Field>
         <Field label="Gender">
-          <select className={SELECT} value={form.gender} onChange={set("gender")}>
-            <option value="female">Female</option>
-            <option value="male">Male</option>
-            <option value="other">Other</option>
-          </select>
+          <SelectSheet
+            label="Gender"
+            value={form.gender}
+            onChange={setValue("gender")}
+            options={[
+              { value: "female", label: "Female" },
+              { value: "male", label: "Male" },
+              { value: "other", label: "Other" },
+            ]}
+          />
         </Field>
         <Field label="Height (cm)">
           <Input type="number" step="0.1" value={form.height_cm ?? ""} onChange={set("height_cm")} placeholder="165" />
@@ -81,40 +91,65 @@ export default function ProfileForm({ initial = {}, onSubmit, saving, submitLabe
           <Input type="number" step="0.1" value={form.target_weight ?? ""} onChange={set("target_weight")} placeholder="65" />
         </Field>
         <Field label="Body type">
-          <select className={SELECT} value={form.body_type} onChange={set("body_type")}>
-            <option value="slim">Slim</option>
-            <option value="average">Average</option>
-            <option value="overweight">Overweight</option>
-            <option value="obese">Obese</option>
-          </select>
+          <SelectSheet
+            label="Body type"
+            value={form.body_type}
+            onChange={setValue("body_type")}
+            options={[
+              { value: "slim", label: "Slim" },
+              { value: "average", label: "Average" },
+              { value: "overweight", label: "Overweight" },
+              { value: "obese", label: "Obese" },
+            ]}
+          />
         </Field>
         <Field label="Activity level">
-          <select className={SELECT} value={form.activity_level} onChange={set("activity_level")}>
-            <option value="low">Low</option>
-            <option value="medium">Medium</option>
-            <option value="high">High</option>
-          </select>
+          <SelectSheet
+            label="Activity level"
+            value={form.activity_level}
+            onChange={setValue("activity_level")}
+            options={[
+              { value: "low", label: "Low" },
+              { value: "medium", label: "Medium" },
+              { value: "high", label: "High" },
+            ]}
+          />
         </Field>
         <Field label="Lifestyle">
-          <select className={SELECT} value={form.lifestyle} onChange={set("lifestyle")}>
-            <option value="office">Office</option>
-            <option value="active">Active</option>
-            <option value="physical">Physical work</option>
-          </select>
+          <SelectSheet
+            label="Lifestyle"
+            value={form.lifestyle}
+            onChange={setValue("lifestyle")}
+            options={[
+              { value: "office", label: "Office" },
+              { value: "active", label: "Active" },
+              { value: "physical", label: "Physical work" },
+            ]}
+          />
         </Field>
         <Field label="Food preference">
-          <select className={SELECT} value={form.food_preference} onChange={set("food_preference")}>
-            <option value="vegetarian">Vegetarian</option>
-            <option value="non_vegetarian">Non-vegetarian</option>
-            <option value="other">Other</option>
-          </select>
+          <SelectSheet
+            label="Food preference"
+            value={form.food_preference}
+            onChange={setValue("food_preference")}
+            options={[
+              { value: "vegetarian", label: "Vegetarian" },
+              { value: "non_vegetarian", label: "Non-vegetarian" },
+              { value: "other", label: "Other" },
+            ]}
+          />
         </Field>
         <Field label="Fitness experience">
-          <select className={SELECT} value={form.experience} onChange={set("experience")}>
-            <option value="beginner">Beginner</option>
-            <option value="intermediate">Intermediate</option>
-            <option value="advanced">Advanced</option>
-          </select>
+          <SelectSheet
+            label="Fitness experience"
+            value={form.experience}
+            onChange={setValue("experience")}
+            options={[
+              { value: "beginner", label: "Beginner" },
+              { value: "intermediate", label: "Intermediate" },
+              { value: "advanced", label: "Advanced" },
+            ]}
+          />
         </Field>
         <Field label="City">
           <Input value={form.city ?? ""} onChange={set("city")} placeholder="Colombo" />

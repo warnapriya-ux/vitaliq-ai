@@ -7,6 +7,7 @@ import PageTitle from "@/components/vitaliq/PageTitle";
 import GlassCard from "@/components/vitaliq/GlassCard";
 import ProfileForm from "@/components/vitaliq/ProfileForm";
 import MeasurementDialog from "@/components/vitaliq/MeasurementDialog";
+import DeleteAccountDialog from "@/components/vitaliq/DeleteAccountDialog";
 import { useVitaliq } from "@/hooks/useVitaliq";
 import { useAuth } from "@/lib/AuthContext";
 import { bmi, bmiLabel, formatDate } from "@/lib/health";
@@ -158,6 +159,8 @@ function ProfilePage() {
       >
         <LogOut className="h-3.5 w-3.5" /> Sign out
       </button>
+
+      <DeleteAccountDialog />
     </div>
   );
 }

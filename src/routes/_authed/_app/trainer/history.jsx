@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { Loader2 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
-import PageTitle from "@/components/vitaliq/PageTitle";
+import SubPageHeader from "@/components/vitaliq/SubPageHeader";
 import SessionRow from "@/components/trainer/SessionRow";
 
 export const Route = createFileRoute("/_authed/_app/trainer/history")({
@@ -32,7 +32,7 @@ function HistoryPage() {
 
   return (
     <div className="space-y-4">
-      <PageTitle eyebrow="AI personal trainer" title="Training history" />
+      <SubPageHeader subtitle="AI personal trainer" title="Training history" />
 
       <div className="grid grid-cols-3 gap-2">
         {[

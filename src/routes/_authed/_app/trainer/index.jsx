@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Camera, ChevronRight, FileVideo, ScanFace } from "lucide-react";
-import PageTitle from "@/components/vitaliq/PageTitle";
+import SubPageHeader from "@/components/vitaliq/SubPageHeader";
 import GlassCard from "@/components/vitaliq/GlassCard";
 import RecentSessions from "@/components/trainer/RecentSessions";
 import WeeklyFormSummary from "@/components/trainer/WeeklyFormSummary";
@@ -32,7 +32,7 @@ const MODES = [
 function TrainerHub() {
   return (
     <div className="space-y-4">
-      <PageTitle eyebrow="AI personal trainer" title="Train your form" />
+      <SubPageHeader subtitle="AI personal trainer" title="Train your form" />
 
       {MODES.map(({ to, icon: Icon, eyebrow, title, detail, accent }) => (
         <Link key={to} to={to} className="block">

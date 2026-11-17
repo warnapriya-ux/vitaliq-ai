@@ -136,7 +136,7 @@ function CoachPage() {
           event.preventDefault();
           send();
         }}
-        className="fixed bottom-[92px] left-1/2 z-30 flex w-[calc(100%-2.5rem)] max-w-[390px] -translate-x-1/2 items-center gap-2 rounded-full border border-white/10 bg-[#0a1020]/95 p-1.5 shadow-[0_18px_40px_-24px_rgba(0,0,0,1)] backdrop-blur-xl"
+        className="fixed bottom-[calc(92px+env(safe-area-inset-bottom))] left-1/2 z-30 flex w-[calc(100%-2.5rem)] max-w-[390px] -translate-x-1/2 items-center gap-2 rounded-full border border-white/10 bg-[#0a1020]/95 p-1.5 shadow-[0_18px_40px_-24px_rgba(0,0,0,1)] backdrop-blur-xl"
       >
         <input
           value={input}

@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import PageTitle from "@/components/vitaliq/PageTitle";
+import SubPageHeader from "@/components/vitaliq/SubPageHeader";
 import VideoAnalyzer from "@/components/trainer/VideoAnalyzer";
 
 export const Route = createFileRoute("/_authed/_app/trainer/video")({
@@ -10,7 +10,7 @@ export const Route = createFileRoute("/_authed/_app/trainer/video")({
 function VideoAnalysisPage() {
   return (
     <div className="space-y-4">
-      <PageTitle eyebrow="AI personal trainer" title="Video form analysis" />
+      <SubPageHeader subtitle="AI personal trainer" title="Video form analysis" />
       <VideoAnalyzer />
     </div>
   );
