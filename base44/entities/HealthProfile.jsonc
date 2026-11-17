@@ -1,0 +1,176 @@
+{
+  "name": "HealthProfile",
+  "type": "object",
+  "properties": {
+    "display_name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "gender": {
+      "type": "string",
+      "enum": [
+        "male",
+        "female",
+        "other"
+      ],
+      "enumColors": [
+        "blue",
+        "pink",
+        "purple"
+      ]
+    },
+    "birth_date": {
+      "type": "string"
+    },
+    "height_cm": {
+      "type": "number"
+    },
+    "current_weight": {
+      "type": "number"
+    },
+    "target_weight": {
+      "type": "number"
+    },
+    "body_type": {
+      "type": "string",
+      "enum": [
+        "slim",
+        "average",
+        "overweight",
+        "obese"
+      ],
+      "enumColors": [
+        "green",
+        "blue",
+        "yellow",
+        "red"
+      ]
+    },
+    "activity_level": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ],
+      "enumColors": [
+        "gray",
+        "yellow",
+        "green"
+      ]
+    },
+    "lifestyle": {
+      "type": "string",
+      "enum": [
+        "office",
+        "active",
+        "physical"
+      ],
+      "enumColors": [
+        "gray",
+        "blue",
+        "purple"
+      ]
+    },
+    "food_preference": {
+      "type": "string",
+      "enum": [
+        "vegetarian",
+        "non_vegetarian",
+        "other"
+      ],
+      "enumColors": [
+        "green",
+        "red",
+        "gray"
+      ]
+    },
+    "experience": {
+      "type": "string",
+      "enum": [
+        "beginner",
+        "intermediate",
+        "advanced"
+      ],
+      "enumColors": [
+        "green",
+        "yellow",
+        "red"
+      ]
+    },
+    "program": {
+      "type": "string",
+      "enum": [
+        "men",
+        "women",
+        "general"
+      ],
+      "enumColors": [
+        "blue",
+        "pink",
+        "purple"
+      ]
+    },
+    "country": {
+      "type": "string"
+    },
+    "city": {
+      "type": "string"
+    },
+    "conditions": {
+      "type": "string"
+    },
+    "notes": {
+      "type": "string"
+    },
+    "consent": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "display_name"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

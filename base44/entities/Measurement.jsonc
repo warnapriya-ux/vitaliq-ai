@@ -1,0 +1,89 @@
+{
+  "name": "Measurement",
+  "type": "object",
+  "properties": {
+    "profile_id": {
+      "type": "string"
+    },
+    "measured_on": {
+      "type": "string"
+    },
+    "weight": {
+      "type": "number"
+    },
+    "body_fat": {
+      "type": "number"
+    },
+    "waist": {
+      "type": "number"
+    },
+    "hip": {
+      "type": "number"
+    },
+    "chest": {
+      "type": "number"
+    },
+    "arm": {
+      "type": "number"
+    },
+    "thigh": {
+      "type": "number"
+    },
+    "water_pct": {
+      "type": "number"
+    },
+    "muscle_mass": {
+      "type": "number"
+    },
+    "photo_uri": {
+      "type": "string"
+    },
+    "note": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "measured_on"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}
