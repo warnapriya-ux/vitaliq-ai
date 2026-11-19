@@ -1,4 +1,4 @@
-import { Sparkles } from "lucide-react";
+import { Play, Sparkles } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { CATEGORY_SHORT } from "@/lib/exerciseCatalog";
 import { CATEGORY_STYLE, LEVEL_TONE } from "@/components/catalog/categoryStyle";
@@ -14,7 +14,19 @@ export default function VideoWall({ exercises, videoFor, onOpen }) {
           <article key={exercise.id} className="overflow-hidden rounded-3xl border border-white/10 bg-white/[0.025]">
             <div className="relative aspect-video w-full bg-[#0a1120]">
               {videoUrl ? (
-                <video src={videoUrl} muted loop autoPlay playsInline className="h-full w-full object-cover" />
+                <button
+                  type="button"
+                  onClick={() => onOpen(exercise)}
+                  aria-label={`Watch ${exercise.name}`}
+                  className="group relative block h-full w-full"
+                >
+                  <video src={videoUrl} muted loop autoPlay playsInline className="h-full w-full object-cover" />
+                  <span className="absolute inset-0 grid place-items-center bg-black/0 transition group-hover:bg-black/30">
+                    <span className="grid h-11 w-11 place-items-center rounded-full bg-cyan-400 text-[#04121a] opacity-0 transition group-hover:opacity-100">
+                      <Play className="ml-0.5 h-4 w-4" />
+                    </span>
+                  </span>
+                </button>
               ) : (
                 <button
                   type="button"

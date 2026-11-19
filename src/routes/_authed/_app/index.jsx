@@ -5,6 +5,7 @@ import GoalCard from "@/components/vitaliq/dashboard/GoalCard";
 import DailyStats from "@/components/vitaliq/dashboard/DailyStats";
 import AiAdvice from "@/components/vitaliq/dashboard/AiAdvice";
 import PlanCards from "@/components/vitaliq/dashboard/PlanCards";
+import CatalogCard from "@/components/vitaliq/dashboard/CatalogCard";
 import ProgressGrid from "@/components/vitaliq/dashboard/ProgressGrid";
 import TrainerCard from "@/components/vitaliq/dashboard/TrainerCard";
 import QuickLog from "@/components/vitaliq/dashboard/QuickLog";
@@ -95,6 +96,7 @@ function Dashboard() {
           }}
           diet={items.slice(0, 3).map((item) => `${item.label}: ${item.detail}`)}
         />
+        <CatalogCard />
         <QuickLog profile={profile} today={today} onSaved={reload} />
       </div>
 
