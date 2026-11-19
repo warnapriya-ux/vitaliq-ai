@@ -77,13 +77,9 @@ function Dashboard() {
 
   return (
     <PullToRefresh onRefresh={reload}>
-    <div className="space-y-4 lg:grid lg:grid-cols-[minmax(0,1.55fr)_minmax(0,1fr)] lg:items-start lg:gap-6 lg:space-y-0">
-      <div className="lg:hidden">
-        <BrandBar />
-      </div>
-      <div className="lg:col-span-2">
-        <Header name={profile.display_name || "there"} plan={subscription?.plan || "Free"} />
-      </div>
+    <div className="space-y-4">
+      <BrandBar />
+      <Header name={profile.display_name || "there"} plan={subscription?.plan || "Free"} />
 
       <div className="space-y-4">
         <GoalCard percent={percent} current={current} target={target} toGo={toGo} />
