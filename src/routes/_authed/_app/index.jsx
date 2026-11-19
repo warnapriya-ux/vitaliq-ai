@@ -8,7 +8,6 @@ import Header from "@/components/vitaliq/dashboard/Header";
 import GoalCard from "@/components/vitaliq/dashboard/GoalCard";
 import DailyStats from "@/components/vitaliq/dashboard/DailyStats";
 import AiAdvice from "@/components/vitaliq/dashboard/AiAdvice";
-import PlanCards from "@/components/vitaliq/dashboard/PlanCards";
 import TodayPlan from "@/components/vitaliq/dashboard/TodayPlan";
 import CatalogCard from "@/components/vitaliq/dashboard/CatalogCard";
 import ProgressGrid from "@/components/vitaliq/dashboard/ProgressGrid";
@@ -116,18 +115,9 @@ function Dashboard() {
       <div className="space-y-4">
         <GoalCard percent={percent} current={current} target={target} toGo={toGo} />
         <DailyStats stats={stats} />
-        <PlanCards
-          workout={{
-            title: workout?.title || "No workout yet",
-            duration: planItems(workout).length ? `${planItems(workout).length} exercises` : "—",
-            detail: workout?.status?.replace("_", " ") || "generate one",
-          }}
-          diet={items.slice(0, 3).map((item) => `${item.label}: ${item.detail}`)}
-        />
         <TodayPlan
-          workoutTitle={workout?.title || "No workout yet"}
-          workoutItems={planItems(workout)}
-          meals={items}
+          workout={{ title: workout?.title, exerciseCount: planItems(workout).length }}
+          diet={{ title: diet?.title, mealCount: items.length, calories: diet?.calories_target }}
         />
         <CatalogCard />
         <QuickLog profile={profile} today={today} onSaved={reload} />
