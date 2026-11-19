@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useMemo, useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Image } from "@/components/ui/image";
 import { BRAND_LOGO } from "@/lib/brand";
 import { base44 } from "@/api/base44Client";
@@ -18,7 +18,7 @@ export const Route = createFileRoute("/catalog")({
       { title: "Exercise Catalog — VITALIQ AI" },
       {
         name: "description",
-        content: "Browse 112 exercises across ten categories with coaching cues, equipment and levels, plus AI demonstration videos.",
+        content: `Browse ${EXERCISES.length} exercises across ten categories with coaching cues, equipment and levels, plus AI demonstration videos.`,
       },
     ],
   }),
@@ -33,18 +33,27 @@ function CatalogPage() {
   const [view, setView] = useState("grid");
   const [media, setMedia] = useState({});
   const [active, setActive] = useState(null);
+  const [visible, setVisible] = useState(60);
   const { exercise: exerciseParam } = Route.useSearch();
-  const openedFromPlan = useRef(false);
+  const navigate = useNavigate({ from: "/catalog" });
 
-  // Plan items deep-link here so the member can watch the demo of that move.
+  // Every exercise has its own catalog URL: /catalog?exercise=VIT-001.
   useEffect(() => {
-    if (openedFromPlan.current || !exerciseParam) return;
-    const match = EXERCISES.find((item) => item.id === exerciseParam);
-    if (match) {
-      openedFromPlan.current = true;
-      setActive(match);
-    }
+    if (!exerciseParam) return;
+    const wanted = String(exerciseParam).toUpperCase();
+    const match = EXERCISES.find((item) => item.id === wanted);
+    if (match) setActive(match);
   }, [exerciseParam]);
+
+  function openExercise(exercise) {
+    setActive(exercise);
+    navigate({ search: { exercise: exercise.id }, replace: true });
+  }
+
+  function closeExercise() {
+    setActive(null);
+    navigate({ search: {}, replace: true });
+  }
 
   useEffect(() => {
     let alive = true;
@@ -79,6 +88,10 @@ function CatalogPage() {
   }, [search, category, equipment, level]);
 
   const videoCount = filtered.filter((exercise) => videoFor(exercise)).length;
+  const shown = filtered.slice(0, visible);
+
+  // A fresh filter starts from the top of the list again.
+  useEffect(() => setVisible(60), [search, category, equipment, level]);
 
   return (
     <div className="min-h-screen">
@@ -128,14 +141,26 @@ function CatalogPage() {
               <p className="mt-1 text-[12px] text-white/40">Clear the search or widen the category and level.</p>
             </div>
           ) : view === "table" ? (
-            <ExerciseTable exercises={filtered} videoFor={videoFor} onOpen={setActive} />
+            <ExerciseTable exercises={shown} videoFor={videoFor} onOpen={openExercise} />
           ) : view === "video" ? (
-            <VideoWall exercises={filtered} videoFor={videoFor} onOpen={setActive} />
+            <VideoWall exercises={shown} videoFor={videoFor} onOpen={openExercise} />
           ) : (
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
-              {filtered.map((exercise) => (
-                <ExerciseCard key={exercise.id} exercise={exercise} videoUrl={videoFor(exercise)} onOpen={() => setActive(exercise)} />
+              {shown.map((exercise) => (
+                <ExerciseCard key={exercise.id} exercise={exercise} videoUrl={videoFor(exercise)} onOpen={() => openExercise(exercise)} />
               ))}
+            </div>
+          )}
+
+          {filtered.length > visible && (
+            <div className="flex justify-center pt-1">
+              <button
+                type="button"
+                onClick={() => setVisible((count) => count + 120)}
+                className="rounded-full border border-white/10 bg-white/[0.04] px-5 py-2.5 text-[11px] font-semibold text-white/70 transition hover:border-cyan-400/30 hover:text-white"
+              >
+                Show more exercises ({Math.min(visible, filtered.length)} of {filtered.length})
+              </button>
             </div>
           )}
         </main>
@@ -146,7 +171,7 @@ function CatalogPage() {
         exercise={active}
         videoUrl={active ? videoFor(active) : null}
         open={Boolean(active)}
-        onOpenChange={(next) => !next && setActive(null)}
+        onOpenChange={(next) => !next && closeExercise()}
         onGenerated={(id, url) => setMedia((prev) => ({ ...prev, [id]: url }))}
       />
     </div>
