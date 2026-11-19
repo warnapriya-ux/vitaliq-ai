@@ -1,17 +1,15 @@
 import { Lock, Mail, UserPlus } from "lucide-react";
 import { useState } from "react";
-import { toast } from "sonner";
 import { base44 } from "@/api/base44Client";
 import { AuthLayout } from "@/components/auth/AuthLayout";
-import { MfaFlow } from "@/components/auth/MfaFlow";
-import { MfaScreen } from "@/components/auth/MfaParts";
 import { AuthError, AuthLink, GoogleButton, OrDivider, SubmitButton } from "@/components/auth/parts";
+import { VerifyCodeStep } from "@/components/auth/VerifyCodeStep";
 import { Input } from "@/components/ui/input";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "@/components/ui/input-otp";
 import { Label } from "@/components/ui/label";
 import { safeReturnTo } from "@/lib/authReturnTo";
 
 const isAlreadyVerified = (err) => err?.status === 400 && /already verified/i.test(err?.message ?? "");
+const isExistingAccount = (message) => /already (exists|registered|in use)/i.test(message ?? "");
 
 /**
  * The /register page: register → OTP → verifyOtp → setToken. Registration alone
@@ -23,11 +21,10 @@ export function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
-  const [otpCode, setOtpCode] = useState("");
   const [step, setStep] = useState("form");
+  const [notice, setNotice] = useState("");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
-  const [mfaChallenge, setMfaChallenge] = useState(null);
 
   async function register(e) {
     e.preventDefault();
@@ -39,48 +36,47 @@ export function RegisterPage() {
     setBusy(true);
     try {
       await base44.auth.register({ email, password });
+      setNotice("");
       setStep("otp");
     } catch (err) {
-      setError(err.message || "Registration failed");
+      const message = err.message || "Registration failed";
+      // Signing up again with an email that already exists sends no new code,
+      // so request one instead of leaving the visitor stuck on the form.
+      if (isExistingAccount(message)) {
+        try {
+          await base44.auth.resendOtp(email);
+          setNotice("This email already has an account. We sent a new 6-digit code so you can finish setting it up.");
+          setStep("otp");
+        } catch (resendErr) {
+          if (isAlreadyVerified(resendErr)) setStep("already_verified");
+          else setError(message);
+        }
+      } else {
+        setError(message);
+      }
     } finally {
       setBusy(false);
     }
   }
 
-  async function verify(e) {
-    e.preventDefault();
-    setError("");
-    setBusy(true);
-    try {
-      const result = await base44.auth.verifyOtp({ email, otpCode });
-      if (result?.mfa_required) {
-        setMfaChallenge(result);
-        return;
-      }
-      if (result?.access_token) base44.auth.setToken(result.access_token);
-      window.location.href = returnTo;
-    } catch (err) {
-      // Verified server-side but the answer never arrived: the code is spent and
-      // there is no token, so the only way forward is a normal sign-in.
-      if (isAlreadyVerified(err)) setStep("already_verified");
-      else setError(err.message || "Invalid verification code");
-      setBusy(false);
-    }
+  // The account is verified; the second sign-in step replaces the whole page.
+  if (step === "otp") {
+    return (
+      <VerifyCodeStep
+        email={email}
+        returnTo={returnTo}
+        title="Verify your email"
+        subtitle="Enter the code we emailed you"
+        notice={notice}
+        onAlreadyVerified={() => setStep("already_verified")}
+        onBack={() => {
+          setStep("form");
+          setNotice("");
+          setError("");
+        }}
+      />
+    );
   }
-
-  async function resend() {
-    setError("");
-    try {
-      await base44.auth.resendOtp(email);
-      toast("Code sent", { description: "Check your email for the new code." });
-    } catch (err) {
-      if (isAlreadyVerified(err)) setStep("already_verified");
-      else setError(err.message || "Failed to resend code");
-    }
-  }
-
-  // The account is verified; the second sign-in step replaces the whole page and finishes signing in.
-  if (mfaChallenge) return <MfaScreen><MfaFlow challenge={mfaChallenge} returnTo={returnTo} /></MfaScreen>;
 
   if (step === "already_verified") {
     return (
@@ -91,37 +87,6 @@ export function RegisterPage() {
         <AuthLink to="/login" returnTo={returnTo} className="inline-flex h-12 w-full items-center justify-center rounded-md bg-primary text-sm font-medium text-primary-foreground hover:bg-primary/90">
           Sign in
         </AuthLink>
-      </AuthLayout>
-    );
-  }
-
-  if (step === "otp") {
-    return (
-      <AuthLayout icon={UserPlus} title="Create your account" subtitle="Sign up to get started">
-        <form onSubmit={verify}>
-          <p className="mb-4 text-sm text-muted-foreground">
-            We sent a 6-digit code to <span className="font-medium text-foreground">{email}</span>.
-          </p>
-          <AuthError>{error}</AuthError>
-          <div className="mb-6 flex justify-center">
-            <InputOTP maxLength={6} value={otpCode} onChange={setOtpCode} autoFocus autoComplete="one-time-code">
-              <InputOTPGroup>
-                {[0, 1, 2, 3, 4, 5].map((i) => (
-                  <InputOTPSlot key={i} index={i} />
-                ))}
-              </InputOTPGroup>
-            </InputOTP>
-          </div>
-          <SubmitButton busy={busy} busyLabel="Verifying..." disabled={busy || otpCode.length < 6}>
-            Verify
-          </SubmitButton>
-          <p className="mt-4 text-center text-sm text-muted-foreground">
-            Didn't receive the code?{" "}
-            <button type="button" onClick={resend} className="font-medium text-primary hover:underline">
-              Resend
-            </button>
-          </p>
-        </form>
       </AuthLayout>
     );
   }

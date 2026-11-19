@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { MfaFlow } from "@/components/auth/MfaFlow";
 import { MfaScreen } from "@/components/auth/MfaParts";
+import { base44 } from "@/api/base44Client";
+import { VerifyCodeStep } from "@/components/auth/VerifyCodeStep";
 import { loginWithMfa } from "@/lib/authMfa";
 import { safeReturnTo } from "@/lib/authReturnTo";
 
@@ -18,6 +20,8 @@ export function LoginPage() {
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
   const [mfaChallenge, setMfaChallenge] = useState(null);
+  const [step, setStep] = useState("form");
+  const [notice, setNotice] = useState("");
 
   async function submit(e) {
     e.preventDefault();
@@ -32,9 +36,46 @@ export function LoginPage() {
       // A hard redirect: the app re-initializes with the new session.
       window.location.href = returnTo;
     } catch (err) {
-      setError(err.message || "Invalid email or password");
+      const message = err.message || "Invalid email or password";
+      // A registered but unverified account: send a fresh code and finish verifying here,
+      // so a returning visitor is never left without a code to enter.
+      if (/verify your email/i.test(message)) {
+        try {
+          await base44.auth.resendOtp(email);
+          setNotice("This email is not verified yet, so we sent a new 6-digit code.");
+          setStep("otp");
+        } catch (resendErr) {
+          setError(resendErr.message || "We could not send your verification code.");
+        }
+        setBusy(false);
+        return;
+      }
+      setError(message);
       setBusy(false);
     }
+  }
+
+  // An unverified email continues with the 6-digit code step.
+  if (step === "otp") {
+    return (
+      <VerifyCodeStep
+        email={email}
+        returnTo={returnTo}
+        title="Verify your email"
+        subtitle="One code and you're in"
+        notice={notice}
+        onAlreadyVerified={() => {
+          setStep("form");
+          setNotice("");
+          setError("Your email is already verified. Sign in with your password.");
+        }}
+        onBack={() => {
+          setStep("form");
+          setNotice("");
+          setError("");
+        }}
+      />
+    );
   }
 
   // The second sign-in step (authenticator app or text message) replaces the whole page.
