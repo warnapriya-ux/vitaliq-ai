@@ -9,6 +9,7 @@ import GoalCard from "@/components/vitaliq/dashboard/GoalCard";
 import DailyStats from "@/components/vitaliq/dashboard/DailyStats";
 import AiAdvice from "@/components/vitaliq/dashboard/AiAdvice";
 import PlanCards from "@/components/vitaliq/dashboard/PlanCards";
+import TodayPlan from "@/components/vitaliq/dashboard/TodayPlan";
 import CatalogCard from "@/components/vitaliq/dashboard/CatalogCard";
 import ProgressGrid from "@/components/vitaliq/dashboard/ProgressGrid";
 import TrainerCard from "@/components/vitaliq/dashboard/TrainerCard";
@@ -122,6 +123,11 @@ function Dashboard() {
             detail: workout?.status?.replace("_", " ") || "generate one",
           }}
           diet={items.slice(0, 3).map((item) => `${item.label}: ${item.detail}`)}
+        />
+        <TodayPlan
+          workoutTitle={workout?.title || "No workout yet"}
+          workoutItems={planItems(workout)}
+          meals={items}
         />
         <CatalogCard />
         <QuickLog profile={profile} today={today} onSaved={reload} />
