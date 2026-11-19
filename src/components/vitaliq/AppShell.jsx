@@ -19,7 +19,7 @@ function Dock() {
             activeProps={{ className: "text-cyan-300 bg-cyan-400/10" }}
           >
             <Icon className="h-[18px] w-[18px]" />
-            <span className="text-[10px] font-medium leading-none tracking-tight">{label}</span>
+            <span className="text-center text-[9.5px] font-medium leading-[1.1] tracking-tight">{label}</span>
           </Link>
         ))}
       </nav>

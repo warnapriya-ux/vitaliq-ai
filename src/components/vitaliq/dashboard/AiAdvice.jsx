@@ -13,7 +13,7 @@ export default function AiAdvice({ advice, to = "/coach" }) {
       <div className="relative flex items-start gap-3">
         <Image
           src={MASCOT}
-          alt="VITALIQ AI coach"
+          alt="VITALIQ Coach"
           className="h-16 w-16 shrink-0 overflow-hidden rounded-full ring-1 ring-cyan-300/40"
           focalPointY={0.42}
         />

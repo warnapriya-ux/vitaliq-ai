@@ -60,14 +60,14 @@ function buildStages({ profile, subscription, diet, workout, today, logs, measur
     },
     {
       icon: Dumbbell,
-      title: "Train with the AI coach",
+      title: "Train with VITALIQ Coach",
       detail: "Camera form checks count your reps and speak corrections, or upload a recorded set for review.",
       done: Boolean(today?.workout_done),
       to: "/trainer",
     },
     {
       icon: Bot,
-      title: "Ask your AI advisor anything",
+      title: "Ask VITALIQ Coach anything",
       detail: "Your coach reads your recent logs and answers questions on training, nutrition and recovery.",
       done: false,
       to: "/coach",

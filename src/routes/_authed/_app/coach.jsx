@@ -10,7 +10,7 @@ import { askCoach as askCoachFn } from "@/lib/server-fns";
 import { profileSummary, recentSummary } from "@/lib/health";
 
 export const Route = createFileRoute("/_authed/_app/coach")({
-  head: () => ({ meta: [{ title: "VITALIQ Coach — AI personal trainer" }] }),
+  head: () => ({ meta: [{ title: "VITALIQ Coach" }] }),
   component: CoachPage,
 });
 
@@ -65,7 +65,7 @@ function CoachPage() {
 
   return (
     <div className="space-y-3.5 pb-16">
-      <PageTitle eyebrow="Vitaliq Coach" title="Your AI personal trainer" />
+      <PageTitle eyebrow="Your coach" title="VITALIQ Coach" />
 
       <div className="rounded-[22px] border border-white/10 bg-gradient-to-br from-cyan-500/20 via-orange-500/10 to-transparent p-3.5">
         <div className="flex items-center gap-2 text-[10px] uppercase tracking-[0.16em] text-white/60">
