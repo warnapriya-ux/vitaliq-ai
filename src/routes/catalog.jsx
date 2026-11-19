@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { useEffect, useMemo, useState } from "react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { Image } from "@/components/ui/image";
 import { BRAND_LOGO } from "@/lib/brand";
 import { base44 } from "@/api/base44Client";
@@ -34,17 +34,25 @@ function CatalogPage() {
   const [media, setMedia] = useState({});
   const [active, setActive] = useState(null);
   const { exercise: exerciseParam } = Route.useSearch();
-  const openedFromPlan = useRef(false);
+  const navigate = useNavigate({ from: "/catalog" });
 
-  // Plan items deep-link here so the member can watch the demo of that move.
+  // Every exercise has its own catalog URL: /catalog?exercise=VIT-001.
   useEffect(() => {
-    if (openedFromPlan.current || !exerciseParam) return;
-    const match = EXERCISES.find((item) => item.id === exerciseParam);
-    if (match) {
-      openedFromPlan.current = true;
-      setActive(match);
-    }
+    if (!exerciseParam) return;
+    const wanted = String(exerciseParam).toUpperCase();
+    const match = EXERCISES.find((item) => item.id === wanted);
+    if (match) setActive(match);
   }, [exerciseParam]);
+
+  function openExercise(exercise) {
+    setActive(exercise);
+    navigate({ search: { exercise: exercise.id }, replace: true });
+  }
+
+  function closeExercise() {
+    setActive(null);
+    navigate({ search: {}, replace: true });
+  }
 
   useEffect(() => {
     let alive = true;
@@ -128,13 +136,13 @@ function CatalogPage() {
               <p className="mt-1 text-[12px] text-white/40">Clear the search or widen the category and level.</p>
             </div>
           ) : view === "table" ? (
-            <ExerciseTable exercises={filtered} videoFor={videoFor} onOpen={setActive} />
+            <ExerciseTable exercises={filtered} videoFor={videoFor} onOpen={openExercise} />
           ) : view === "video" ? (
-            <VideoWall exercises={filtered} videoFor={videoFor} onOpen={setActive} />
+            <VideoWall exercises={filtered} videoFor={videoFor} onOpen={openExercise} />
           ) : (
             <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {filtered.map((exercise) => (
-                <ExerciseCard key={exercise.id} exercise={exercise} videoUrl={videoFor(exercise)} onOpen={() => setActive(exercise)} />
+                <ExerciseCard key={exercise.id} exercise={exercise} videoUrl={videoFor(exercise)} onOpen={() => openExercise(exercise)} />
               ))}
             </div>
           )}
@@ -146,7 +154,7 @@ function CatalogPage() {
         exercise={active}
         videoUrl={active ? videoFor(active) : null}
         open={Boolean(active)}
-        onOpenChange={(next) => !next && setActive(null)}
+        onOpenChange={(next) => !next && closeExercise()}
         onGenerated={(id, url) => setMedia((prev) => ({ ...prev, [id]: url }))}
       />
     </div>

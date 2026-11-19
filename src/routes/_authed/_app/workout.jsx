@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { Check, ChevronRight, Dumbbell, Flame, Library, Loader2, Play, RefreshCw, X } from "lucide-react";
+import { BookOpen, Check, ChevronRight, Dumbbell, Flame, Library, Loader2, Play, RefreshCw, X } from "lucide-react";
 import { toast } from "sonner";
 import { base44 } from "@/api/base44Client";
 import PageTitle from "@/components/vitaliq/PageTitle";
@@ -199,6 +199,16 @@ function WorkoutPage() {
                   >
                     {openVideo === index ? <X className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5" />}
                   </button>
+                )}
+                {item.exercise_id && (
+                  <Link
+                    to="/catalog"
+                    search={{ exercise: item.exercise_id }}
+                    aria-label={`Open ${item.label} in the exercise catalog`}
+                    className="grid w-11 shrink-0 place-items-center rounded-2xl border border-white/10 bg-white/[0.03] text-white/55 transition hover:bg-white/[0.06] hover:text-white"
+                  >
+                    <BookOpen className="h-3.5 w-3.5" />
+                  </Link>
                 )}
                 </div>
                 {item.exercise_id && openVideo === index && (
