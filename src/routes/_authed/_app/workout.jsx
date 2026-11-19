@@ -10,7 +10,7 @@ import WorkoutVideo from "@/components/vitaliq/WorkoutVideo";
 import { useVitaliq } from "@/hooks/useVitaliq";
 import { generateHealthPlan } from "@/lib/server-fns";
 import { planItems, profileSummary, todayISO } from "@/lib/health";
-import { DEMO_VIDEOS } from "@/lib/exerciseCatalog";
+import { DEMO_VIDEOS, EXERCISES } from "@/lib/exerciseCatalog";
 
 export const Route = createFileRoute("/_authed/_app/workout")({
   head: () => ({ meta: [{ title: "VITALIQ Coach — Today's workout" }] }),
@@ -147,7 +147,7 @@ function WorkoutPage() {
           </span>
           <span>
             <span className="block text-[13px] font-semibold text-white">Exercise catalog</span>
-            <span className="block text-[11px] text-white/40">112 moves with AI demo videos</span>
+            <span className="block text-[11px] text-white/40">{EXERCISES.length} moves with AI demo videos</span>
           </span>
         </span>
         <ChevronRight className="h-4 w-4 text-white/30" />

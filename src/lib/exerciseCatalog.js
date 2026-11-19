@@ -1,5 +1,8 @@
 // Exercise catalog data for the public catalog at /catalog.
 // Each entry is one movement with its taxonomy, level and coaching cue.
+import extra1 from "@/lib/catalog/extra1";
+import extra2 from "@/lib/catalog/extra2";
+import extra3 from "@/lib/catalog/extra3";
 
 export const CATEGORIES = [
   { id: "cardio", label: "Weight Reduction & Cardio", short: "Cardio" },
@@ -35,7 +38,7 @@ export const DEMO_VIDEOS = {
   "VIT-079": "https://media.base44.com/videos/public/6afbd52c2f8bd7e10d10de9b/05db59459_generated_video.mp4",
 };
 
-export const EXERCISES = [
+const BASE_EXERCISES = [
   // Weight Reduction & Cardio
   { id: "VIT-001", name: "Marching in Place", cat: "cardio", equip: "bodyweight", level: "beginner", style: "Low-impact cardio", desc: "March on the spot, lifting knees comfortably and swinging opposite arms." },
   { id: "VIT-002", name: "Brisk March with Arm Drive", cat: "cardio", equip: "bodyweight", level: "beginner", style: "Low-impact cardio", desc: "March faster while driving arms forward and back." },
@@ -168,6 +171,9 @@ export const EXERCISES = [
   { id: "VIT-111", name: "Jump Rope", cat: "functional", equip: "props", level: "intermediate", style: "Conditioning", desc: "Small bounces from the ankles with relaxed shoulders and steady rhythm." },
   { id: "VIT-112", name: "Wall Ball", cat: "functional", equip: "props", level: "advanced", style: "Full body", desc: "Squat with the ball, then throw it to a target and catch on the way down." },
 ];
+
+// 500 moves: the original gallery plus the three extension files.
+export const EXERCISES = [...BASE_EXERCISES, ...extra1, ...extra2, ...extra3];
 
 export const CATEGORY_LABEL = Object.fromEntries(CATEGORIES.map((c) => [c.id, c.label]));
 export const CATEGORY_SHORT = Object.fromEntries(CATEGORIES.map((c) => [c.id, c.short]));

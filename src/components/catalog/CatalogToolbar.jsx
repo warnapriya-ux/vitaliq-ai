@@ -1,6 +1,6 @@
 import { Search, Sparkles, Table2, LayoutGrid } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { CATEGORIES, LEVELS } from "@/lib/exerciseCatalog";
+import { CATEGORIES, EXERCISES, LEVELS } from "@/lib/exerciseCatalog";
 
 const VIEWS = [
   { id: "grid", label: "Grid", icon: LayoutGrid },
@@ -44,7 +44,7 @@ export default function CatalogToolbar({ search, onSearch, level, onLevel, view,
             <p className="text-[10px] uppercase tracking-[0.14em] text-white/35">Matching</p>
             <p className="font-heading text-lg font-semibold text-white tabular-nums">
               {total}
-              <span className="text-white/30"> / 112</span>
+              <span className="text-white/30"> / {EXERCISES.length}</span>
             </p>
           </div>
           <div>

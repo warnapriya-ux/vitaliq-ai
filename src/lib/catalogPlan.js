@@ -15,9 +15,16 @@ export function galleryCandidates(experience = "beginner", conditions = "") {
   });
 }
 
+const MAX_GALLERY_LINES = 140;
+
 // One compact line per exercise so the model can pick by gallery ID.
+// The 500-entry catalog is sampled evenly so the prompt stays small while still
+// covering every category.
 export function galleryLines(list) {
-  return list
+  const step = Math.ceil(list.length / MAX_GALLERY_LINES);
+  const sample = step > 1 ? list.filter((_, index) => index % step === 0) : list;
+  return sample
+    .slice(0, MAX_GALLERY_LINES)
     .map((exercise) => `${exercise.id} | ${exercise.name} | ${CATEGORY_SHORT[exercise.cat] ?? exercise.cat} | ${exercise.equip} | ${exercise.level}`)
     .join("\n");
 }
