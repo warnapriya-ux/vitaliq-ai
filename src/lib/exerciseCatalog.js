@@ -30,9 +30,9 @@ export const LEVELS = ["beginner", "intermediate", "advanced"];
 // AI demo clips generated for the catalog (stored as permanent video URLs).
 export const DEMO_VIDEOS = {
   "VIT-001": "https://media.base44.com/videos/public/6afbd52c2f8bd7e10d10de9b/5a2c0b661_generated_video.mp4",
-  "VIT-016": "https://media.base44.com/videos/public/6afbd52c2f8bd7e10d10de9b/2d4f2d2b4_generated_video.mp4",
+  "VIT-016": "https://media.base44.com/videos/public/6afbd52c2f8bd7e10d10de9b/49594de0a_generated_video.mp4",
   "VIT-047": "https://media.base44.com/videos/public/6afbd52c2f8bd7e10d10de9b/e3a9d4bed_generated_video.mp4",
-  "VIT-079": "https://media.base44.com/videos/public/6afbd52c2f8bd7e10d10de9b/2d4f2d2b4_generated_video.mp4",
+  "VIT-079": "https://media.base44.com/videos/public/6afbd52c2f8bd7e10d10de9b/05db59459_generated_video.mp4",
 };
 
 export const EXERCISES = [

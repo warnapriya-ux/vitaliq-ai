@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { Check, Dumbbell, Flame, Loader2, RefreshCw } from "lucide-react";
+import { Check, ChevronRight, Dumbbell, Flame, Library, Loader2, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { base44 } from "@/api/base44Client";
 import PageTitle from "@/components/vitaliq/PageTitle";
@@ -106,6 +106,22 @@ function WorkoutPage() {
           <div className="h-full rounded-full bg-gradient-to-r from-cyan-300 to-blue-400 transition-all" style={{ width: `${progress}%` }} />
         </div>
       </GlassCard>
+
+      <Link
+        to="/catalog"
+        className="flex items-center justify-between rounded-[26px] border border-white/10 bg-white/[0.03] px-4 py-3.5 transition hover:border-cyan-400/30"
+      >
+        <span className="flex items-center gap-3">
+          <span className="grid h-9 w-9 place-items-center rounded-full bg-cyan-400/10 text-cyan-300">
+            <Library className="h-4 w-4" />
+          </span>
+          <span>
+            <span className="block text-[13px] font-semibold text-white">Exercise catalog</span>
+            <span className="block text-[11px] text-white/40">112 moves with AI demo videos</span>
+          </span>
+        </span>
+        <ChevronRight className="h-4 w-4 text-white/30" />
+      </Link>
 
       <GlassCard>
         <div className="flex items-center gap-2 text-[11px] uppercase tracking-[0.18em] text-white/40">
