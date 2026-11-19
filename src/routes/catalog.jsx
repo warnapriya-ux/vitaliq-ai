@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Image } from "@/components/ui/image";
 import { BRAND_LOGO } from "@/lib/brand";
@@ -12,6 +12,7 @@ import ExerciseVideoDialog from "@/components/catalog/ExerciseVideoDialog";
 import VideoWall from "@/components/catalog/VideoWall";
 
 export const Route = createFileRoute("/catalog")({
+  validateSearch: (search) => (typeof search.exercise === "string" ? { exercise: search.exercise } : {}),
   head: () => ({
     meta: [
       { title: "Exercise Catalog — VITALIQ AI" },
@@ -32,6 +33,18 @@ function CatalogPage() {
   const [view, setView] = useState("grid");
   const [media, setMedia] = useState({});
   const [active, setActive] = useState(null);
+  const { exercise: exerciseParam } = Route.useSearch();
+  const openedFromPlan = useRef(false);
+
+  // Plan items deep-link here so the member can watch the demo of that move.
+  useEffect(() => {
+    if (openedFromPlan.current || !exerciseParam) return;
+    const match = EXERCISES.find((item) => item.id === exerciseParam);
+    if (match) {
+      openedFromPlan.current = true;
+      setActive(match);
+    }
+  }, [exerciseParam]);
 
   useEffect(() => {
     let alive = true;

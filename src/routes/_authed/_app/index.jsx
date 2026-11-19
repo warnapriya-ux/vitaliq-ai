@@ -1,4 +1,8 @@
+import { useEffect, useRef, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { Loader2 } from "lucide-react";
+import { toast } from "sonner";
 import BrandBar from "@/components/vitaliq/dashboard/BrandBar";
 import Header from "@/components/vitaliq/dashboard/Header";
 import GoalCard from "@/components/vitaliq/dashboard/GoalCard";
@@ -12,6 +16,7 @@ import QuickLog from "@/components/vitaliq/dashboard/QuickLog";
 import GlassCard from "@/components/vitaliq/GlassCard";
 import PullToRefresh from "@/components/vitaliq/PullToRefresh";
 import { useVitaliq } from "@/hooks/useVitaliq";
+import { ensurePersonalPlans } from "@/lib/server-fns";
 import { goalPercent, planItems } from "@/lib/health";
 
 export const Route = createFileRoute("/_authed/_app/")({
@@ -21,6 +26,23 @@ export const Route = createFileRoute("/_authed/_app/")({
 
 function Dashboard() {
   const { loading, profile, today, diet, workout, subscription, measurements, reload } = useVitaliq();
+  const ensurePlans = useServerFn(ensurePersonalPlans);
+  const [building, setBuilding] = useState(false);
+  const requested = useRef(false);
+
+  // A signed-in member always lands on a plan built from the exercise gallery.
+  useEffect(() => {
+    if (loading || !profile || requested.current) return;
+    requested.current = true;
+    setBuilding(true);
+    ensurePlans()
+      .then((result) => (result?.created?.length ? reload() : null))
+      .catch((error) => {
+        console.error(error);
+        toast.error("Could not build your plan right now.");
+      })
+      .finally(() => setBuilding(false));
+  }, [loading, profile, reload, ensurePlans]);
 
   if (loading) {
     return (
@@ -80,6 +102,15 @@ function Dashboard() {
     <div className="space-y-4">
       <BrandBar />
       <Header name={profile.display_name || "there"} plan={subscription?.plan || "Free"} />
+
+      {building && (
+        <div className="flex items-center gap-3 rounded-[26px] border border-cyan-400/25 bg-cyan-400/[0.07] px-4 py-3">
+          <Loader2 className="h-4 w-4 shrink-0 animate-spin text-cyan-300" />
+          <p className="text-[12px] leading-relaxed text-white/70">
+            Your AI assistant is building today's workout and daily plan from the exercise gallery.
+          </p>
+        </div>
+      )}
 
       <div className="space-y-4">
         <GoalCard percent={percent} current={current} target={target} toGo={toGo} />

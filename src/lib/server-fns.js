@@ -1,6 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireUser } from "@/lib/auth-middleware";
+import { profileSummary as buildProfileSummary } from "@/lib/health";
+import { fillGalleryItems, galleryCandidates, galleryLines, resolveGalleryItems } from "@/lib/catalogPlan";
 
 const planSchema = {
   type: "object",
@@ -27,37 +29,139 @@ const planSchema = {
 const SAFETY =
   "You give general wellness guidance only. Never diagnose a condition, never prescribe medication or supplements, and never promise medical outcomes. If the profile mentions a medical condition, injury, pregnancy or postpartum recovery, keep recommendations conservative and add a note to confirm with a doctor. Be encouraging and specific.";
 
+const workoutSchema = {
+  type: "object",
+  properties: {
+    title: { type: "string" },
+    summary: { type: "string" },
+    items: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          exercise_id: { type: "string" },
+          label: { type: "string" },
+          detail: { type: "string" },
+          meta: { type: "string" },
+        },
+        required: ["exercise_id", "label", "detail", "meta"],
+      },
+    },
+  },
+  required: ["title", "summary", "items"],
+};
+
+// Builds one plan. Workout plans are composed only from the exercise gallery,
+// so every move a member sees has a catalogue entry and a demo clip.
+async function composePlan(service, { kind, profileSummary, experience = "beginner", conditions = "", focus }) {
+  const isDiet = kind === "diet";
+  const gallery = isDiet ? [] : galleryCandidates(experience, conditions);
+  const prompt = `You are ${isDiet ? "VITALIQ Nutrition, an AI dietitian" : "VITALIQ Coach, an AI personal trainer"} inside a health platform.
+${SAFETY}
+
+Client profile:
+${profileSummary}
+${focus ? `Client focus for this plan: ${focus}` : ""}
+${
+  isDiet
+    ? ""
+    : `
+The only exercises you may prescribe are these gallery entries (ID | name | focus | equipment | level):
+${galleryLines(gallery)}
+`
+}
+Create a personalised one-day ${isDiet ? "meal plan" : "workout session"}.
+Return JSON. "title" is short and specific. "summary" is 2 sentences of coaching advice for today.
+${
+  isDiet
+    ? 'Return exactly 5 "items" in order: Breakfast, Morning snack, Lunch, Evening snack, Dinner. "label" is the meal name, "detail" lists the foods with portions, "meta" is the time plus calories (e.g. "8:00 AM · 420 kcal"). "calories_target" is the daily calorie target.'
+    : 'Return exactly 7 "items" in this order: 1 warm-up, 5 main exercises, 1 cool-down. Every item needs "exercise_id" copied exactly from the gallery list, "label" as that exercise\'s gallery name, "detail" with sets, reps or time plus one form cue, and "meta" with the duration and difficulty (e.g. "10 min · Beginner"). Pick movements that fit the client\'s goal, experience and health considerations, and cover different focus areas.'
+}
+Respect the food preference, conditions, fitness experience and activity level in the profile.`;
+
+  const result = await service.integrations.Core.InvokeLLM({
+    prompt,
+    response_json_schema: isDiet ? planSchema : workoutSchema,
+  });
+
+  if (isDiet) return result;
+  return {
+    title: result.title,
+    summary: result.summary,
+    items: fillGalleryItems(resolveGalleryItems(result.items), gallery, 5),
+  };
+}
+
 export const generateHealthPlan = createServerFn({ method: "POST" })
   .middleware([requireUser])
   .validator(
     z.object({
       kind: z.enum(["diet", "workout"]),
       profileSummary: z.string().min(3).max(4000),
+      experience: z.enum(["beginner", "intermediate", "advanced"]).optional(),
+      conditions: z.string().max(600).optional(),
       focus: z.string().max(200).optional(),
     }),
   )
-  .handler(async ({ data, context }) => {
-    const isDiet = data.kind === "diet";
-    const prompt = `You are ${isDiet ? "VITALIQ Nutrition, an AI dietitian" : "VITALIQ Coach, an AI personal trainer"} inside a health platform.
-${SAFETY}
+  .handler(({ data, context }) => composePlan(context.getBase44().asServiceRole, data));
 
-Client profile:
-${data.profileSummary}
-${data.focus ? `Client focus for this plan: ${data.focus}` : ""}
+const dayOf = (value) => String(value || "").slice(0, 10);
+const todayUTC = () => new Date().toISOString().slice(0, 10);
 
-Create a personalised one-day ${isDiet ? "meal plan" : "workout session"}.
-Return JSON. "title" is short and specific. "summary" is 2 sentences of coaching advice for today.
-${
-  isDiet
-    ? 'Return exactly 5 "items" in order: Breakfast, Morning snack, Lunch, Evening snack, Dinner. "label" is the meal name, "detail" lists the foods with portions, "meta" is the time plus calories (e.g. "8:00 AM · 420 kcal"). "calories_target" is the daily calorie target.'
-    : 'Return exactly 6 "items": warm-up plus 5 exercises. "label" is the exercise name, "detail" has sets, reps or duration and one form cue, "meta" is the duration and a difficulty label (e.g. "10 min · Beginner"). Omit "calories_target" or use the estimated burn.'
-}
-Respect the food preference, conditions, fitness experience and activity level in the profile.`;
+// Runs when a member opens the app: builds the gallery workout plan and
+// today's daily plan when they are missing, so nobody lands on an empty day.
+export const ensurePersonalPlans = createServerFn({ method: "POST" })
+  .middleware([requireUser])
+  .handler(async ({ context }) => {
+    const user = context.user;
+    const base = context.getBase44();
 
-    const result = await context
-      .getBase44()
-      .asServiceRole.integrations.Core.InvokeLLM({ prompt, response_json_schema: planSchema });
-    return result;
+    const profilePage = await base.entities.HealthProfile.filter(
+      { email: user.email },
+      { sort: "-created_date", limit: 1 },
+    );
+    const profile = profilePage.items?.[0] ?? null;
+    if (!profile) return { created: [] };
+
+    const [workoutPage, dietPage] = await Promise.all([
+      base.entities.Plan.filter({ client_id: user.id, kind: "workout" }, { sort: "-created_date", limit: 5 }),
+      base.entities.Plan.filter({ client_id: user.id, kind: "diet" }, { sort: "-created_date", limit: 5 }),
+    ]);
+
+    const hasGalleryWorkout = (workoutPage.items ?? []).some(
+      (plan) => Array.isArray(plan.items) && plan.items.some((item) => item.exercise_id),
+    );
+    const hasTodayDiet = (dietPage.items ?? []).some((plan) => dayOf(plan.created_date) === todayUTC());
+
+    const pending = [hasGalleryWorkout ? null : "workout", hasTodayDiet ? null : "diet"].filter(Boolean);
+    if (!pending.length) return { created: [] };
+
+    const shared = {
+      profileSummary: buildProfileSummary(profile, null),
+      experience: profile.experience,
+      conditions: profile.conditions,
+    };
+
+    const created = await Promise.all(
+      pending.map(async (kind) => {
+        const plan = await composePlan(base.asServiceRole, { kind, ...shared });
+        await base.entities.Plan.create({
+          kind,
+          title: plan.title,
+          summary: plan.summary,
+          ...(kind === "diet" ? { calories_target: plan.calories_target } : {}),
+          items: plan.items,
+          status: "ai_draft",
+          client_id: user.id,
+          client_name: user.full_name,
+          client_email: user.email,
+          program: profile.program,
+        });
+        return kind;
+      }),
+    );
+
+    return { created };
   });
 
 export const askCoach = createServerFn({ method: "POST" })

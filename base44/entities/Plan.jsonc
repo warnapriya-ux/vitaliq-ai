@@ -60,6 +60,9 @@
           },
           "meta": {
             "type": "string"
+          },
+          "exercise_id": {
+            "type": "string"
           }
         }
       }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { Check, ChevronRight, Dumbbell, Flame, Library, Loader2, RefreshCw } from "lucide-react";
+import { Check, ChevronRight, Dumbbell, Flame, Library, Loader2, Play, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { base44 } from "@/api/base44Client";
 import PageTitle from "@/components/vitaliq/PageTitle";
@@ -48,7 +48,12 @@ function WorkoutPage() {
     setBusy(true);
     try {
       const plan = await generate({
-        data: { kind: "workout", profileSummary: profileSummary(profile, measurements[measurements.length - 1]) },
+        data: {
+          kind: "workout",
+          profileSummary: profileSummary(profile, measurements[measurements.length - 1]),
+          experience: profile.experience,
+          conditions: profile.conditions,
+        },
       });
       await base44.entities.Plan.create({
         kind: "workout",
@@ -132,11 +137,11 @@ function WorkoutPage() {
           {items.map((item, index) => {
             const complete = doneNow.includes(index);
             return (
-              <li key={`${item.label}-${index}`}>
+              <li key={`${item.label}-${index}`} className="flex items-stretch gap-2">
                 <button
                   type="button"
                   onClick={() => toggle(index)}
-                  className={`flex w-full items-start gap-3 rounded-2xl border px-3 py-3 text-left transition ${
+                  className={`flex flex-1 items-start gap-3 rounded-2xl border px-3 py-3 text-left transition ${
                     complete ? "border-cyan-300/30 bg-cyan-400/10" : "border-white/10 bg-white/[0.03] hover:bg-white/[0.06]"
                   }`}
                 >
@@ -155,6 +160,16 @@ function WorkoutPage() {
                     <span className="mt-0.5 block text-[11px] leading-relaxed text-white/50">{item.detail}</span>
                   </span>
                 </button>
+                {item.exercise_id && (
+                  <Link
+                    to="/catalog"
+                    search={{ exercise: item.exercise_id }}
+                    aria-label={`Watch ${item.label}`}
+                    className="grid w-11 shrink-0 place-items-center rounded-2xl border border-white/10 bg-white/[0.03] text-cyan-300 transition hover:bg-white/[0.06]"
+                  >
+                    <Play className="h-3.5 w-3.5" />
+                  </Link>
+                )}
               </li>
             );
           })}
