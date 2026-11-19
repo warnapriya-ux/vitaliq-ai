@@ -5,6 +5,7 @@ import { Bar, BarChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Too
 import { Loader2, Sparkles, TrendingDown } from "lucide-react";
 import PageTitle from "@/components/vitaliq/PageTitle";
 import GlassCard from "@/components/vitaliq/GlassCard";
+import WeightBodyFatChart from "@/components/vitaliq/WeightBodyFatChart";
 import { useVitaliq } from "@/hooks/useVitaliq";
 import { askCoach as askCoachFn } from "@/lib/server-fns";
 import { bmi, bmiLabel, formatDate, profileSummary, recentSummary } from "@/lib/health";
@@ -80,6 +81,8 @@ function InsightsPage() {
           </div>
         </div>
       </GlassCard>
+
+      <WeightBodyFatChart measurements={measurements} />
 
       <GlassCard>
         <div className="flex items-center justify-between">

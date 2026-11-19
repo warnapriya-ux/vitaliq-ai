@@ -125,6 +125,47 @@ const formSchema = {
   required: ["exercise_detected", "reps_estimate", "form_score", "summary", "issues", "cues", "drills"],
 };
 
+export const generateExerciseVideo = createServerFn({ method: "POST" })
+  .middleware([requireUser])
+  .validator(
+    z.object({
+      exerciseId: z.string().min(3).max(40),
+      name: z.string().min(2).max(80),
+      cue: z.string().max(400).optional(),
+      category: z.string().max(60).optional(),
+    }),
+  )
+  .handler(async ({ data, context }) => {
+    const service = context.getBase44().asServiceRole;
+
+    const existing = await service.entities.ExerciseMedia.filter({ exercise_id: data.exerciseId });
+    const rows = Array.isArray(existing) ? existing : existing?.items ?? [];
+    const cached = rows.find((row) => row.video_url);
+    if (cached) return { video_url: cached.video_url, cached: true };
+
+    const prompt = `Photorealistic fitness demonstration video: an athletic person performing ${data.name}${
+      data.cue ? ` — ${data.cue}` : ""
+    }, full body in frame, bright modern gym, locked-off camera, soft daylight, clean minimal background, controlled natural motion, no text overlays.`;
+
+    const { url } = await service.integrations.Core.GenerateVideo({
+      prompt,
+      duration: 6,
+      aspect_ratio: "16:9",
+      generate_audio: false,
+    });
+
+    await service.entities.ExerciseMedia.create({
+      exercise_id: data.exerciseId,
+      exercise_name: data.name,
+      category: data.category,
+      video_url: url,
+      status: "generated",
+      duration_sec: 6,
+    });
+
+    return { video_url: url, cached: false };
+  });
+
 export const analyzeWorkoutForm = createServerFn({ method: "POST" })
   .middleware([requireUser])
   .validator(
