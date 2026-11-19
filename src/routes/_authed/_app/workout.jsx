@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
-import { Check, ChevronRight, Dumbbell, Flame, Library, Loader2, Play, RefreshCw } from "lucide-react";
+import { Check, ChevronRight, Dumbbell, Flame, Library, Loader2, Play, RefreshCw, X } from "lucide-react";
 import { toast } from "sonner";
 import { base44 } from "@/api/base44Client";
 import PageTitle from "@/components/vitaliq/PageTitle";
 import GlassCard from "@/components/vitaliq/GlassCard";
+import WorkoutVideo from "@/components/vitaliq/WorkoutVideo";
 import { useVitaliq } from "@/hooks/useVitaliq";
 import { generateHealthPlan } from "@/lib/server-fns";
 import { planItems, profileSummary, todayISO } from "@/lib/health";
+import { DEMO_VIDEOS } from "@/lib/exerciseCatalog";
 
 export const Route = createFileRoute("/_authed/_app/workout")({
   head: () => ({ meta: [{ title: "VITALIQ Coach — Today's workout" }] }),
@@ -21,11 +23,34 @@ function WorkoutPage() {
   const [log, setLog] = useState(today);
   const [done, setDone] = useState(null);
   const [busy, setBusy] = useState(false);
+  const [media, setMedia] = useState({});
+  const [openVideo, setOpenVideo] = useState(null);
 
   const items = planItems(workout);
   const doneNow = done ?? (log?.workout_done ? items.map((_, i) => i) : []);
 
   useEffect(() => setLog(today), [today]);
+
+  // Demo clips already rendered for the gallery, so a move plays straight away.
+  useEffect(() => {
+    let alive = true;
+    base44.entities.ExerciseMedia.filter({ status: "generated" })
+      .then((res) => {
+        const rows = Array.isArray(res) ? res : res?.items ?? [];
+        if (!alive) return;
+        const map = {};
+        rows.forEach((row) => {
+          if (row.video_url) map[row.exercise_id] = row.video_url;
+        });
+        setMedia(map);
+      })
+      .catch(() => {});
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  const videoFor = (exerciseId) => media[exerciseId] || DEMO_VIDEOS[exerciseId];
 
   async function toggle(index) {
     const next = doneNow.includes(index) ? doneNow.filter((i) => i !== index) : [...doneNow, index];
@@ -137,7 +162,8 @@ function WorkoutPage() {
           {items.map((item, index) => {
             const complete = doneNow.includes(index);
             return (
-              <li key={`${item.label}-${index}`} className="flex items-stretch gap-2">
+              <li key={`${item.label}-${index}`} className="space-y-2">
+                <div className="flex items-stretch gap-2">
                 <button
                   type="button"
                   onClick={() => toggle(index)}
@@ -161,14 +187,26 @@ function WorkoutPage() {
                   </span>
                 </button>
                 {item.exercise_id && (
-                  <Link
-                    to="/catalog"
-                    search={{ exercise: item.exercise_id }}
-                    aria-label={`Watch ${item.label}`}
-                    className="grid w-11 shrink-0 place-items-center rounded-2xl border border-white/10 bg-white/[0.03] text-cyan-300 transition hover:bg-white/[0.06]"
+                  <button
+                    type="button"
+                    onClick={() => setOpenVideo(openVideo === index ? null : index)}
+                    aria-label={openVideo === index ? `Hide ${item.label} demo` : `Watch ${item.label}`}
+                    className={`grid w-11 shrink-0 place-items-center rounded-2xl border transition ${
+                      openVideo === index
+                        ? "border-cyan-300/40 bg-cyan-400/15 text-cyan-200"
+                        : "border-white/10 bg-white/[0.03] text-cyan-300 hover:bg-white/[0.06]"
+                    }`}
                   >
-                    <Play className="h-3.5 w-3.5" />
-                  </Link>
+                    {openVideo === index ? <X className="h-3.5 w-3.5" /> : <Play className="h-3.5 w-3.5" />}
+                  </button>
+                )}
+                </div>
+                {item.exercise_id && openVideo === index && (
+                  <WorkoutVideo
+                    exerciseId={item.exercise_id}
+                    videoUrl={videoFor(item.exercise_id)}
+                    onGenerated={(id, url) => setMedia((prev) => ({ ...prev, [id]: url }))}
+                  />
                 )}
               </li>
             );
