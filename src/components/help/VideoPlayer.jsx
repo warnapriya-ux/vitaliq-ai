@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
+import { voiceForScene } from "@/lib/tutorialVoices";
 import { Link } from "@tanstack/react-router";
 import { BookOpen, Captions, Pause, Play, RotateCcw, SkipBack, SkipForward } from "lucide-react";
 import VideoStage from "@/components/help/VideoStage";
@@ -24,6 +25,7 @@ export default function VideoPlayer({ video, article }) {
 
   const speed = SPEEDS[speedIndex];
   const videoRef = useRef(null);
+  const audioRef = useRef(null);
 
   const seekVideo = (next) => {
     const el = videoRef.current;
@@ -41,6 +43,8 @@ export default function VideoPlayer({ video, article }) {
   useEffect(() => {
     const el = videoRef.current;
     if (el) el.playbackRate = speed;
+    const audio = audioRef.current;
+    if (audio) audio.playbackRate = speed;
   }, [speed, video.id]);
 
   useEffect(() => {
@@ -65,6 +69,25 @@ export default function VideoPlayer({ video, article }) {
 
   const scene = video.scenes[activeIndex];
 
+  // Each chapter has its own narration, so the voice always says exactly what
+  // the clip is showing at that moment.
+  const voiceUrl = voiceForScene(scene.id);
+
+  useEffect(() => {
+    const el = audioRef.current;
+    if (!el || !voiceUrl) return;
+    el.src = voiceUrl;
+    el.currentTime = 0;
+    if (playing) el.play().catch(() => {});
+  }, [voiceUrl]);
+
+  useEffect(() => {
+    const el = audioRef.current;
+    if (!el) return;
+    if (playing) el.play().catch(() => {});
+    else el.pause();
+  }, [playing, video.id]);
+
   const toggle = () => {
     if (time >= video.seconds) {
       setTime(0);
@@ -79,11 +102,17 @@ export default function VideoPlayer({ video, article }) {
     const clamped = Math.max(0, Math.min(video.scenes.length - 1, index));
     setTime(video.scenes[clamped].start);
     seekVideo(video.scenes[clamped].start);
+    const audio = audioRef.current;
+    if (audio) {
+      audio.currentTime = 0;
+      audio.play().catch(() => {});
+    }
     setPlaying(true);
   };
 
   return (
     <div className="space-y-3">
+      <audio ref={audioRef} preload="none" />
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-[11px] uppercase tracking-[0.18em] text-cyan-300/80">

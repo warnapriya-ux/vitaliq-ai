@@ -1,0 +1,80 @@
+/**
+ * Narration for every tutorial scene. One narrator voice, one tone, recorded per
+ * scene so the spoken line always matches the chapter showing on screen.
+ */
+export const VOICE_BY_SCENE = {
+  "v1-s1":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/d164427d6_v1-s1.mp3",
+  "v1-s2":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/0a85336e8_v1-s2.mp3",
+  "v1-s3":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/5d59c5831_v1-s3.mp3",
+  "v1-s4":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/0ba90cca2_v1-s4.mp3",
+  "v2-s1":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/57ea0d706_v2-s1.mp3",
+  "v2-s2":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/7d1677183_v2-s2.mp3",
+  "v2-s3":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/178794590_v2-s3.mp3",
+  "v2-s4":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/099ce321b_v2-s4.mp3",
+  "v3-s1":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/ec952dfda_v3-s1.mp3",
+  "v3-s2":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/79319cd15_v3-s2.mp3",
+  "v3-s3":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/3ea8647ea_v3-s3.mp3",
+  "v3-s4":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/ed3b00a89_v3-s4.mp3",
+  "v4-s1":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/0e52f1086_v4-s1.mp3",
+  "v4-s2":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/fb5bba193_v4-s2.mp3",
+  "v4-s3":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/b72bf2f31_v4-s3.mp3",
+  "v4-s4":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/8f1e7de1d_v4-s4.mp3",
+  "v5-s1":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/48a4c07aa_v5-s1.mp3",
+  "v5-s2":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/d19079819_v5-s2.mp3",
+  "v5-s3":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/2f7e4204a_v5-s3.mp3",
+  "v5-s4":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/4f2af3ac6_v5-s4.mp3",
+  "v6-s1":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/f41f45703_v6-s1.mp3",
+  "v6-s2":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/da6708673_v6-s2.mp3",
+  "v6-s3":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/df5ad8b19_v6-s3.mp3",
+  "v6-s4":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/538bd1af2_v6-s4.mp3",
+  "v7-s1":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/3d4d3980b_v7-s1.mp3",
+  "v7-s2":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/819c4c002_v7-s2.mp3",
+  "v7-s3":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/56aaf10f6_v7-s3.mp3",
+  "v7-s4":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/6a1497a00_v7-s4.mp3",
+  "v8-s1":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/2a369c37d_v8-s1.mp3",
+  "v8-s2":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/76f87cb64_v8-s2.mp3",
+  "v8-s3":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/41efc3abe_v8-s3.mp3",
+  "v8-s4":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/b85821d15_v8-s4.mp3",
+  "v9-s1":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/fe2eccf8d_v9-s1.mp3",
+  "v9-s2":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/af75a6f14_v9-s2.mp3",
+  "v9-s3":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/3499a6a65_v9-s3.mp3",
+  "v9-s4":
+    "https://base44.app/api/apps/6afbd52c2f8bd7e10d10de9b/files/mp/public/6afbd52c2f8bd7e10d10de9b/e6504aa21_v9-s4.mp3",
+};
+
+export const voiceForScene = (sceneId) => VOICE_BY_SCENE[sceneId] ?? null;
