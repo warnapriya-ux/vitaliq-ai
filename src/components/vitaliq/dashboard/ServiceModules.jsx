@@ -44,7 +44,6 @@ function Column({ eyebrow, title, items, tone }) {
 
 export default function ServiceModules() {
   return (
-    <div className="space-y-3">
     <div className="grid gap-3 md:grid-cols-2">
       <Column
         eyebrow="Fitness & workout"
@@ -58,14 +57,6 @@ export default function ServiceModules() {
         items={NUTRITION}
         tone="bg-emerald-400/12 text-emerald-300"
       />
-    </div>
-    <Link
-      to="/pro"
-      className="flex items-center justify-between rounded-2xl border border-white/[0.07] bg-white/[0.03] px-3.5 py-2.5 text-[11px] text-white/45 transition hover:text-white/70"
-    >
-      Are you a gym instructor or dietitian?
-      <span className="font-semibold text-cyan-300">Professional portal →</span>
-    </Link>
     </div>
   );
 }

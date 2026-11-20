@@ -15,6 +15,7 @@ import TrainerCard from "@/components/vitaliq/dashboard/TrainerCard";
 import QuickLog from "@/components/vitaliq/dashboard/QuickLog";
 import GlassCard from "@/components/vitaliq/GlassCard";
 import ServiceModules from "@/components/vitaliq/dashboard/ServiceModules";
+import ProPortalLink from "@/components/vitaliq/dashboard/ProPortalLink";
 import PullToRefresh from "@/components/vitaliq/PullToRefresh";
 import { useVitaliq } from "@/hooks/useVitaliq";
 import { ensurePersonalPlans } from "@/lib/server-fns";
@@ -57,16 +58,19 @@ function Dashboard() {
 
   if (!profile) {
     return (
-      <GlassCard className="text-center">
-        <p className="font-heading text-lg font-semibold text-white">Let's build your programme</p>
-        <p className="mt-1 text-xs text-white/45">Add your measurements and goals so VITALIQ can personalise everything.</p>
-        <Link
-          to="/onboarding"
-          className="mt-4 inline-flex rounded-full bg-cyan-400 px-4 py-2 text-xs font-semibold text-slate-950"
-        >
-          Start health assessment
-        </Link>
-      </GlassCard>
+      <div className="space-y-4">
+        <GlassCard className="text-center">
+          <p className="font-heading text-lg font-semibold text-white">Let's build your programme</p>
+          <p className="mt-1 text-xs text-white/45">Add your measurements and goals so VITALIQ can personalise everything.</p>
+          <Link
+            to="/onboarding"
+            className="mt-4 inline-flex rounded-full bg-cyan-400 px-4 py-2 text-xs font-semibold text-slate-950"
+          >
+            Start health assessment
+          </Link>
+        </GlassCard>
+        <ProPortalLink />
+      </div>
     );
   }
 
@@ -103,6 +107,7 @@ function Dashboard() {
     <div className="space-y-4">
       <BrandBar />
       <Header name={profile.display_name || "there"} plan={subscription?.plan || "Free"} />
+      <ProPortalLink />
 
       {building && (
         <div className="flex items-center gap-3 rounded-[26px] border border-cyan-400/25 bg-cyan-400/[0.07] px-4 py-3">
