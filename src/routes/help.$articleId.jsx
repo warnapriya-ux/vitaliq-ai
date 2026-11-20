@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { AlertTriangle, ArrowLeft, ArrowRight, Check, Clock, RefreshCw } from "lucide-react";
+import { ArrowLeft, ArrowRight, Clock, PlayCircle, RefreshCw } from "lucide-react";
 import HelpLayout from "@/components/help/HelpLayout";
 import GlassCard from "@/components/vitaliq/GlassCard";
 import HelpfulVote from "@/components/help/HelpfulVote";
-import { articleById, categoryById } from "@/lib/helpCenter";
+import ArticleBody from "@/components/help/ArticleBody";
+import { HELP_UPDATED, articleById, categoryById, videoForArticle } from "@/lib/helpCenter";
 
 export const Route = createFileRoute("/help/$articleId")({
   head: ({ params }) => {
@@ -45,6 +46,7 @@ function HelpArticle() {
   }
 
   const category = categoryById(article.category);
+  const video = article.videoId ? videoForArticle(article.id) : null;
   const related = (article.related ?? []).map(articleById).filter(Boolean);
 
   return (
@@ -59,7 +61,7 @@ function HelpArticle() {
 
         <header>
           <p className="text-[12px] uppercase tracking-[0.2em] text-cyan-300/80">
-            {category?.label}
+            {category?.label} · Section {article.section}
           </p>
           <h1 className="mt-1.5 font-heading text-[24px] font-semibold leading-tight text-white lg:text-[30px]">
             {article.title}
@@ -70,67 +72,21 @@ function HelpArticle() {
               <Clock className="h-3 w-3 text-cyan-300" /> {article.minutes} min read
             </span>
             <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.05] px-2.5 py-1 text-[11px] text-white/65">
-              <RefreshCw className="h-3 w-3 text-emerald-300" /> Reviewed {article.updated}
+              <RefreshCw className="h-3 w-3 text-emerald-300" /> Reviewed {HELP_UPDATED}
             </span>
+            {video && (
+              <Link
+                to="/help/videos"
+                search={{ v: video.id }}
+                className="inline-flex min-h-[30px] items-center gap-1.5 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-2.5 py-1 text-[11px] font-semibold text-cyan-200 transition hover:border-cyan-300/50"
+              >
+                <PlayCircle className="h-3 w-3" /> Watch the walkthrough
+              </Link>
+            )}
           </div>
         </header>
 
-        <section className="rounded-[26px] border border-white/10 bg-white/[0.035] p-4 lg:p-5">
-          <p className="text-[12px] uppercase tracking-[0.2em] text-white/50">Step by step</p>
-          <ol className="mt-3 space-y-4">
-            {article.steps.map((step, index) => (
-              <li key={step.title} className="flex gap-3">
-                <span className="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-cyan-400/15 text-[11.5px] font-semibold text-cyan-300 ring-1 ring-cyan-400/30">
-                  {index + 1}
-                </span>
-                <div className="min-w-0">
-                  <p className="font-heading text-[13.5px] font-semibold leading-snug text-white">
-                    {step.title}
-                  </p>
-                  <p className="mt-1 text-[13px] leading-relaxed text-white/65">{step.detail}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </section>
-
-        {article.note && (
-          <section className="rounded-[26px] border border-amber-300/25 bg-amber-300/[0.06] p-4 lg:p-5">
-            <p className="flex items-center gap-1.5 font-heading text-[12.5px] font-semibold text-amber-200">
-              <AlertTriangle className="h-3.5 w-3.5" /> Important
-            </p>
-            <p className="mt-1.5 text-[12.5px] leading-relaxed text-white/70">{article.note}</p>
-          </section>
-        )}
-
-        {article.tips?.length > 0 && (
-          <section className="rounded-[26px] border border-white/10 bg-white/[0.035] p-4 lg:p-5">
-            <p className="text-[12px] uppercase tracking-[0.2em] text-white/50">Good to know</p>
-            <ul className="mt-2.5 space-y-2">
-              {article.tips.map((tip) => (
-                <li key={tip} className="flex gap-2 text-[13px] leading-relaxed text-white/65">
-                  <Check className="mt-0.5 h-3.5 w-3.5 shrink-0 text-emerald-300" /> {tip}
-                </li>
-              ))}
-            </ul>
-          </section>
-        )}
-
-        {article.issues?.length > 0 && (
-          <section className="rounded-[26px] border border-white/10 bg-white/[0.035] p-4 lg:p-5">
-            <p className="text-[12px] uppercase tracking-[0.2em] text-white/50">
-              If something goes wrong
-            </p>
-            <div className="mt-2.5 space-y-3">
-              {article.issues.map((issue) => (
-                <div key={issue.problem}>
-                  <p className="font-heading text-[13px] font-semibold text-white">{issue.problem}</p>
-                  <p className="mt-0.5 text-[13px] leading-relaxed text-white/65">{issue.fix}</p>
-                </div>
-              ))}
-            </div>
-          </section>
-        )}
+        <ArticleBody article={article} />
 
         <HelpfulVote />
 

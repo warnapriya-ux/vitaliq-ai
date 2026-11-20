@@ -21,7 +21,7 @@ export default function HelpfulVote() {
         </p>
         {vote === "no" && (
           <div className="mt-3 flex flex-wrap gap-2">
-            <Link to="/help/$articleId" params={{ articleId: "troubleshooting" }} className={ACTION}>
+            <Link to="/help/troubleshooting" className={ACTION}>
               Troubleshooting
             </Link>
             <Link to="/profile" className={ACTION}>
