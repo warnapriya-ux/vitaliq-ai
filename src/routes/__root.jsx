@@ -19,6 +19,22 @@ export const Route = createRootRoute({
         name: "description",
         content: "AI personal training, nutrition planning, body analysis and progress tracking in one health platform.",
       },
+      { name: "theme-color", content: "#0B132B" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
+      { name: "apple-mobile-web-app-title", content: "VITALIQ AI" },
+      { property: "og:type", content: "website" },
+      { property: "og:site_name", content: "VITALIQ AI" },
+      { property: "og:title", content: "VITALIQ AI — Your Intelligent Health & Fitness Companion" },
+      {
+        property: "og:description",
+        content: "AI personal training, nutrition planning, body analysis and progress tracking in one health platform.",
+      },
+      {
+        property: "og:image",
+        content: "https://media.base44.com/images/public/6afbd52c2f8bd7e10d10de9b/0cd105d8b_appicon.webp",
+      },
+      { name: "twitter:card", content: "summary_large_image" },
     ],
     // No icon link: the platform adds the app's logo when serving.
     links: [
