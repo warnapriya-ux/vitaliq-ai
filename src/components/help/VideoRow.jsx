@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { Play } from "lucide-react";
 import VideoTranscript from "@/components/help/VideoTranscript";
+import { clockLabel, timedVideo } from "@/lib/tutorialTiming";
 
 export default function VideoRow({ video, active, onSelect }) {
   const [open, setOpen] = useState(false);
+  const { total } = timedVideo(video);
 
   return (
     <div
@@ -34,7 +36,7 @@ export default function VideoRow({ video, active, onSelect }) {
             {video.description}
           </span>
           <span className="mt-1 block text-[10.5px] uppercase tracking-[0.14em] text-white/35">
-            {video.track} · {video.duration}
+            {video.track} · {clockLabel(total)}
           </span>
         </span>
       </button>

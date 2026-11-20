@@ -1,122 +1,127 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { voiceForScene } from "@/lib/tutorialVoices";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { BookOpen, Captions, Pause, Play, RotateCcw, SkipBack, SkipForward } from "lucide-react";
 import VideoStage from "@/components/help/VideoStage";
+import { voiceForScene } from "@/lib/tutorialVoices";
+import { clockLabel, sceneAt, timedVideo } from "@/lib/tutorialTiming";
 
 const SPEEDS = [1, 1.25, 1.5];
 
-function formatTime(value) {
-  const total = Math.max(0, Math.floor(value));
-  return `${Math.floor(total / 60)}:${String(total % 60).padStart(2, "0")}`;
-}
-
-/** A captioned walkthrough player: scenes, callouts, chapters and a transcript. */
+/**
+ * A narrated walkthrough player. The timeline is built from the narration itself,
+ * so the chapter, the transcript line and the spoken sentence always match.
+ */
 export default function VideoPlayer({ video, article }) {
+  const timed = useMemo(() => timedVideo(video), [video]);
+  const scenes = timed.scenes;
+  const total = timed.total;
+
+  const [elapsed, setElapsed] = useState(0);
   const [playing, setPlaying] = useState(false);
-  const [time, setTime] = useState(0);
   const [speedIndex, setSpeedIndex] = useState(0);
   const [captions, setCaptions] = useState(true);
 
-  useEffect(() => {
-    setPlaying(false);
-    setTime(0);
-  }, [video.id]);
+  const audioRef = useRef(null);
+  const loadedRef = useRef(0);
 
   const speed = SPEEDS[speedIndex];
-  const videoRef = useRef(null);
-  const audioRef = useRef(null);
+  const activeIndex = useMemo(() => sceneAt(scenes, elapsed), [scenes, elapsed]);
+  const scene = scenes[activeIndex];
 
-  const seekVideo = (next) => {
-    const el = videoRef.current;
-    if (!el || !el.duration) return;
-    el.currentTime = next % el.duration;
-  };
+  const loadScene = useCallback(
+    (index, offset = 0) => {
+      const audio = audioRef.current;
+      const position = Math.max(0, Math.min(scenes.length - 1, index));
+      const next = scenes[position];
+      if (!audio || !next) return;
+      const url = voiceForScene(next.id);
+      if (audio.dataset.scene !== next.id) {
+        audio.src = url;
+        audio.dataset.scene = next.id;
+      }
+      try {
+        audio.currentTime = Math.max(0, offset);
+      } catch {
+        // metadata still loading: the clip simply starts at zero
+      }
+      loadedRef.current = position;
+      setElapsed(next.start + Math.max(0, offset));
+    },
+    [scenes],
+  );
 
   useEffect(() => {
-    const el = videoRef.current;
-    if (!el) return;
-    if (playing) el.play().catch(() => {});
-    else el.pause();
-  }, [playing, video.id]);
+    const audio = audioRef.current;
+    setPlaying(false);
+    setElapsed(0);
+    loadedRef.current = 0;
+    if (audio) {
+      audio.pause();
+      audio.removeAttribute("src");
+      delete audio.dataset.scene;
+    }
+  }, [video.id]);
 
   useEffect(() => {
-    const el = videoRef.current;
-    if (el) el.playbackRate = speed;
     const audio = audioRef.current;
     if (audio) audio.playbackRate = speed;
   }, [speed, video.id]);
 
-  useEffect(() => {
-    if (!playing) return undefined;
-    const id = window.setInterval(() => {
-      setTime((previous) => {
-        const next = previous + 0.25 * speed;
-        if (next >= video.seconds) {
-          setPlaying(false);
-          return video.seconds;
-        }
-        return next;
-      });
-    }, 250);
-    return () => window.clearInterval(id);
-  }, [playing, speed, video.seconds]);
-
-  const activeIndex = useMemo(() => {
-    const index = video.scenes.findIndex((scene) => time >= scene.start && time < scene.end);
-    return index === -1 ? video.scenes.length - 1 : index;
-  }, [video.scenes, time]);
-
-  const scene = video.scenes[activeIndex];
-
-  // Each chapter has its own narration, so the voice always says exactly what
-  // the clip is showing at that moment.
-  const voiceUrl = voiceForScene(scene.id);
-
-  useEffect(() => {
-    const el = audioRef.current;
-    if (!el || !voiceUrl) return;
-    el.src = voiceUrl;
-    el.currentTime = 0;
-    if (playing) el.play().catch(() => {});
-  }, [voiceUrl]);
-
-  useEffect(() => {
-    const el = audioRef.current;
-    if (!el) return;
-    if (playing) el.play().catch(() => {});
-    else el.pause();
-  }, [playing, video.id]);
-
-  const toggle = () => {
-    if (time >= video.seconds) {
-      setTime(0);
-      seekVideo(0);
-      setPlaying(true);
-      return;
-    }
-    setPlaying((value) => !value);
+  const start = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    if (elapsed >= total - 0.1) loadScene(0, 0);
+    else loadScene(activeIndex, Math.max(0, elapsed - scene.start));
+    audio.play().catch(() => setPlaying(false));
+    setPlaying(true);
   };
 
+  const pause = () => {
+    audioRef.current?.pause();
+    setPlaying(false);
+  };
+
+  const toggle = () => (playing ? pause() : start());
+
   const jump = (index) => {
-    const clamped = Math.max(0, Math.min(video.scenes.length - 1, index));
-    setTime(video.scenes[clamped].start);
-    seekVideo(video.scenes[clamped].start);
+    loadScene(index, 0);
     const audio = audioRef.current;
-    if (audio) {
-      audio.currentTime = 0;
-      audio.play().catch(() => {});
-    }
+    if (!audio) return;
+    audio.play().catch(() => {});
     setPlaying(true);
+  };
+
+  const seek = (value) => {
+    const next = Math.max(0, Math.min(total, value));
+    const index = sceneAt(scenes, next);
+    loadScene(index, next - scenes[index].start);
+    if (playing) audioRef.current?.play().catch(() => {});
+  };
+
+  const handleTimeUpdate = (event) => {
+    const audio = event.currentTarget;
+    setElapsed(scenes[loadedRef.current].start + audio.currentTime);
+  };
+
+  const handleEnded = () => {
+    const next = loadedRef.current + 1;
+    if (next < scenes.length) {
+      loadScene(next, 0);
+      audioRef.current?.play().catch(() => setPlaying(false));
+      return;
+    }
+    setPlaying(false);
+    setElapsed(total);
   };
 
   return (
     <div className="space-y-3">
-      <audio ref={audioRef} preload="none" />
+      <audio ref={audioRef} preload="auto" onTimeUpdate={handleTimeUpdate} onEnded={handleEnded} />
+
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div className="min-w-0">
           <p className="text-[11px] uppercase tracking-[0.18em] text-cyan-300/80">
-            Video {video.number} · {video.track} · {video.duration}
+            Video {video.number} · {video.track} · {clockLabel(total)}
           </p>
           <h2 className="mt-1 font-heading text-[19px] font-semibold leading-tight text-white lg:text-[22px]">
             {video.title}
@@ -138,17 +143,18 @@ export default function VideoPlayer({ video, article }) {
 
       <VideoStage
         video={video}
+        scenes={scenes}
         scene={scene}
+        activeIndex={activeIndex}
         playing={playing}
         captions={captions}
         onToggle={toggle}
-        videoRef={videoRef}
       />
 
       <div className="h-1 w-full overflow-hidden rounded-full bg-white/10">
         <div
           className="h-full rounded-full bg-cyan-400"
-          style={{ width: `${Math.min(100, (time / video.seconds) * 100)}%` }}
+          style={{ width: `${Math.min(100, (elapsed / total) * 100)}%` }}
         />
       </div>
 
@@ -156,7 +162,7 @@ export default function VideoPlayer({ video, article }) {
         <button
           type="button"
           onClick={() => jump(activeIndex - 1)}
-          aria-label="Previous scene"
+          aria-label="Previous chapter"
           className="grid h-9 w-9 place-items-center rounded-full text-white/60 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60"
         >
           <SkipBack className="h-4 w-4" />
@@ -172,25 +178,21 @@ export default function VideoPlayer({ video, article }) {
         <button
           type="button"
           onClick={() => jump(activeIndex + 1)}
-          aria-label="Next scene"
+          aria-label="Next chapter"
           className="grid h-9 w-9 place-items-center rounded-full text-white/60 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60"
         >
           <SkipForward className="h-4 w-4" />
         </button>
         <span className="text-[11px] tabular-nums text-white/50">
-          {formatTime(time)} / {video.duration}
+          {clockLabel(elapsed)} / {clockLabel(total)}
         </span>
         <input
           type="range"
           min={0}
-          max={video.seconds}
-          step={0.5}
-          value={Math.min(time, video.seconds)}
-          onChange={(event) => {
-            const next = Number(event.target.value);
-            setTime(next);
-            seekVideo(next);
-          }}
+          max={total}
+          step={0.1}
+          value={Math.min(elapsed, total)}
+          onChange={(event) => seek(Number(event.target.value))}
           aria-label="Seek"
           className="h-1.5 min-w-[90px] flex-1 cursor-pointer appearance-none rounded-full bg-white/15 accent-cyan-400"
         />
@@ -215,9 +217,8 @@ export default function VideoPlayer({ video, article }) {
         <button
           type="button"
           onClick={() => {
-            setTime(0);
-            seekVideo(0);
-            setPlaying(false);
+            pause();
+            loadScene(0, 0);
           }}
           aria-label="Restart"
           className="grid h-8 w-8 place-items-center rounded-full text-white/45 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60"
@@ -230,7 +231,7 @@ export default function VideoPlayer({ video, article }) {
         <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-3">
           <p className="text-[11px] uppercase tracking-[0.16em] text-white/45">Chapters</p>
           <div className="mt-2 space-y-1">
-            {video.scenes.map((item, index) => (
+            {scenes.map((item, index) => (
               <button
                 key={item.id}
                 type="button"
@@ -240,7 +241,7 @@ export default function VideoPlayer({ video, article }) {
                 }`}
               >
                 <span className="w-8 shrink-0 text-[10.5px] tabular-nums text-white/40">
-                  {formatTime(item.start)}
+                  {clockLabel(item.start)}
                 </span>
                 <span className="truncate text-[12px] font-medium">{item.title}</span>
               </button>
@@ -251,7 +252,7 @@ export default function VideoPlayer({ video, article }) {
         <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-3">
           <p className="text-[11px] uppercase tracking-[0.16em] text-white/45">Transcript</p>
           <div className="mt-2 space-y-2">
-            {video.scenes.map((item, index) => (
+            {scenes.map((item, index) => (
               <p
                 key={item.id}
                 className={`text-[12px] leading-relaxed ${
@@ -259,7 +260,7 @@ export default function VideoPlayer({ video, article }) {
                 }`}
               >
                 <span className="mr-1.5 text-[10.5px] tabular-nums text-cyan-300/70">
-                  {formatTime(item.start)}
+                  {clockLabel(item.start)}
                 </span>
                 {item.transcript}
               </p>

@@ -1,42 +1,17 @@
 import { Play } from "lucide-react";
-import { Image } from "@/components/ui/image";
-import { BRAND_LOGO } from "@/lib/brand";
-import VideoFrame from "@/components/help/VideoFrame";
-
-const PIN_POSITIONS = [
-  { top: "24%", left: "20%" },
-  { top: "46%", left: "56%" },
-  { top: "64%", left: "32%" },
-  { top: "34%", left: "76%" },
-];
+import AppScreen from "@/components/help/AppScreen";
+import { screenForVideo } from "@/lib/tutorialScreens";
 
 /**
- * The visual stage for a tutorial scene: a schematic of the VITALIQ app with
- * numbered callouts, so each scene shows where the action happens. Tapping the
- * stage starts or pauses the walkthrough, like any video player.
+ * The walkthrough stage: the real VITALIQ mobile screen for the current chapter,
+ * with the chapter it belongs to beside it. Tapping the stage plays or pauses.
  */
-export default function VideoStage({ video, scene, playing, captions, onToggle, videoRef }) {
-  if (video.videoUrl) {
-    return (
-      <VideoFrame
-        video={video}
-        scene={scene}
-        playing={playing}
-        captions={captions}
-        onToggle={onToggle}
-        videoRef={videoRef}
-      />
-    );
-  }
-
-  const activeIndex = Math.max(
-    0,
-    video.scenes.findIndex((item) => item.id === scene?.id),
-  );
+export default function VideoStage({ video, scenes, scene, activeIndex, playing, captions, onToggle }) {
+  const screen = screenForVideo(video.id);
 
   return (
     <div className="group relative overflow-hidden rounded-[22px] border border-white/10 bg-[#060b14]">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_100%_at_15%_0%,rgba(34,211,238,0.16),transparent_58%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(120%_100%_at_20%_0%,rgba(34,211,238,0.16),transparent_58%)]" />
 
       <div className="relative flex items-center justify-between gap-2 border-b border-white/[0.07] px-3 py-2">
         <div className="flex items-center gap-1.5">
@@ -45,7 +20,7 @@ export default function VideoStage({ video, scene, playing, captions, onToggle, 
           <span className="h-1.5 w-1.5 rounded-full bg-emerald-400/70" />
         </div>
         <p className="truncate text-[10.5px] uppercase tracking-[0.18em] text-white/35">
-          vitaliqai.net · walkthrough
+          VITALIQ AI · app walkthrough
         </p>
         <span
           className={`flex items-center gap-1 text-[10px] font-semibold uppercase tracking-[0.14em] ${
@@ -60,73 +35,44 @@ export default function VideoStage({ video, scene, playing, captions, onToggle, 
       </div>
 
       <div className="relative aspect-[16/9] w-full">
-        <div className="absolute inset-0 flex flex-col gap-2.5 p-4 sm:p-6">
-          <div className="flex items-center gap-2">
-            <Image
-              src={BRAND_LOGO}
-              alt=""
-              className="h-6 w-6 shrink-0 overflow-hidden rounded-lg ring-1 ring-white/10"
-            />
-            <span className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/45">
-              VITALIQ AI
-            </span>
-            <span className="ml-auto rounded-full border border-white/10 px-2 py-0.5 text-[9.5px] uppercase tracking-[0.12em] text-white/35">
-              {scene?.title}
-            </span>
-          </div>
+        <div className="absolute inset-0 flex items-center justify-center gap-5 px-4 py-3 sm:gap-8 sm:px-6">
+          <AppScreen screen={screen} activeIndex={activeIndex} playing={playing} />
 
-          <div className="grid flex-1 grid-cols-3 gap-2">
-            <div className="col-span-2 space-y-2">
-              <div className="h-2/5 rounded-xl border border-white/10 bg-white/[0.05]" />
-              <div className="grid grid-cols-3 gap-2">
-                <div
-                  className={`h-full rounded-xl border border-cyan-400/20 bg-cyan-400/[0.07] ${
-                    playing ? "animate-pulse" : ""
+          <div className="hidden min-w-0 flex-1 flex-col justify-center gap-2.5 sm:flex">
+            <p className="text-[10.5px] uppercase tracking-[0.18em] text-cyan-300/70">
+              Chapter {activeIndex + 1} of {scenes.length}
+            </p>
+            <h3 className="font-heading text-[15px] font-semibold leading-snug text-white">
+              {scene?.title}
+            </h3>
+            <p className="flex items-start gap-1.5 text-[12px] leading-relaxed text-white/60">
+              <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-cyan-400/80" />
+              {scene?.action}
+            </p>
+            {captions && scene && (
+              <p
+                key={scene.id}
+                className="animate-in fade-in slide-in-from-bottom-1 rounded-xl border border-white/10 bg-white/[0.05] px-2.5 py-2 text-[11.5px] leading-relaxed text-white/85 duration-500"
+              >
+                {scene.caption}
+              </p>
+            )}
+            <div className="flex items-center gap-1 pt-0.5">
+              {scenes.map((item, index) => (
+                <span
+                  key={item.id}
+                  className={`h-1 rounded-full transition-all ${
+                    index === activeIndex ? "w-6 bg-cyan-400" : "w-2.5 bg-white/15"
                   }`}
                 />
-                <div className="h-full rounded-xl border border-white/10 bg-white/[0.04]" />
-                <div className="h-full rounded-xl border border-white/10 bg-white/[0.04]" />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <div className="h-1/3 rounded-xl border border-white/10 bg-white/[0.04]" />
-              <div className="h-1/3 rounded-xl border border-white/10 bg-white/[0.04]" />
-              <div className="h-1/4 rounded-xl border border-white/10 bg-white/[0.03]" />
+              ))}
             </div>
           </div>
         </div>
 
-        {video.scenes.map((item, index) => {
-          const active = index === activeIndex;
-          const position = PIN_POSITIONS[index % PIN_POSITIONS.length];
-          return (
-            <div key={item.id} className="absolute" style={position}>
-              <span className="relative grid h-6 w-6 place-items-center">
-                {active && playing && (
-                  <span className="absolute inset-0 animate-ping rounded-full bg-cyan-400/40" />
-                )}
-                <span
-                  className={`relative grid h-6 w-6 place-items-center rounded-full text-[10.5px] font-bold transition ${
-                    active
-                      ? "scale-110 bg-cyan-400 text-slate-950 shadow-[0_0_0_4px_rgba(34,211,238,0.25)]"
-                      : "bg-white/10 text-white/45 ring-1 ring-white/15"
-                  }`}
-                >
-                  {index + 1}
-                </span>
-              </span>
-              {active && (
-                <span className="absolute left-7 top-0 hidden whitespace-nowrap rounded-full border border-cyan-400/30 bg-[#061019]/95 px-2 py-1 text-[10px] font-medium text-cyan-200 sm:block">
-                  {item.action}
-                </span>
-              )}
-            </div>
-          );
-        })}
-
         {captions && scene && (
-          <div key={scene.id} className="absolute inset-x-3 bottom-3 sm:inset-x-6 sm:bottom-5">
-            <p className="animate-in fade-in slide-in-from-bottom-1 rounded-xl bg-black/70 px-3 py-2 text-center text-[11.5px] leading-snug text-white/90 backdrop-blur-sm duration-500 sm:text-[13px]">
+          <div className="absolute inset-x-3 bottom-2 sm:hidden">
+            <p className="rounded-xl bg-black/70 px-3 py-1.5 text-center text-[11px] leading-snug text-white/90 backdrop-blur-sm">
               {scene.caption}
             </p>
           </div>

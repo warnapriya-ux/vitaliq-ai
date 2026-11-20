@@ -1,4 +1,5 @@
 import { LifeBuoy, PlayCircle, Rocket, ShieldCheck, Sparkles, Users } from "lucide-react";
+import { clockLabel, timedVideo } from "@/lib/tutorialTiming";
 
 /**
  * Help Centre content, ported from the VITALIQ AI help centre specification:
@@ -1369,7 +1370,7 @@ export function searchHelp(query) {
         id: video.id,
         title: video.title,
         summary: video.description,
-        meta: `Video ${video.number} · ${video.duration}`,
+        meta: `Video ${video.number} · ${clockLabel(timedVideo(video).total)}`,
       });
     }
   }
