@@ -86,7 +86,20 @@ export default function VideoPlayer({ video, article }) {
         )}
       </div>
 
-      <VideoStage video={video} scene={scene} playing={playing} captions={captions} />
+      <VideoStage
+        video={video}
+        scene={scene}
+        playing={playing}
+        captions={captions}
+        onToggle={toggle}
+      />
+
+      <div className="h-1 w-full overflow-hidden rounded-full bg-white/10">
+        <div
+          className="h-full rounded-full bg-cyan-400"
+          style={{ width: `${Math.min(100, (time / video.seconds) * 100)}%` }}
+        />
+      </div>
 
       <div className="flex flex-wrap items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.035] px-2.5 py-2">
         <button
