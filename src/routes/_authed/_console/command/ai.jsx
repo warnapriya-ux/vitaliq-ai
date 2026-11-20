@@ -4,6 +4,7 @@ import { Activity, Apple, Brain, Dumbbell, HeartPulse, Sparkles, Target, Trendin
 import { toast } from "sonner";
 import { base44 } from "@/api/base44Client";
 import Panel from "@/components/console/Panel";
+import SubPageHeader from "@/components/vitaliq/SubPageHeader";
 import StatusPill, { statusTone } from "@/components/console/StatusPill";
 import { Button } from "@/components/ui/button";
 import { formatDate } from "@/lib/health";
@@ -55,6 +56,9 @@ function AiPage() {
 
   return (
     <div className="space-y-5">
+      <div className="lg:hidden">
+        <SubPageHeader subtitle="Super admin" title="AI engine" to="/command" />
+      </div>
       <header>
         <p className="text-[10px] uppercase tracking-[0.3em] text-white/30">Super admin</p>
         <h1 className="mt-1.5 font-heading text-2xl font-semibold text-white">AI engine</h1>

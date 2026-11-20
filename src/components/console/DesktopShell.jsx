@@ -24,7 +24,7 @@ function NavLink({ item }) {
       to={item.to}
       activeOptions={{ exact: !!item.exact }}
       activeProps={{ className: "bg-white/[0.08] text-white ring-1 ring-cyan-400/25" }}
-      className="flex items-center justify-center gap-2.5 rounded-xl px-3 py-2 text-[13px] text-white/50 transition hover:bg-white/5 hover:text-white sm:justify-start"
+      className="flex min-h-[44px] items-center justify-center gap-2.5 rounded-xl px-3 py-2 text-[13px] text-white/65 transition hover:bg-white/5 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 sm:justify-start"
     >
       <item.icon className="h-4 w-4 shrink-0" />
       <span className="hidden sm:inline">{item.label}</span>
@@ -33,12 +33,13 @@ function NavLink({ item }) {
 }
 
 export default function DesktopShell({ children }) {
+  // The console is designed dark: keep the dark token set here regardless of device preference.
   const { user } = useAuth();
   const isAdmin = user?.role === "admin";
   const location = useLocation();
 
   return (
-    <div className="min-h-screen">
+    <div className="dark min-h-screen">
       <aside className="fixed left-0 top-0 z-30 flex h-screen w-[72px] flex-col border-r border-white/10 bg-[#070b13]/80 px-2 py-6 backdrop-blur-xl sm:w-64 sm:px-4">
         <div className="flex items-center justify-center gap-2.5 px-1 sm:justify-start sm:px-2">
           <Image
@@ -48,13 +49,13 @@ export default function DesktopShell({ children }) {
           />
           <div className="hidden sm:block">
             <p className="font-heading text-[13px] font-semibold tracking-[0.16em] text-white">VITALIQ</p>
-            <p className="text-[10px] uppercase tracking-[0.2em] text-white/30">{isAdmin ? "Command" : "Professional"}</p>
+            <p className="text-[12px] uppercase tracking-[0.2em] text-white/60">{isAdmin ? "Command" : "Professional"}</p>
           </div>
         </div>
 
         <div className="mt-7 flex-1 space-y-6 overflow-y-auto no-scrollbar">
           <div>
-            <p className="hidden px-3 text-[9px] uppercase tracking-[0.22em] text-white/25 sm:block">Professional portal</p>
+            <p className="hidden px-3 text-[11px] uppercase tracking-[0.22em] text-white/55 sm:block">Professional portal</p>
             <nav className="mt-2 space-y-1">
               {PRO_NAV.map((item) => (
                 <NavLink key={item.to} item={item} />
@@ -63,7 +64,7 @@ export default function DesktopShell({ children }) {
           </div>
           {isAdmin && (
             <div>
-              <p className="hidden px-3 text-[9px] uppercase tracking-[0.22em] text-white/25 sm:block">Command</p>
+              <p className="hidden px-3 text-[11px] uppercase tracking-[0.22em] text-white/55 sm:block">Command</p>
               <nav className="mt-2 space-y-1">
                 {ADMIN_NAV.map((item) => (
                   <NavLink key={item.to} item={item} />

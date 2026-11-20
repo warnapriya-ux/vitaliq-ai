@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { base44 } from "@/api/base44Client";
 import PageTitle from "@/components/vitaliq/PageTitle";
 import GlassCard from "@/components/vitaliq/GlassCard";
+import PullToRefresh from "@/components/vitaliq/PullToRefresh";
 import ProfileForm from "@/components/vitaliq/ProfileForm";
 import MeasurementDialog from "@/components/vitaliq/MeasurementDialog";
 import DeleteAccountDialog from "@/components/vitaliq/DeleteAccountDialog";
@@ -41,6 +42,7 @@ function ProfilePage() {
     } catch (error) {
       console.error(error);
       toast.error("Could not save your profile.");
+      throw error;
     } finally {
       setSaving(false);
     }
@@ -50,6 +52,7 @@ function ProfilePage() {
   const index = bmi(latest?.weight ?? profile?.current_weight, profile?.height_cm);
 
   return (
+    <PullToRefresh onRefresh={reload}>
     <div className="space-y-4">
       <PageTitle eyebrow="Your account" title="Profile" />
 
@@ -184,5 +187,6 @@ function ProfilePage() {
 
       <DeleteAccountDialog />
     </div>
+    </PullToRefresh>
   );
 }

@@ -5,7 +5,8 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
+  :root,
+  .dark {
     color-scheme: dark;
     --background: 225 55% 8%;
     --foreground: 210 40% 98%;
@@ -140,4 +141,56 @@
   }
 }
 
-/* VITALIQ is a dark-first product: the palette above is the only theme. */
+/* VITALIQ is dark-first: the palette above is the default, and the app frame opts into it
+   with the `dark` class. Screens built from tokens (auth, dialogs, forms) follow the device
+   preference, so a phone set to light mode still gets readable contrast. */
+@media (prefers-color-scheme: light) {
+  :root:not(.dark) {
+    color-scheme: light;
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 187 92% 33%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 26 92% 44%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 210 40% 94%;
+    --muted-foreground: 215 28% 33%;
+    --accent: 210 40% 92%;
+    --accent-foreground: 222 47% 11%;
+    --destructive: 0 72% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 158 74% 30%;
+    --success-foreground: 0 0% 100%;
+    --border: 214 32% 84%;
+    --input: 214 32% 84%;
+    --ring: 187 92% 33%;
+    --chart-1: 187 92% 33%;
+    --chart-2: 26 92% 44%;
+    --chart-3: 158 74% 30%;
+    --chart-4: 215 28% 33%;
+    --chart-5: 222 70% 45%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222 40% 22%;
+    --sidebar-primary: 187 92% 33%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 40% 94%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 214 32% 84%;
+    --sidebar-ring: 187 92% 33%;
+  }
+
+  :root:not(.dark) body {
+    background-image: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(210 40% 96%) 45%, hsl(212 34% 92%) 100%);
+  }
+
+  :root:not(.dark) .glass,
+  :root:not(.dark) .glass-solid {
+    background-color: rgba(255, 255, 255, 0.86);
+    border-color: rgba(15, 23, 42, 0.10);
+    box-shadow: 0 24px 70px -48px rgba(15, 23, 42, 0.45);
+  }
+}

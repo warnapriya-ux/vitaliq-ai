@@ -5,6 +5,7 @@ import { Bar, BarChart, CartesianGrid, Line, LineChart, ResponsiveContainer, Too
 import { Loader2, Sparkles, TrendingDown } from "lucide-react";
 import PageTitle from "@/components/vitaliq/PageTitle";
 import GlassCard from "@/components/vitaliq/GlassCard";
+import PullToRefresh from "@/components/vitaliq/PullToRefresh";
 import WeightBodyFatChart from "@/components/vitaliq/WeightBodyFatChart";
 import { useVitaliq } from "@/hooks/useVitaliq";
 import { askCoach as askCoachFn } from "@/lib/server-fns";
@@ -24,7 +25,7 @@ const tooltipStyle = {
 };
 
 function InsightsPage() {
-  const { profile, measurements, logs } = useVitaliq();
+  const { profile, measurements, logs, reload } = useVitaliq();
   const askCoach = useServerFn(askCoachFn);
   const [insight, setInsight] = useState("");
   const [busy, setBusy] = useState(false);
@@ -59,6 +60,7 @@ function InsightsPage() {
   }
 
   return (
+    <PullToRefresh onRefresh={reload}>
     <div className="space-y-4">
       <PageTitle eyebrow="Vitaliq Insights" title="Your progress" />
 
@@ -164,5 +166,6 @@ function InsightsPage() {
         </p>
       </GlassCard>
     </div>
+    </PullToRefresh>
   );
 }

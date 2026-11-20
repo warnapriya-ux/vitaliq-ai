@@ -3,7 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Check, Crown, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { base44 } from "@/api/base44Client";
-import PageTitle from "@/components/vitaliq/PageTitle";
+import SubPageHeader from "@/components/vitaliq/SubPageHeader";
 import { useVitaliq } from "@/hooks/useVitaliq";
 import { PLAN_TIERS, formatDate, todayISO } from "@/lib/health";
 import { CYCLES, addMonthsISO, amountFor, cycleNoun, monthsFor, perMonth } from "@/lib/pricing";
@@ -69,7 +69,7 @@ function PlansPage() {
 
   return (
     <div className="space-y-4">
-      <PageTitle eyebrow="Membership" title="Choose your programme" />
+      <SubPageHeader subtitle="Membership" title="Choose your programme" to="/profile" />
       <p className="-mt-2 text-xs leading-relaxed text-white/45">
         Every plan includes the AI health advisor. Higher tiers add personalised plans and human professionals.
       </p>

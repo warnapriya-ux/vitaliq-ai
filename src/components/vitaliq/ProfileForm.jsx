@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -8,7 +8,7 @@ import SelectSheet from "@/components/vitaliq/SelectSheet";
 function Field({ label, children }) {
   return (
     <div className="space-y-1.5">
-      <Label className="text-[11px] uppercase tracking-[0.14em] text-white/45">{label}</Label>
+      <Label className="text-[12px] uppercase tracking-[0.14em] text-white/60">{label}</Label>
       {children}
     </div>
   );
@@ -38,14 +38,23 @@ export default function ProfileForm({ initial = {}, onSubmit, saving, submitLabe
   const set = (key) => (event) => setForm((f) => ({ ...f, [key]: event.target.value }));
   const setValue = (key) => (value) => setForm((f) => ({ ...f, [key]: value }));
 
-  function submit(event) {
+  // The last values the server accepted; a failed save rolls the form back to them.
+  const confirmed = useRef(initial);
+
+  async function submit(event) {
     event.preventDefault();
-    onSubmit({
+    const values = {
       ...form,
       height_cm: Number(form.height_cm) || null,
       current_weight: Number(form.current_weight) || null,
       target_weight: Number(form.target_weight) || null,
-    });
+    };
+    try {
+      await onSubmit(values);
+      confirmed.current = values;
+    } catch {
+      setForm((current) => ({ ...current, ...confirmed.current }));
+    }
   }
 
   return (
@@ -164,7 +173,7 @@ export default function ProfileForm({ initial = {}, onSubmit, saving, submitLabe
           value={form.conditions ?? ""}
           onChange={set("conditions")}
           placeholder="Injuries, medical conditions, allergies, pregnancy…"
-          className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2.5 text-sm text-white placeholder:text-white/25 focus:border-cyan-400/60 focus:outline-none"
+          className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-3 py-2.5 text-sm text-white placeholder:text-white/45 focus:border-cyan-400/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60"
         />
       </Field>
       <Button

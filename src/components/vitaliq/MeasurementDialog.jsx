@@ -17,24 +17,29 @@ export default function MeasurementDialog({ profile, onSaved }) {
 
   async function save() {
     if (!profile) return;
+    const entry = {
+      profile_id: profile.id,
+      measured_on: form.measured_on,
+      weight: Number(form.weight) || null,
+      waist: Number(form.waist) || null,
+      body_fat: Number(form.body_fat) || null,
+    };
+    const draft = { ...form };
+    // Optimistic: close straight away, and only reopen if the write fails.
+    setOpen(false);
+    setForm({ measured_on: todayISO(), weight: "", waist: "", body_fat: "" });
     setSaving(true);
     try {
-      await base44.entities.Measurement.create({
-        profile_id: profile.id,
-        measured_on: form.measured_on,
-        weight: Number(form.weight) || null,
-        waist: Number(form.waist) || null,
-        body_fat: Number(form.body_fat) || null,
-      });
-      if (Number(form.weight)) {
-        await base44.entities.HealthProfile.update(profile.id, { current_weight: Number(form.weight) });
+      await base44.entities.Measurement.create(entry);
+      if (entry.weight) {
+        await base44.entities.HealthProfile.update(profile.id, { current_weight: entry.weight });
       }
-      setOpen(false);
-      setForm({ measured_on: todayISO(), weight: "", waist: "", body_fat: "" });
       await onSaved?.();
       toast.success("Measurement saved");
     } catch (error) {
       console.error(error);
+      setForm(draft);
+      setOpen(true);
       toast.error("Could not save the measurement.");
     } finally {
       setSaving(false);
@@ -44,7 +49,7 @@ export default function MeasurementDialog({ profile, onSaved }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="ghost" size="sm" className="gap-1.5 rounded-full text-[11px] text-cyan-300 hover:bg-white/5">
+        <Button variant="ghost" size="sm" className="gap-1.5 rounded-full text-[12px] text-cyan-300 hover:bg-white/5">
           <Plus className="h-3.5 w-3.5" /> Add
         </Button>
       </DialogTrigger>
@@ -54,20 +59,20 @@ export default function MeasurementDialog({ profile, onSaved }) {
         </DialogHeader>
         <div className="space-y-3">
           <div className="space-y-1.5">
-            <Label className="text-[11px] uppercase tracking-wide text-white/45">Date</Label>
+            <Label className="text-[12px] uppercase tracking-wide text-white/60">Date</Label>
             <Input type="date" value={form.measured_on} onChange={set("measured_on")} />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-1.5">
-              <Label className="text-[11px] uppercase tracking-wide text-white/45">Weight (kg)</Label>
+              <Label className="text-[12px] uppercase tracking-wide text-white/60">Weight (kg)</Label>
               <Input type="number" step="0.1" value={form.weight} onChange={set("weight")} placeholder="72.4" />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-[11px] uppercase tracking-wide text-white/45">Waist (cm)</Label>
+              <Label className="text-[12px] uppercase tracking-wide text-white/60">Waist (cm)</Label>
               <Input type="number" step="0.1" value={form.waist} onChange={set("waist")} placeholder="92" />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-[11px] uppercase tracking-wide text-white/45">Body fat (%)</Label>
+              <Label className="text-[12px] uppercase tracking-wide text-white/60">Body fat (%)</Label>
               <Input type="number" step="0.1" value={form.body_fat} onChange={set("body_fat")} placeholder="30.6" />
             </div>
           </div>

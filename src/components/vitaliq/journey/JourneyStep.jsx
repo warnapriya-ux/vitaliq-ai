@@ -36,13 +36,13 @@ export default function JourneyStep({ index, icon: Icon, title, detail, state, t
         <div className="min-w-0 flex-1">
           <div className="flex items-center justify-between gap-2">
             <p className="font-heading text-[13.5px] font-semibold text-white">{title}</p>
-            <span className={cn("shrink-0 rounded-full border px-2 py-0.5 text-[9px] font-medium uppercase tracking-[0.12em]", s.chip)}>
+            <span className={cn("shrink-0 rounded-full border px-2 py-0.5 text-[11px] font-medium uppercase tracking-[0.1em]", s.chip)}>
               {s.label}
             </span>
           </div>
-          <p className="mt-1 text-[11px] leading-relaxed text-white/50">{detail}</p>
+          <p className="mt-1 text-[12.5px] leading-relaxed text-white/65">{detail}</p>
         </div>
-        {to && <ChevronRight className="mt-2.5 h-4 w-4 shrink-0 text-white/25" />}
+        {to && <ChevronRight className="mt-2.5 h-4 w-4 shrink-0 text-white/50" />}
       </div>
     </GlassCard>
   );

@@ -4,6 +4,7 @@ import { ArrowLeft, Check, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { base44 } from "@/api/base44Client";
 import Panel from "@/components/console/Panel";
+import SubPageHeader from "@/components/vitaliq/SubPageHeader";
 import StatusPill, { statusTone } from "@/components/console/StatusPill";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -97,7 +98,10 @@ function ClientCasePage() {
 
   return (
     <div className="space-y-5">
-      <Link to="/console" className="inline-flex items-center gap-1.5 text-[11px] text-white/40 hover:text-white">
+      <div className="lg:hidden">
+        <SubPageHeader subtitle="Professional portal" title="Client case" to="/console" />
+      </div>
+      <Link to="/console" className="hidden items-center gap-1.5 text-[11px] text-white/40 hover:text-white lg:inline-flex">
         <ArrowLeft className="h-3.5 w-3.5" /> All clients
       </Link>
 

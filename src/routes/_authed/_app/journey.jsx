@@ -9,7 +9,7 @@ import {
   Stethoscope,
   UserPlus,
 } from "lucide-react";
-import PageTitle from "@/components/vitaliq/PageTitle";
+import SubPageHeader from "@/components/vitaliq/SubPageHeader";
 import JourneyProgress from "@/components/vitaliq/journey/JourneyProgress";
 import JourneyStep from "@/components/vitaliq/journey/JourneyStep";
 import { useVitaliq } from "@/hooks/useVitaliq";
@@ -90,7 +90,7 @@ function JourneyPage() {
 
   return (
     <div className="space-y-4">
-      <PageTitle eyebrow="How VITALIQ works" title="Your journey" />
+      <SubPageHeader subtitle="How VITALIQ works" title="Your journey" to="/" />
       <JourneyProgress done={done} total={stages.length} />
 
       <div className="space-y-2">

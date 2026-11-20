@@ -6,6 +6,7 @@ import { toast } from "sonner";
 import { base44 } from "@/api/base44Client";
 import PageTitle from "@/components/vitaliq/PageTitle";
 import GlassCard from "@/components/vitaliq/GlassCard";
+import PullToRefresh from "@/components/vitaliq/PullToRefresh";
 import { useVitaliq } from "@/hooks/useVitaliq";
 import { generateHealthPlan } from "@/lib/server-fns";
 import { planItems, profileSummary, todayISO } from "@/lib/health";
@@ -111,6 +112,7 @@ function NutritionPage() {
   }
 
   return (
+    <PullToRefresh onRefresh={reload}>
     <div className="space-y-4">
       <PageTitle eyebrow="Vitaliq Nutrition" title="Today's nutrition" />
 
@@ -168,9 +170,9 @@ function NutritionPage() {
                   <span className="flex-1">
                     <span className="flex items-baseline justify-between gap-2">
                       <span className="text-[13px] font-semibold text-white">{item.label}</span>
-                      <span className="text-[10px] text-white/35">{item.meta}</span>
+                      <span className="text-[12px] text-white/60">{item.meta}</span>
                     </span>
-                    <span className="mt-0.5 block text-[11px] leading-relaxed text-white/50">{item.detail}</span>
+                    <span className="mt-0.5 block text-[13px] leading-relaxed text-white/65">{item.detail}</span>
                   </span>
                 </button>
               </li>
@@ -187,7 +189,12 @@ function NutritionPage() {
           <p className="font-heading text-sm text-white">{Number(log?.water_l ?? 0).toFixed(2)} L</p>
         </div>
         <div className="mt-3 flex items-center gap-2">
-          <button type="button" onClick={() => addWater(-0.25)} className="h-11 w-11 rounded-full border border-white/10 text-white/60">
+          <button
+            type="button"
+            onClick={() => addWater(-0.25)}
+            aria-label="Remove a glass of water"
+            className="grid h-11 w-11 place-items-center rounded-full border border-white/10 text-white/70 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60"
+          >
             −
           </button>
           <div className="h-2 flex-1 overflow-hidden rounded-full bg-white/10">
@@ -196,11 +203,16 @@ function NutritionPage() {
               style={{ width: `${Math.min(100, ((log?.water_l ?? 0) / 3) * 100)}%` }}
             />
           </div>
-          <button type="button" onClick={() => addWater(0.25)} className="h-11 w-11 rounded-full border border-white/10 text-white/60">
+          <button
+            type="button"
+            onClick={() => addWater(0.25)}
+            aria-label="Add a glass of water"
+            className="grid h-11 w-11 place-items-center rounded-full border border-white/10 text-white/70 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60"
+          >
             +
           </button>
         </div>
-        <p className="mt-2 text-[10px] text-white/35">Goal 3 L · adherence today {log?.diet_adherence ?? 0}%</p>
+        <p className="mt-2 text-[12px] text-white/60">Goal 3 L · adherence today {log?.diet_adherence ?? 0}%</p>
       </GlassCard>
 
       <button
@@ -213,5 +225,6 @@ function NutritionPage() {
         Request a dietitian review
       </button>
     </div>
+    </PullToRefresh>
   );
 }

@@ -4,6 +4,7 @@ import { Bar, BarChart, CartesianGrid, Cell, ResponsiveContainer, Tooltip, XAxis
 import { ArrowRight } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import Panel from "@/components/console/Panel";
+import SubPageHeader from "@/components/vitaliq/SubPageHeader";
 import Kpi from "@/components/console/Kpi";
 import StatusPill, { statusTone } from "@/components/console/StatusPill";
 import { formatDate } from "@/lib/health";
@@ -51,6 +52,9 @@ function CommandOverview() {
 
   return (
     <div className="space-y-6">
+      <div className="lg:hidden">
+        <SubPageHeader subtitle="Super admin" title="Platform overview" to="/" />
+      </div>
       <header>
         <p className="text-[10px] uppercase tracking-[0.3em] text-white/30">Super admin</p>
         <h1 className="mt-1.5 font-heading text-2xl font-semibold text-white">Platform overview</h1>

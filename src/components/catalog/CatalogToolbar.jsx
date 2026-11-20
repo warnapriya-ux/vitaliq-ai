@@ -17,8 +17,8 @@ function Segmented({ items, value, onChange }) {
           type="button"
           onClick={() => onChange(id)}
           className={cn(
-            "inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] transition",
-            value === id ? "bg-cyan-400 text-[#04121a]" : "text-white/50 hover:text-white",
+            "inline-flex min-h-[44px] items-center gap-1.5 rounded-full px-3 py-1.5 text-[12px] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60",
+            value === id ? "bg-cyan-400 text-[#04121a]" : "text-white/60 hover:text-white",
           )}
         >
           {Icon ? <Icon className="h-3.5 w-3.5" /> : null}
@@ -34,21 +34,21 @@ export default function CatalogToolbar({ search, onSearch, level, onLevel, view,
     <div className="space-y-4">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="text-[10px] uppercase tracking-[0.2em] text-cyan-300/70">Exercise catalog · All categories</p>
+          <p className="text-[12px] uppercase tracking-[0.2em] text-cyan-300/80">Exercise catalog · All categories</p>
           <h1 className="mt-1.5 font-heading text-2xl font-semibold leading-tight text-white sm:text-[30px]">
             Master exercise &amp; media index
           </h1>
         </div>
         <div className="flex gap-6">
           <div>
-            <p className="text-[10px] uppercase tracking-[0.14em] text-white/35">Matching</p>
+            <p className="text-[12px] uppercase tracking-[0.14em] text-white/60">Matching</p>
             <p className="font-heading text-lg font-semibold text-white tabular-nums">
               {total}
               <span className="text-white/30"> / {EXERCISES.length}</span>
             </p>
           </div>
           <div>
-            <p className="text-[10px] uppercase tracking-[0.14em] text-white/35">AI videos</p>
+            <p className="text-[12px] uppercase tracking-[0.14em] text-white/60">AI videos</p>
             <p className="font-heading text-lg font-semibold text-cyan-300 tabular-nums">{videos}</p>
           </div>
         </div>
@@ -60,7 +60,7 @@ export default function CatalogToolbar({ search, onSearch, level, onLevel, view,
           value={search}
           onChange={(e) => onSearch(e.target.value)}
           placeholder="Search by ID, exercise, equipment or coaching cue…"
-          className="h-12 w-full rounded-2xl border border-white/10 bg-white/[0.03] pl-11 pr-4 text-[13px] text-white placeholder:text-white/30 focus:border-cyan-400/40 focus:outline-none"
+          className="h-12 w-full rounded-2xl border border-white/10 bg-white/[0.03] pl-11 pr-4 text-[14px] text-white placeholder:text-white/45 focus:border-cyan-400/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60"
         />
       </div>
 
@@ -78,8 +78,8 @@ export default function CatalogToolbar({ search, onSearch, level, onLevel, view,
           type="button"
           onClick={() => onCategory("all")}
           className={cn(
-            "shrink-0 rounded-full border px-3 py-1.5 text-[11px] transition",
-            category === "all" ? "border-cyan-400/40 bg-cyan-400/10 text-cyan-200" : "border-white/10 text-white/50",
+            "inline-flex min-h-[44px] shrink-0 items-center rounded-full border px-3.5 py-1.5 text-[12px] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60",
+            category === "all" ? "border-cyan-400/40 bg-cyan-400/10 text-cyan-200" : "border-white/10 text-white/60",
           )}
         >
           All
@@ -90,8 +90,8 @@ export default function CatalogToolbar({ search, onSearch, level, onLevel, view,
             type="button"
             onClick={() => onCategory(c.id)}
             className={cn(
-              "shrink-0 rounded-full border px-3 py-1.5 text-[11px] transition",
-              category === c.id ? "border-cyan-400/40 bg-cyan-400/10 text-cyan-200" : "border-white/10 text-white/50",
+              "inline-flex min-h-[44px] shrink-0 items-center rounded-full border px-3.5 py-1.5 text-[12px] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60",
+              category === c.id ? "border-cyan-400/40 bg-cyan-400/10 text-cyan-200" : "border-white/10 text-white/60",
             )}
           >
             {c.short}

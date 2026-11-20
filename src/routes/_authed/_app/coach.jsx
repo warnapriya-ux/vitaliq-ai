@@ -5,6 +5,7 @@ import { Bot, Send, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { base44 } from "@/api/base44Client";
 import PageTitle from "@/components/vitaliq/PageTitle";
+import PullToRefresh from "@/components/vitaliq/PullToRefresh";
 import { useVitaliq } from "@/hooks/useVitaliq";
 import { askCoach as askCoachFn } from "@/lib/server-fns";
 import { profileSummary, recentSummary } from "@/lib/health";
@@ -21,7 +22,7 @@ const PROMPTS = [
 ];
 
 function CoachPage() {
-  const { profile, measurements, logs, user } = useVitaliq();
+  const { profile, measurements, logs, user, reload } = useVitaliq();
   const askCoach = useServerFn(askCoachFn);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
@@ -64,6 +65,7 @@ function CoachPage() {
   }
 
   return (
+    <PullToRefresh onRefresh={reload}>
     <div className="space-y-3.5 pb-16">
       <PageTitle eyebrow="Your coach" title="VITALIQ Coach" />
 
@@ -153,5 +155,6 @@ function CoachPage() {
         </button>
       </form>
     </div>
+    </PullToRefresh>
   );
 }

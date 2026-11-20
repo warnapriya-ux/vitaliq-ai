@@ -21,7 +21,7 @@ export default function TrainerHud({ live, exercise }) {
       <div className="grid grid-cols-3 gap-2">
         {stats.map((stat) => (
           <div key={stat.label} className="rounded-2xl border border-white/10 bg-white/[0.04] px-3 py-3 text-center backdrop-blur">
-            <p className="text-[9px] uppercase tracking-[0.18em] text-white/35">{stat.label}</p>
+            <p className="text-[11px] uppercase tracking-[0.16em] text-white/60">{stat.label}</p>
             <p className={`mt-1 font-heading text-2xl font-semibold ${stat.accent}`}>{stat.value}</p>
           </div>
         ))}
@@ -29,9 +29,9 @@ export default function TrainerHud({ live, exercise }) {
 
       <div className="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/[0.03] px-3 py-2">
         <span className="h-1.5 w-1.5 rounded-full bg-cyan-300" />
-        <p className="text-[11px] text-white/60">
+        <p className="text-[12px] text-white/70">
           {phaseLabel}
-          <span className="text-white/30"> · {exercise?.name}</span>
+          <span className="text-white/55"> · {exercise?.name}</span>
         </p>
       </div>
 
@@ -40,7 +40,7 @@ export default function TrainerHud({ live, exercise }) {
           {live.warnings.slice(0, 2).map((warning) => (
             <li
               key={warning.code}
-              className={`rounded-2xl border px-3 py-2 text-[11px] leading-relaxed ${
+              className={`rounded-2xl border px-3 py-2 text-[12px] leading-relaxed ${
                 warning.severity === "high"
                   ? "border-rose-400/30 bg-rose-500/10 text-rose-100"
                   : "border-amber-300/25 bg-amber-400/10 text-amber-100"

@@ -3,6 +3,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { base44 } from "@/api/base44Client";
 import Panel from "@/components/console/Panel";
+import SelectSheet from "@/components/vitaliq/SelectSheet";
+import SubPageHeader from "@/components/vitaliq/SubPageHeader";
 import StatusPill, { statusTone } from "@/components/console/StatusPill";
 import { formatDate, todayISO } from "@/lib/health";
 import { addMonthsISO, monthsFor } from "@/lib/pricing";
@@ -50,6 +52,9 @@ function SubscriptionsPage() {
 
   return (
     <div className="space-y-5">
+      <div className="lg:hidden">
+        <SubPageHeader subtitle="Super admin" title="Subscriptions & billing" to="/command" />
+      </div>
       <header>
         <p className="text-[10px] uppercase tracking-[0.3em] text-white/30">Super admin</p>
         <h1 className="mt-1.5 font-heading text-2xl font-semibold text-white">Subscriptions & billing</h1>
@@ -75,7 +80,7 @@ function SubscriptionsPage() {
                 <tr key={sub.id} className="border-t border-white/5 text-white/65">
                   <td className="py-2">
                     <p>{sub.user_name || "—"}</p>
-                    <p className="text-[10px] text-white/30">{sub.user_email}</p>
+                    <p className="text-[12px] text-white/60">{sub.user_email}</p>
                   </td>
                   <td className="py-2 capitalize">{sub.plan}</td>
                   <td className="py-2 capitalize">{sub.billing_cycle}</td>
@@ -83,15 +88,14 @@ function SubscriptionsPage() {
                   <td className="py-2 text-white/35">{formatDate(sub.renews_on)}</td>
                   <td className="py-2"><StatusPill tone={statusTone(sub.status)}>{sub.status}</StatusPill></td>
                   <td className="py-2">
-                    <select
-                      value={sub.status}
-                      onChange={(event) => setStatus(sub, event.target.value)}
-                      className="h-8 rounded-lg border border-white/10 bg-[#0b1220] px-2 text-[11px] text-white/70"
-                    >
-                      {STATUSES.map((s) => (
-                        <option key={s} value={s}>{s}</option>
-                      ))}
-                    </select>
+                    <div className="w-[132px]">
+                      <SelectSheet
+                        label="Subscription status"
+                        value={sub.status}
+                        options={STATUSES.map((s) => ({ value: s, label: s }))}
+                        onChange={(value) => setStatus(sub, value)}
+                      />
+                    </div>
                   </td>
                 </tr>
               ))}

@@ -14,8 +14,8 @@ function Stat({ icon: Icon, tone, label, value }) {
         <Icon className="h-3.5 w-3.5" />
       </span>
       <div className="min-w-0">
-        <p className="truncate text-[9px] uppercase tracking-[0.14em] text-white/40">{label}</p>
-        <p className="truncate font-heading text-[12px] font-semibold leading-tight text-white">{value}</p>
+        <p className="truncate text-[11px] uppercase tracking-[0.14em] text-white/60">{label}</p>
+        <p className="truncate font-heading text-[13px] font-semibold leading-tight text-white">{value}</p>
       </div>
     </div>
   );
@@ -28,7 +28,7 @@ export default function GoalCard({ percent, current, target, toGo, unit = "kg" }
         <ProgressRing value={percent} size={96} stroke={10} from="#00d4ff" to="#ffcc00">
           <div>
             <p className="font-heading text-xl font-semibold text-white">{percent}%</p>
-            <p className="text-[8px] uppercase tracking-[0.14em] text-white/40">daily goal</p>
+            <p className="text-[10px] uppercase tracking-[0.14em] text-white/60">daily goal</p>
           </div>
         </ProgressRing>
 

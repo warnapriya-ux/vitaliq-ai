@@ -16,13 +16,13 @@ export default function BrandBar({ unread = 2 }) {
           <p className="font-heading text-[13px] font-semibold tracking-[0.16em] text-white">
             VITALIQ <span className="text-cyan-300">AI</span>
           </p>
-          <p className="truncate text-[11px] text-white/40">Your Intelligent Health &amp; Fitness Companion</p>
+          <p className="truncate text-[12px] text-white/60">Your Intelligent Health &amp; Fitness Companion</p>
         </div>
       </div>
       <button
         type="button"
         aria-label="Notifications"
-        className="relative grid h-10 w-10 shrink-0 place-items-center rounded-full border border-white/10 bg-white/[0.05] text-white/65 backdrop-blur-xl transition hover:text-white"
+        className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/10 bg-white/[0.05] text-white/75 backdrop-blur-xl transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60"
       >
         <Bell className="h-4 w-4" />
         <span className="absolute -right-0.5 -top-0.5 grid h-4 w-4 place-items-center rounded-full bg-rose-500 text-[11px] font-bold text-white">

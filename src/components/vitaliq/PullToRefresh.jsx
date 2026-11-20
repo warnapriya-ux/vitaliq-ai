@@ -3,13 +3,31 @@ import { ArrowDown, Loader2 } from "lucide-react";
 
 const THRESHOLD = 70;
 
+// The nearest scrollable ancestor: the phone-frame panel on desktop, null on phones (window scrolls).
+function scrollParent(node) {
+  let current = node?.parentElement ?? null;
+  while (current) {
+    const style = window.getComputedStyle(current);
+    if (/(auto|scroll)/.test(style.overflowY) && current.scrollHeight > current.clientHeight) return current;
+    current = current.parentElement;
+  }
+  return null;
+}
+
 export default function PullToRefresh({ onRefresh, children }) {
   const [pull, setPull] = useState(0);
   const [busy, setBusy] = useState(false);
   const startY = useRef(null);
+  const rootRef = useRef(null);
 
   function onTouchStart(event) {
-    if (busy || typeof window === "undefined" || window.scrollY > 0) {
+    if (busy) {
+      startY.current = null;
+      return;
+    }
+    const scroller = scrollParent(rootRef.current);
+    const top = scroller ? scroller.scrollTop : window.scrollY;
+    if (top > 0) {
       startY.current = null;
       return;
     }
@@ -46,9 +64,9 @@ export default function PullToRefresh({ onRefresh, children }) {
   const ready = pull >= THRESHOLD;
 
   return (
-    <div onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
+    <div ref={rootRef} onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
       <div
-        className="flex items-center justify-center gap-1.5 overflow-hidden text-[11px] text-white/45"
+        className="flex items-center justify-center gap-1.5 overflow-hidden text-[12px] text-white/60"
         style={{ height: `${pull}px` }}
       >
         {busy ? (

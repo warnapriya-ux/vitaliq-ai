@@ -7,6 +7,7 @@ import { base44 } from "@/api/base44Client";
 import PageTitle from "@/components/vitaliq/PageTitle";
 import GlassCard from "@/components/vitaliq/GlassCard";
 import WorkoutVideo from "@/components/vitaliq/WorkoutVideo";
+import PullToRefresh from "@/components/vitaliq/PullToRefresh";
 import { useVitaliq } from "@/hooks/useVitaliq";
 import { generateHealthPlan } from "@/lib/server-fns";
 import { planItems, profileSummary, todayISO } from "@/lib/health";
@@ -104,6 +105,7 @@ function WorkoutPage() {
   const progress = items.length ? Math.round((doneNow.length / items.length) * 100) : 0;
 
   return (
+    <PullToRefresh onRefresh={reload}>
     <div className="space-y-4">
       <PageTitle
         eyebrow="Vitaliq Coach"
@@ -229,5 +231,6 @@ function WorkoutPage() {
         Estimated burn 380 kcal · logged automatically when you finish every exercise.
       </div>
     </div>
+    </PullToRefresh>
   );
 }

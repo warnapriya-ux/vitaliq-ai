@@ -19,8 +19,8 @@ export default function DailyStats({ stats = [] }) {
               <span className={`grid h-9 w-9 place-items-center rounded-2xl ${tone}`}>
                 <Icon className="h-4 w-4" />
               </span>
-              <p className="text-[13px] font-semibold text-white">{stat.value}</p>
-              <p className="text-[11px] uppercase tracking-wider text-white/35">{stat.label}</p>
+              <p className="text-[14px] font-semibold text-white">{stat.value}</p>
+              <p className="text-[12px] uppercase tracking-wider text-white/60">{stat.label}</p>
             </div>
           );
         })}

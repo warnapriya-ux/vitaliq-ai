@@ -5,6 +5,7 @@ import { BRAND_LOGO } from "@/lib/brand";
 import { base44 } from "@/api/base44Client";
 import { DEMO_VIDEOS, EXERCISES } from "@/lib/exerciseCatalog";
 import CatalogSidebar from "@/components/catalog/CatalogSidebar";
+import SubPageHeader from "@/components/vitaliq/SubPageHeader";
 import CatalogToolbar from "@/components/catalog/CatalogToolbar";
 import ExerciseCard from "@/components/catalog/ExerciseCard";
 import ExerciseTable from "@/components/catalog/ExerciseTable";
@@ -33,7 +34,8 @@ function CatalogPage() {
   const [view, setView] = useState("grid");
   const [media, setMedia] = useState({});
   const [active, setActive] = useState(null);
-  const [visible, setVisible] = useState(60);
+  // Phones start with a small page and grow it; wide screens keep the full first page.
+  const [visible, setVisible] = useState(24);
   const { exercise: exerciseParam } = Route.useSearch();
   const navigate = useNavigate({ from: "/catalog" });
 
@@ -90,11 +92,18 @@ function CatalogPage() {
   const videoCount = filtered.filter((exercise) => videoFor(exercise)).length;
   const shown = filtered.slice(0, visible);
 
+  // Wider screens can afford a longer first page than a phone.
+  useEffect(() => {
+    if (window.matchMedia("(min-width: 640px)").matches) setVisible((count) => Math.max(count, 60));
+  }, []);
+
   // A fresh filter starts from the top of the list again.
-  useEffect(() => setVisible(60), [search, category, equipment, level]);
+  useEffect(() => {
+    setVisible(window.matchMedia("(min-width: 640px)").matches ? 60 : 24);
+  }, [search, category, equipment, level]);
 
   return (
-    <div className="min-h-screen">
+    <div className="dark min-h-screen">
       <header className="sticky top-0 z-30 border-b border-white/[0.07] bg-[#060b14]/85 backdrop-blur-xl">
         <div className="mx-auto flex w-full max-w-[1440px] items-center justify-between px-4 py-3 lg:px-8">
           <Link to="/" className="flex items-center gap-2.5">
@@ -122,6 +131,9 @@ function CatalogPage() {
         </aside>
 
         <main className="min-w-0 flex-1 space-y-5">
+          <div className="lg:hidden">
+            <SubPageHeader subtitle="Library" title="Exercise catalog" to="/" />
+          </div>
           <CatalogToolbar
             search={search}
             onSearch={setSearch}

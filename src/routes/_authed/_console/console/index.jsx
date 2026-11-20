@@ -3,6 +3,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight, Loader2 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
 import Panel from "@/components/console/Panel";
+import SubPageHeader from "@/components/vitaliq/SubPageHeader";
 import Kpi from "@/components/console/Kpi";
 import StatusPill, { statusTone } from "@/components/console/StatusPill";
 import { bmi, bmiLabel } from "@/lib/health";
@@ -37,6 +38,9 @@ function ClientsPage() {
 
   return (
     <div className="space-y-6">
+      <div className="lg:hidden">
+        <SubPageHeader subtitle="Professional portal" title="Client caseload" to="/" />
+      </div>
       <header>
         <p className="text-[10px] uppercase tracking-[0.3em] text-white/30">Professional portal</p>
         <h1 className="mt-1.5 font-heading text-2xl font-semibold text-white">Client caseload</h1>

@@ -4,6 +4,8 @@ import { Loader2, UserPlus } from "lucide-react";
 import { toast } from "sonner";
 import { base44 } from "@/api/base44Client";
 import Panel from "@/components/console/Panel";
+import SelectSheet from "@/components/vitaliq/SelectSheet";
+import SubPageHeader from "@/components/vitaliq/SubPageHeader";
 import StatusPill, { statusTone } from "@/components/console/StatusPill";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -64,6 +66,9 @@ function UsersPage() {
 
   return (
     <div className="space-y-5">
+      <div className="lg:hidden">
+        <SubPageHeader subtitle="Super admin" title="Users & access" to="/command" />
+      </div>
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
           <p className="text-[10px] uppercase tracking-[0.3em] text-white/30">Super admin</p>
@@ -82,15 +87,16 @@ function UsersPage() {
             </DialogHeader>
             <div className="space-y-3">
               <Input value={email} onChange={(event) => setEmail(event.target.value)} placeholder="name@email.com" className="border-white/10 bg-white/[0.04] text-white" />
-              <select
+              <SelectSheet
+                label="Role"
                 value={role}
-                onChange={(event) => setRole(event.target.value)}
-                className="h-10 w-full rounded-xl border border-white/10 bg-[#0b1220] px-3 text-sm text-white"
-              >
-                <option value="user">Member (customer app)</option>
-                <option value="admin">Admin (professional / command access)</option>
-              </select>
-              <p className="text-[10px] leading-relaxed text-white/35">
+                options={[
+                  { value: "user", label: "Member (customer app)" },
+                  { value: "admin", label: "Admin (professional / command access)" },
+                ]}
+                onChange={setRole}
+              />
+              <p className="text-[12px] leading-relaxed text-white/60">
                 Admins can see every client record and manage billing, so only invite staff you trust.
               </p>
               <Button onClick={invite} disabled={busy} className="w-full rounded-full bg-cyan-400 text-slate-950 hover:bg-cyan-300">

@@ -11,7 +11,7 @@ export default function SelectSheet({ label, value, options, onChange }) {
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="flex h-10 w-full items-center justify-between gap-2 rounded-xl border border-white/10 bg-[#0b1220] px-3 text-left text-sm text-white focus:border-cyan-400/60 focus:outline-none"
+        className="flex h-11 w-full items-center justify-between gap-2 rounded-xl border border-white/10 bg-[#0b1220] px-3 text-left text-sm text-white focus:border-cyan-400/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60"
       >
         <span className="truncate">{selected?.label ?? "Select"}</span>
         <ChevronDown className="h-4 w-4 shrink-0 text-white/40" />
@@ -31,7 +31,7 @@ export default function SelectSheet({ label, value, options, onChange }) {
                   onChange(option.value);
                   setOpen(false);
                 }}
-                className="flex w-full items-center justify-between gap-3 rounded-xl px-3 py-3 text-left text-[13px] text-white/70 transition hover:bg-white/5"
+                className="flex min-h-[44px] w-full items-center justify-between gap-3 rounded-xl px-3 py-3 text-left text-[14px] text-white/80 transition hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60"
               >
                 <span className="truncate">{option.label}</span>
                 {option.value === value && <Check className="h-4 w-4 shrink-0 text-cyan-300" />}
