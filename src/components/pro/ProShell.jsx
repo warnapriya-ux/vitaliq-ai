@@ -26,7 +26,8 @@ export default function ProShell({ track, children }) {
   ];
 
   return (
-    <div className="min-h-screen">
+    // Same dark canvas and palette as the member app, so the portal never inherits a light theme.
+    <div className="dark app-canvas min-h-screen">
       <header className="sticky top-0 z-30 border-b border-white/[0.07] bg-[#070c15]/90 backdrop-blur-xl">
         <div className="mx-auto flex w-full max-w-[1100px] items-center gap-2.5 px-4 py-3">
           <Link to="/" className="flex items-center gap-2">
