@@ -1,0 +1,158 @@
+{
+  "name": "DietPlan",
+  "type": "object",
+  "properties": {
+    "dietitian_id": {
+      "type": "string"
+    },
+    "dietitian_user_id": {
+      "type": "string"
+    },
+    "dietitian_name": {
+      "type": "string"
+    },
+    "client_user_id": {
+      "type": "string"
+    },
+    "client_name": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "goal": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "string"
+    },
+    "target_calories": {
+      "type": "number"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "voice",
+        "ai",
+        "manual"
+      ],
+      "enumColors": [
+        "purple",
+        "blue",
+        "gray"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved"
+      ],
+      "enumColors": [
+        "yellow",
+        "green"
+      ],
+      "default": "draft"
+    },
+    "days": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "string"
+          },
+          "meals": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "time": {
+                  "type": "string"
+                },
+                "meal": {
+                  "type": "string"
+                },
+                "detail": {
+                  "type": "string"
+                },
+                "portion": {
+                  "type": "string"
+                },
+                "calories": {
+                  "type": "number"
+                },
+                "protein": {
+                  "type": "number"
+                },
+                "carbs": {
+                  "type": "number"
+                },
+                "fat": {
+                  "type": "number"
+                },
+                "prep": {
+                  "type": "string"
+                },
+                "alternatives": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "approved_at": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "client_user_id"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.client_user_id": "{{user.id}}"
+        },
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

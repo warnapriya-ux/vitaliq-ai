@@ -1,0 +1,101 @@
+{
+  "name": "DailyDietLog",
+  "type": "object",
+  "properties": {
+    "client_user_id": {
+      "type": "string"
+    },
+    "client_name": {
+      "type": "string"
+    },
+    "dietitian_id": {
+      "type": "string"
+    },
+    "dietitian_user_id": {
+      "type": "string"
+    },
+    "profile_id": {
+      "type": "string"
+    },
+    "log_date": {
+      "type": "string"
+    },
+    "weight": {
+      "type": "number"
+    },
+    "meals_completed": {
+      "type": "number"
+    },
+    "meals_planned": {
+      "type": "number"
+    },
+    "water_l": {
+      "type": "number"
+    },
+    "hunger": {
+      "type": "number"
+    },
+    "activity": {
+      "type": "string"
+    },
+    "difficulties": {
+      "type": "string"
+    },
+    "note": {
+      "type": "string"
+    },
+    "photo_uri": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "log_date"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "data.client_user_id": "{{user.id}}"
+        },
+        {
+          "data.dietitian_user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

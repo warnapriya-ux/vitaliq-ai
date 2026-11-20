@@ -1,0 +1,99 @@
+{
+  "name": "ProfessionalPayment",
+  "type": "object",
+  "properties": {
+    "track": {
+      "type": "string",
+      "enum": [
+        "gym_instructor",
+        "dietitian"
+      ],
+      "enumColors": [
+        "blue",
+        "green"
+      ]
+    },
+    "professional_id": {
+      "type": "string"
+    },
+    "professional_name": {
+      "type": "string"
+    },
+    "professional_email": {
+      "type": "string"
+    },
+    "plan": {
+      "type": "string"
+    },
+    "cycle": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD"
+    },
+    "method": {
+      "type": "string"
+    },
+    "reference": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "paid",
+        "failed",
+        "refunded"
+      ],
+      "enumColors": [
+        "yellow",
+        "green",
+        "red",
+        "gray"
+      ],
+      "default": "pending"
+    },
+    "paid_on": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "track",
+    "amount",
+    "status"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "data.professional_email": "{{user.email}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

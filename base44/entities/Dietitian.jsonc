@@ -1,0 +1,128 @@
+{
+  "name": "Dietitian",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "photo_url": {
+      "type": "string"
+    },
+    "bio": {
+      "type": "string"
+    },
+    "qualifications": {
+      "type": "string"
+    },
+    "licence_details": {
+      "type": "string"
+    },
+    "years_experience": {
+      "type": "number"
+    },
+    "specialisations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "city": {
+      "type": "string"
+    },
+    "contact": {
+      "type": "string"
+    },
+    "languages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "availability": {
+      "type": "string"
+    },
+    "intro_video_url": {
+      "type": "string"
+    },
+    "verification_doc_uri": {
+      "type": "string"
+    },
+    "plan": {
+      "type": "string",
+      "enum": [
+        "basic",
+        "medium",
+        "ultra"
+      ],
+      "enumColors": [
+        "blue",
+        "purple",
+        "pink"
+      ],
+      "default": "basic"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "active",
+        "suspended",
+        "rejected"
+      ],
+      "enumColors": [
+        "yellow",
+        "green",
+        "red",
+        "gray"
+      ],
+      "default": "pending"
+    },
+    "max_clients": {
+      "type": "number",
+      "default": 5
+    },
+    "rating": {
+      "type": "number",
+      "default": 0
+    },
+    "review_count": {
+      "type": "number",
+      "default": 0
+    },
+    "programmes_completed": {
+      "type": "number",
+      "default": 0
+    },
+    "admin_note": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "name",
+    "email"
+  ],
+  "rls": {
+    "read": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

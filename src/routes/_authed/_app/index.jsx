@@ -14,6 +14,7 @@ import ProgressGrid from "@/components/vitaliq/dashboard/ProgressGrid";
 import TrainerCard from "@/components/vitaliq/dashboard/TrainerCard";
 import QuickLog from "@/components/vitaliq/dashboard/QuickLog";
 import GlassCard from "@/components/vitaliq/GlassCard";
+import ServiceModules from "@/components/vitaliq/dashboard/ServiceModules";
 import PullToRefresh from "@/components/vitaliq/PullToRefresh";
 import { useVitaliq } from "@/hooks/useVitaliq";
 import { ensurePersonalPlans } from "@/lib/server-fns";
@@ -114,6 +115,7 @@ function Dashboard() {
 
       <div className="space-y-4">
         <GoalCard percent={percent} current={current} target={target} toGo={toGo} />
+        <ServiceModules />
         <DailyStats stats={stats} />
         <TodayPlan
           workout={{ title: workout?.title, exerciseCount: planItems(workout).length }}

@@ -1,0 +1,62 @@
+{
+  "name": "ProfessionalPrice",
+  "type": "object",
+  "properties": {
+    "track": {
+      "type": "string",
+      "enum": [
+        "gym_instructor",
+        "dietitian"
+      ],
+      "enumColors": [
+        "blue",
+        "green"
+      ]
+    },
+    "plan": {
+      "type": "string",
+      "enum": [
+        "basic",
+        "medium",
+        "ultra"
+      ],
+      "enumColors": [
+        "blue",
+        "purple",
+        "pink"
+      ]
+    },
+    "monthly": {
+      "type": "number"
+    },
+    "annual": {
+      "type": "number"
+    },
+    "currency": {
+      "type": "string",
+      "default": "USD"
+    }
+  },
+  "required": [
+    "track",
+    "plan"
+  ],
+  "rls": {
+    "read": {},
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

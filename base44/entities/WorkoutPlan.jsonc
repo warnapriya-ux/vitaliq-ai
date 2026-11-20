@@ -1,0 +1,162 @@
+{
+  "name": "WorkoutPlan",
+  "type": "object",
+  "properties": {
+    "instructor_id": {
+      "type": "string"
+    },
+    "instructor_user_id": {
+      "type": "string"
+    },
+    "instructor_name": {
+      "type": "string"
+    },
+    "client_user_id": {
+      "type": "string"
+    },
+    "client_name": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "goal": {
+      "type": "string"
+    },
+    "level": {
+      "type": "string",
+      "enum": [
+        "beginner",
+        "intermediate",
+        "advanced"
+      ],
+      "enumColors": [
+        "green",
+        "yellow",
+        "red"
+      ]
+    },
+    "summary": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "voice",
+        "ai",
+        "manual"
+      ],
+      "enumColors": [
+        "purple",
+        "blue",
+        "gray"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "draft",
+        "approved"
+      ],
+      "enumColors": [
+        "yellow",
+        "green"
+      ],
+      "default": "draft"
+    },
+    "days": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "string"
+          },
+          "focus": {
+            "type": "string"
+          },
+          "exercises": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "sets": {
+                  "type": "string"
+                },
+                "reps": {
+                  "type": "string"
+                },
+                "rest": {
+                  "type": "string"
+                },
+                "notes": {
+                  "type": "string"
+                },
+                "video_url": {
+                  "type": "string"
+                },
+                "ai_generated": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "approved_at": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "title",
+    "client_user_id"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.client_user_id": "{{user.id}}"
+        },
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

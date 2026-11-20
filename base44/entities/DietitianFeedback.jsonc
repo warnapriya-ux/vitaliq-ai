@@ -1,0 +1,85 @@
+{
+  "name": "DietitianFeedback",
+  "type": "object",
+  "properties": {
+    "dietitian_user_id": {
+      "type": "string"
+    },
+    "dietitian_name": {
+      "type": "string"
+    },
+    "client_user_id": {
+      "type": "string"
+    },
+    "client_name": {
+      "type": "string"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "advice",
+        "plan_update",
+        "alternative",
+        "warning"
+      ],
+      "enumColors": [
+        "blue",
+        "purple",
+        "green",
+        "yellow"
+      ],
+      "default": "advice"
+    },
+    "content": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "client_user_id",
+    "content"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.client_user_id": "{{user.id}}"
+        },
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "created_by_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "created_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

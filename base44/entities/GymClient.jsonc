@@ -1,0 +1,92 @@
+{
+  "name": "GymClient",
+  "type": "object",
+  "properties": {
+    "instructor_id": {
+      "type": "string"
+    },
+    "instructor_user_id": {
+      "type": "string"
+    },
+    "instructor_name": {
+      "type": "string"
+    },
+    "client_user_id": {
+      "type": "string"
+    },
+    "client_name": {
+      "type": "string"
+    },
+    "client_email": {
+      "type": "string"
+    },
+    "goal": {
+      "type": "string"
+    },
+    "note": {
+      "type": "string"
+    },
+    "consent": {
+      "type": "boolean",
+      "default": true
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "requested",
+        "active",
+        "declined",
+        "ended"
+      ],
+      "enumColors": [
+        "yellow",
+        "green",
+        "gray",
+        "red"
+      ],
+      "default": "requested"
+    },
+    "requested_on": {
+      "type": "string"
+    },
+    "started_on": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "instructor_id",
+    "client_user_id"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.client_user_id": "{{user.id}}"
+        },
+        {
+          "data.instructor_user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
