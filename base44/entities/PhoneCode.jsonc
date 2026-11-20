@@ -1,0 +1,74 @@
+{
+  "name": "PhoneCode",
+  "type": "object",
+  "properties": {
+    "challenge_id": {
+      "type": "string"
+    },
+    "phone_key": {
+      "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string"
+    },
+    "code_hash": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "string",
+      "enum": [
+        "login",
+        "link"
+      ],
+      "enumColors": [
+        "blue",
+        "purple"
+      ]
+    },
+    "user_id": {
+      "type": "string"
+    },
+    "attempts": {
+      "type": "number",
+      "default": 0
+    },
+    "consumed": {
+      "type": "boolean",
+      "default": false
+    },
+    "expires_at": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "challenge_id",
+    "code_hash",
+    "purpose",
+    "expires_at"
+  ],
+  "rls": {
+    "read": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "create": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "update": {
+      "user_condition": {
+        "role": "admin"
+      }
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}

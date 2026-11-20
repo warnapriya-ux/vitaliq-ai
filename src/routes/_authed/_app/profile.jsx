@@ -7,6 +7,7 @@ import PageTitle from "@/components/vitaliq/PageTitle";
 import GlassCard from "@/components/vitaliq/GlassCard";
 import PullToRefresh from "@/components/vitaliq/PullToRefresh";
 import ProfileForm from "@/components/vitaliq/ProfileForm";
+import PhoneNumberCard from "@/components/vitaliq/PhoneNumberCard";
 import MeasurementDialog from "@/components/vitaliq/MeasurementDialog";
 import DeleteAccountDialog from "@/components/vitaliq/DeleteAccountDialog";
 import { useVitaliq } from "@/hooks/useVitaliq";
@@ -68,6 +69,8 @@ function ProfilePage() {
           </p>
         </div>
       </GlassCard>
+
+      <PhoneNumberCard />
 
       <GlassCard>
         <div className="flex items-center justify-between">
