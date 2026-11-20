@@ -114,7 +114,14 @@ export function LoginPage() {
       </div>
 
       {mode === "mobile" ? (
-        <PhoneLogin returnTo={returnTo} onMfaRequired={setMfaChallenge} />
+        <PhoneLogin
+          returnTo={returnTo}
+          onMfaRequired={setMfaChallenge}
+          onUseEmail={() => {
+            setMode("email");
+            setError("");
+          }}
+        />
       ) : (
         <>
           <AuthError>{error}</AuthError>

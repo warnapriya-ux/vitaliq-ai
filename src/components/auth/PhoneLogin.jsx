@@ -9,7 +9,7 @@ import { requestPhoneLoginCode, verifyPhoneLoginCode } from "@/lib/phoneAuthFns"
 
 // Mobile sign-in: number plus password, then a 6-digit code emailed to the
 // address on the account. The password is still what the platform signs in with.
-export default function PhoneLogin({ returnTo, onMfaRequired }) {
+export default function PhoneLogin({ returnTo, onMfaRequired, onUseEmail }) {
   const [phone, setPhone] = useState("");
   const [password, setPassword] = useState("");
   const [code, setCode] = useState("");
@@ -29,7 +29,9 @@ export default function PhoneLogin({ returnTo, onMfaRequired }) {
     try {
       const result = await sendCode({ data: { phone } });
       if (!result.found) {
-        setError("No account uses that mobile number yet. Add it under Profile, Mobile sign-in, then come back.");
+        setError(
+          "No account uses that mobile number yet. Log in with your email, then add the number under Profile, Mobile sign-in.",
+        );
         return;
       }
       setChallenge(result);
@@ -154,6 +156,13 @@ export default function PhoneLogin({ returnTo, onMfaRequired }) {
       <p className="text-center text-xs text-muted-foreground">
         We email a 6-digit code to the address on your account to confirm it is you.
       </p>
+      <button
+        type="button"
+        onClick={onUseEmail}
+        className="mx-auto block min-h-[44px] text-xs font-medium text-primary hover:underline"
+      >
+        Log in with email instead
+      </button>
     </form>
   );
 }
