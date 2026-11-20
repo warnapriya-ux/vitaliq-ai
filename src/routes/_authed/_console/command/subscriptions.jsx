@@ -56,7 +56,7 @@ function SubscriptionsPage() {
         <SubPageHeader subtitle="Super admin" title="Subscriptions & billing" to="/command" />
       </div>
       <header>
-        <p className="text-[10px] uppercase tracking-[0.3em] text-white/30">Super admin</p>
+        <p className="text-[12px] uppercase tracking-[0.24em] text-white/60">Super admin</p>
         <h1 className="mt-1.5 font-heading text-2xl font-semibold text-white">Subscriptions & billing</h1>
         <p className="mt-1 text-xs text-white/40">Activate members once payment is verified, or cancel at any time.</p>
       </header>
@@ -65,7 +65,7 @@ function SubscriptionsPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-[12px]">
             <thead>
-              <tr className="text-[10px] uppercase tracking-wider text-white/25">
+              <tr className="text-[11px] uppercase tracking-wider text-white/55">
                 <th className="pb-2 font-medium">Member</th>
                 <th className="pb-2 font-medium">Plan</th>
                 <th className="pb-2 font-medium">Cycle</th>
@@ -109,7 +109,7 @@ function SubscriptionsPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-[12px]">
             <thead>
-              <tr className="text-[10px] uppercase tracking-wider text-white/25">
+              <tr className="text-[11px] uppercase tracking-wider text-white/55">
                 <th className="pb-2 font-medium">Member</th>
                 <th className="pb-2 font-medium">Reference</th>
                 <th className="pb-2 font-medium">Method</th>

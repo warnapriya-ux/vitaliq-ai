@@ -163,7 +163,7 @@ function ClientCasePage() {
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div>
                   <p className="font-heading text-[13px] font-semibold text-white">{plan.title}</p>
-                  <p className="text-[10px] uppercase tracking-widest text-white/30">{plan.kind} · {formatDate(plan.created_date)}</p>
+                  <p className="text-[12px] uppercase tracking-widest text-white/60">{plan.kind} · {formatDate(plan.created_date)}</p>
                 </div>
                 <StatusPill tone={statusTone(plan.status)}>{plan.status}</StatusPill>
               </div>

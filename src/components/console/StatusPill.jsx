@@ -10,7 +10,7 @@ const TONES = {
 export default function StatusPill({ children, tone = "gray" }) {
   return (
     <span
-      className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium capitalize ring-1 ${TONES[tone] ?? TONES.gray}`}
+      className={`inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium capitalize ring-1 ${TONES[tone] ?? TONES.gray}`}
     >
       {String(children ?? "").replace(/_/g, " ")}
     </span>

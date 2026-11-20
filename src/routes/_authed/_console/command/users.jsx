@@ -71,7 +71,7 @@ function UsersPage() {
       </div>
       <header className="flex flex-wrap items-end justify-between gap-3">
         <div>
-          <p className="text-[10px] uppercase tracking-[0.3em] text-white/30">Super admin</p>
+          <p className="text-[12px] uppercase tracking-[0.24em] text-white/60">Super admin</p>
           <h1 className="mt-1.5 font-heading text-2xl font-semibold text-white">Users & access</h1>
           <p className="mt-1 text-xs text-white/40">Invite members and manage roles across the platform.</p>
         </div>
@@ -111,7 +111,7 @@ function UsersPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-left text-[12px]">
             <thead>
-              <tr className="text-[10px] uppercase tracking-wider text-white/25">
+              <tr className="text-[11px] uppercase tracking-wider text-white/55">
                 <th className="pb-2 font-medium">Name</th>
                 <th className="pb-2 font-medium">Email</th>
                 <th className="pb-2 font-medium">Role</th>

@@ -131,6 +131,12 @@
     color: transparent;
   }
 
+  /* The app canvas keeps its dark gradient in both themes: the product is dark-first,
+     even when the device is set to light mode. */
+  .app-canvas {
+    background-image: linear-gradient(180deg, hsl(222 50% 13%) 0%, hsl(225 55% 8%) 45%, hsl(230 45% 4%) 100%);
+  }
+
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }

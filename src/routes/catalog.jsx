@@ -103,7 +103,7 @@ function CatalogPage() {
   }, [search, category, equipment, level]);
 
   return (
-    <div className="dark min-h-screen">
+    <div className="dark app-canvas min-h-screen">
       <header className="sticky top-0 z-30 border-b border-white/[0.07] bg-[#060b14]/85 backdrop-blur-xl">
         <div className="mx-auto flex w-full max-w-[1440px] items-center justify-between px-4 py-3 lg:px-8">
           <Link to="/" className="flex items-center gap-2.5">

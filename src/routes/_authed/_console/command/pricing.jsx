@@ -14,7 +14,7 @@ function PricingPage() {
         <SubPageHeader subtitle="Super admin" title="Plan pricing" to="/command" />
       </div>
       <header>
-        <p className="text-[10px] uppercase tracking-[0.3em] text-white/30">Super admin</p>
+        <p className="text-[12px] uppercase tracking-[0.24em] text-white/60">Super admin</p>
         <h1 className="mt-1.5 font-heading text-2xl font-semibold text-white">Plan pricing</h1>
         <p className="mt-1 text-xs text-white/40">Control what members pay per month, quarter and year.</p>
       </header>

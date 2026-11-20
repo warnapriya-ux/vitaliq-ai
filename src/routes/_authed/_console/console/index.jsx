@@ -42,7 +42,7 @@ function ClientsPage() {
         <SubPageHeader subtitle="Professional portal" title="Client caseload" to="/" />
       </div>
       <header>
-        <p className="text-[10px] uppercase tracking-[0.3em] text-white/30">Professional portal</p>
+        <p className="text-[12px] uppercase tracking-[0.24em] text-white/60">Professional portal</p>
         <h1 className="mt-1.5 font-heading text-2xl font-semibold text-white">Client caseload</h1>
         <p className="mt-1 text-xs text-white/40">Review AI plans, record measurements and run consultations.</p>
       </header>

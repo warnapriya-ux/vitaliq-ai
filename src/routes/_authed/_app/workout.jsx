@@ -115,7 +115,8 @@ function WorkoutPage() {
             type="button"
             onClick={regenerate}
             disabled={busy}
-            className="grid h-11 w-11 place-items-center rounded-full border border-white/10 text-white/60 transition hover:text-white disabled:opacity-40"
+            aria-label="Generate a new workout"
+            className="grid h-11 w-11 place-items-center rounded-full border border-white/10 text-white/70 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60 disabled:opacity-40"
           >
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
           </button>

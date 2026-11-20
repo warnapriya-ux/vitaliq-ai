@@ -73,7 +73,7 @@ export default function AppShell({ children }) {
 
   return (
     <div className="min-h-screen pt-[env(safe-area-inset-top)] lg:flex lg:min-h-screen lg:items-center lg:justify-center lg:px-6 lg:py-8">
-      <div className="dark relative mx-auto flex min-h-screen w-full max-w-[430px] flex-col bg-white/[0.015] sm:border-x sm:border-white/[0.06] lg:h-[calc(100vh-4rem)] lg:max-h-[900px] lg:min-h-0 lg:w-[404px] lg:overflow-hidden lg:rounded-[42px] lg:border lg:border-white/15 lg:bg-[#070c15] lg:shadow-[0_50px_140px_-50px_rgba(0,240,255,0.45)]">
+      <div className="dark app-canvas relative mx-auto flex min-h-screen w-full max-w-[430px] flex-col lg:bg-none sm:border-x sm:border-white/[0.06] lg:h-[calc(100vh-4rem)] lg:max-h-[900px] lg:min-h-0 lg:w-[404px] lg:overflow-hidden lg:rounded-[42px] lg:border lg:border-white/15 lg:bg-[#070c15] lg:shadow-[0_50px_140px_-50px_rgba(0,240,255,0.45)]">
         <div ref={scroller} className="flex min-h-0 flex-1 flex-col lg:overflow-y-auto no-scrollbar">
           <main className="flex-1 px-4 pb-[calc(8rem+env(safe-area-inset-bottom))] pt-5 lg:pb-28">
             <AnimatePresence mode="wait" initial={false}>

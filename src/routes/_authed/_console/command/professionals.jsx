@@ -43,7 +43,7 @@ function ProfessionalsPage() {
         <SubPageHeader subtitle="Super admin" title="Professionals" to="/command" />
       </div>
       <header>
-        <p className="text-[10px] uppercase tracking-[0.3em] text-white/30">Super admin</p>
+        <p className="text-[12px] uppercase tracking-[0.24em] text-white/60">Super admin</p>
         <h1 className="mt-1.5 font-heading text-2xl font-semibold text-white">Professionals</h1>
         <p className="mt-1 text-xs text-white/40">
           Verify dietitians and trainers before they can review client plans. {pending.length} awaiting verification.
@@ -59,7 +59,7 @@ function ProfessionalsPage() {
                   <p className="font-heading text-sm font-semibold text-white">{pro.name}</p>
                   <StatusPill tone={pro.specialization === "dietitian" ? "green" : "blue"}>{pro.specialization}</StatusPill>
                 </div>
-                <p className="mt-0.5 text-[11px] text-white/35">{pro.credentials}</p>
+                <p className="mt-0.5 text-[12px] text-white/60">{pro.credentials}</p>
               </div>
               <StatusPill tone={statusTone(pro.status)}>{pro.status}</StatusPill>
             </div>

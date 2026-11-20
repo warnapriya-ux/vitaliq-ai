@@ -39,7 +39,7 @@ export default function DesktopShell({ children }) {
   const location = useLocation();
 
   return (
-    <div className="dark min-h-screen">
+    <div className="dark app-canvas min-h-screen">
       <aside className="fixed left-0 top-0 z-30 flex h-screen w-[72px] flex-col border-r border-white/10 bg-[#070b13]/80 px-2 py-6 backdrop-blur-xl sm:w-64 sm:px-4">
         <div className="flex items-center justify-center gap-2.5 px-1 sm:justify-start sm:px-2">
           <Image
@@ -87,7 +87,7 @@ export default function DesktopShell({ children }) {
           </div>
           <div className="min-w-0">
             <p className="truncate text-[11px] text-white/70">{user?.full_name || "Team member"}</p>
-            <p className="truncate text-[10px] text-white/30">{user?.email}</p>
+            <p className="truncate text-[12px] text-white/60">{user?.email}</p>
           </div>
         </div>
       </aside>

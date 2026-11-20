@@ -60,7 +60,7 @@ function AiPage() {
         <SubPageHeader subtitle="Super admin" title="AI engine" to="/command" />
       </div>
       <header>
-        <p className="text-[10px] uppercase tracking-[0.3em] text-white/30">Super admin</p>
+        <p className="text-[12px] uppercase tracking-[0.24em] text-white/60">Super admin</p>
         <h1 className="mt-1.5 font-heading text-2xl font-semibold text-white">AI engine</h1>
         <p className="mt-1 text-xs text-white/40">
           Eight advisor modules run on every profile. Generated plans wait here until a professional or admin releases them.
@@ -72,8 +72,8 @@ function AiPage() {
           <div key={module.name} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
             <module.icon className="h-4 w-4 text-cyan-300" />
             <p className="mt-2 text-[12px] font-semibold text-white">{module.name}</p>
-            <p className="mt-1 text-[10px] leading-relaxed text-white/35">{module.detail}</p>
-            <span className="mt-2 inline-flex items-center gap-1 text-[9px] uppercase tracking-wider text-emerald-300">
+            <p className="mt-1 text-[12px] leading-relaxed text-white/60">{module.detail}</p>
+            <span className="mt-2 inline-flex items-center gap-1 text-[11px] uppercase tracking-wider text-emerald-300">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" /> active
             </span>
           </div>

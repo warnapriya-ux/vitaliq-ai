@@ -80,7 +80,7 @@ export default function PlanPriceEditor() {
       <div className="overflow-x-auto">
         <table className="w-full min-w-[620px] text-left text-[12px]">
           <thead>
-            <tr className="text-[10px] uppercase tracking-wider text-white/25">
+            <tr className="text-[11px] uppercase tracking-wider text-white/55">
               <th className="pb-2 font-medium">Plan</th>
               {CYCLES.map((cycle) => (
                 <th key={cycle.id} className="pb-2 font-medium">{cycle.label}</th>
@@ -94,7 +94,7 @@ export default function PlanPriceEditor() {
               <tr key={row.id} className="border-t border-white/5 text-white/70">
                 <td className="py-2.5 pr-3">
                   <p className="capitalize text-white">{row.plan}</p>
-                  <p className="text-[10px] text-white/30">
+                  <p className="text-[12px] text-white/60">
                     {amountFor(row, null, "annual") > 0
                       ? `$${perMonth(row.annual ?? 0, "annual")}/mo if billed yearly`
                       : "No charge"}
@@ -135,7 +135,7 @@ export default function PlanPriceEditor() {
           </tbody>
         </table>
       </div>
-      <p className="mt-3 text-[10px] leading-relaxed text-white/30">
+      <p className="mt-3 text-[12px] leading-relaxed text-white/60">
         Existing subscriptions keep the amount they were agreed at. The free plan should stay at zero.
       </p>
     </Panel>
