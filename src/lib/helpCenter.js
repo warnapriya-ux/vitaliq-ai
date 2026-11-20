@@ -919,6 +919,8 @@ export const TUTORIAL_VIDEOS = [
     title: "Use nutrition tools",
     duration: "1:30",
     seconds: 90,
+    videoUrl:
+      "https://media.base44.com/videos/public/6afbd52c2f8bd7e10d10de9b/d38cd1eae_Nutrition_clip.mp4",
     track: "Core Modules",
     description:
       "Log a meal, enter accurate portions, read the estimates and track hydration.",
@@ -972,6 +974,8 @@ export const TUTORIAL_VIDEOS = [
     title: "Record progress and view reports",
     duration: "1:30",
     seconds: 90,
+    videoUrl:
+      "https://media.base44.com/videos/public/6afbd52c2f8bd7e10d10de9b/52e12f992_Progress_clip.mp4",
     track: "Tracking & Security",
     description:
       "Add a weight measurement, read trend charts, and review daily, weekly and monthly reports.",
@@ -1025,6 +1029,8 @@ export const TUTORIAL_VIDEOS = [
     title: "Privacy and account security",
     duration: "1:00",
     seconds: 60,
+    videoUrl:
+      "https://media.base44.com/videos/public/6afbd52c2f8bd7e10d10de9b/d6cf4af81_Privacy_clip.mp4",
     track: "Tracking & Security",
     description:
       "Keep password hygiene, sign out on shared devices, and manage consent and deletion requests.",
