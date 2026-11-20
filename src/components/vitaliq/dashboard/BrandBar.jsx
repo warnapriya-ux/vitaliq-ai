@@ -1,4 +1,5 @@
-import { Bell } from "lucide-react";
+import { Bell, CircleHelp } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import { Image } from "@/components/ui/image";
 
 import { BRAND_LOGO as LOGO } from "@/lib/brand";
@@ -19,16 +20,25 @@ export default function BrandBar({ unread = 2 }) {
           <p className="truncate text-[12px] text-white/60">Your Intelligent Health &amp; Fitness Companion</p>
         </div>
       </div>
-      <button
-        type="button"
-        aria-label="Notifications"
-        className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/10 bg-white/[0.05] text-white/75 backdrop-blur-xl transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60"
-      >
-        <Bell className="h-4 w-4" />
-        <span className="absolute -right-0.5 -top-0.5 grid h-4 w-4 place-items-center rounded-full bg-rose-500 text-[11px] font-bold text-white">
-          {unread}
-        </span>
-      </button>
+      <div className="flex shrink-0 items-center gap-2">
+        <Link
+          to="/help"
+          aria-label="Help centre"
+          className="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/[0.05] text-white/75 backdrop-blur-xl transition hover:text-cyan-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60"
+        >
+          <CircleHelp className="h-4 w-4" />
+        </Link>
+        <button
+          type="button"
+          aria-label="Notifications"
+          className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full border border-white/10 bg-white/[0.05] text-white/75 backdrop-blur-xl transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400/60"
+        >
+          <Bell className="h-4 w-4" />
+          <span className="absolute -right-0.5 -top-0.5 grid h-4 w-4 place-items-center rounded-full bg-rose-500 text-[11px] font-bold text-white">
+            {unread}
+          </span>
+        </button>
+      </div>
     </header>
   );
 }

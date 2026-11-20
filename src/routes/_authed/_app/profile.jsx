@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { LogOut, Map, PersonStanding, Settings2, Stethoscope, TrendingUp } from "lucide-react";
+import { CircleHelp, LogOut, Map, PersonStanding, Settings2, Stethoscope, TrendingUp } from "lucide-react";
 import { toast } from "sonner";
 import { base44 } from "@/api/base44Client";
 import PageTitle from "@/components/vitaliq/PageTitle";
@@ -153,6 +153,12 @@ function ProfilePage() {
           className="flex items-center justify-between rounded-xl bg-white/[0.03] px-3 py-2.5 text-[11px] text-white/70"
         >
           Your journey <Map className="h-3.5 w-3.5 text-cyan-300" />
+        </Link>
+        <Link
+          to="/help"
+          className="flex items-center justify-between rounded-xl bg-white/[0.03] px-3 py-2.5 text-[11px] text-white/70"
+        >
+          Help centre &amp; user guide <CircleHelp className="h-3.5 w-3.5 text-cyan-300" />
         </Link>
       </GlassCard>
 
