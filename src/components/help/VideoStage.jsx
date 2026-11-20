@@ -1,6 +1,7 @@
 import { Play } from "lucide-react";
 import { Image } from "@/components/ui/image";
 import { BRAND_LOGO } from "@/lib/brand";
+import VideoFrame from "@/components/help/VideoFrame";
 
 const PIN_POSITIONS = [
   { top: "24%", left: "20%" },
@@ -14,7 +15,20 @@ const PIN_POSITIONS = [
  * numbered callouts, so each scene shows where the action happens. Tapping the
  * stage starts or pauses the walkthrough, like any video player.
  */
-export default function VideoStage({ video, scene, playing, captions, onToggle }) {
+export default function VideoStage({ video, scene, playing, captions, onToggle, videoRef }) {
+  if (video.videoUrl) {
+    return (
+      <VideoFrame
+        video={video}
+        scene={scene}
+        playing={playing}
+        captions={captions}
+        onToggle={onToggle}
+        videoRef={videoRef}
+      />
+    );
+  }
+
   const activeIndex = Math.max(
     0,
     video.scenes.findIndex((item) => item.id === scene?.id),

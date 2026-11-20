@@ -589,6 +589,8 @@ export const TUTORIAL_VIDEOS = [
     title: "Welcome to VITALIQ AI",
     duration: "1:00",
     seconds: 60,
+    videoUrl:
+      "https://media.base44.com/videos/public/6afbd52c2f8bd7e10d10de9b/6b7a95122_Welcome_clip.mp4",
     track: "Getting Started",
     description:
       "What the platform is, who it is built for, and where to find guides and support.",
@@ -642,6 +644,8 @@ export const TUTORIAL_VIDEOS = [
     title: "Register and sign in",
     duration: "1:15",
     seconds: 75,
+    videoUrl:
+      "https://media.base44.com/videos/public/6afbd52c2f8bd7e10d10de9b/15754c1bc_Sign_in_clip.mp4",
     track: "Getting Started",
     description:
       "Register, verify your email, sign in, and find the password reset route.",
@@ -695,6 +699,8 @@ export const TUTORIAL_VIDEOS = [
     title: "Set up your personal profile",
     duration: "1:20",
     seconds: 80,
+    videoUrl:
+      "https://media.base44.com/videos/public/6afbd52c2f8bd7e10d10de9b/4e2b33beb_Profile_clip.mp4",
     track: "Getting Started",
     description:
       "Open your profile, enter body metrics with verified units, and save your preferences.",
@@ -748,6 +754,8 @@ export const TUTORIAL_VIDEOS = [
     title: "Navigate the dashboard",
     duration: "1:00",
     seconds: 60,
+    videoUrl:
+      "https://media.base44.com/videos/public/6afbd52c2f8bd7e10d10de9b/7ae932f66_Dashboard_clip.mp4",
     track: "Core Modules",
     description:
       "Identify the daily summary, the core modules, and quick paths to settings and help.",
@@ -801,6 +809,8 @@ export const TUTORIAL_VIDEOS = [
     title: "Ask the AI wellness advisor",
     duration: "1:30",
     seconds: 90,
+    videoUrl:
+      "https://media.base44.com/videos/public/6afbd52c2f8bd7e10d10de9b/30ed3f70a_Advisor_clip.mp4",
     track: "Core Modules",
     description:
       "Open the coach, ask a clear general question, review the cautions and recognise clinical boundaries.",
@@ -854,6 +864,8 @@ export const TUTORIAL_VIDEOS = [
     title: "Find and follow a workout",
     duration: "1:30",
     seconds: 90,
+    videoUrl:
+      "https://media.base44.com/videos/public/6afbd52c2f8bd7e10d10de9b/5adda2592_Workout_clip.mp4",
     track: "Core Modules",
     description:
       "Filter by category and level, watch the demonstration, follow safety notes and log completion.",

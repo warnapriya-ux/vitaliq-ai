@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { BookOpen, Captions, Pause, Play, RotateCcw, SkipBack, SkipForward } from "lucide-react";
 import VideoStage from "@/components/help/VideoStage";
@@ -23,6 +23,25 @@ export default function VideoPlayer({ video, article }) {
   }, [video.id]);
 
   const speed = SPEEDS[speedIndex];
+  const videoRef = useRef(null);
+
+  const seekVideo = (next) => {
+    const el = videoRef.current;
+    if (!el || !el.duration) return;
+    el.currentTime = next % el.duration;
+  };
+
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    if (playing) el.play().catch(() => {});
+    else el.pause();
+  }, [playing, video.id]);
+
+  useEffect(() => {
+    const el = videoRef.current;
+    if (el) el.playbackRate = speed;
+  }, [speed, video.id]);
 
   useEffect(() => {
     if (!playing) return undefined;
@@ -49,6 +68,7 @@ export default function VideoPlayer({ video, article }) {
   const toggle = () => {
     if (time >= video.seconds) {
       setTime(0);
+      seekVideo(0);
       setPlaying(true);
       return;
     }
@@ -58,6 +78,7 @@ export default function VideoPlayer({ video, article }) {
   const jump = (index) => {
     const clamped = Math.max(0, Math.min(video.scenes.length - 1, index));
     setTime(video.scenes[clamped].start);
+    seekVideo(video.scenes[clamped].start);
     setPlaying(true);
   };
 
@@ -92,6 +113,7 @@ export default function VideoPlayer({ video, article }) {
         playing={playing}
         captions={captions}
         onToggle={toggle}
+        videoRef={videoRef}
       />
 
       <div className="h-1 w-full overflow-hidden rounded-full bg-white/10">
@@ -135,7 +157,11 @@ export default function VideoPlayer({ video, article }) {
           max={video.seconds}
           step={0.5}
           value={Math.min(time, video.seconds)}
-          onChange={(event) => setTime(Number(event.target.value))}
+          onChange={(event) => {
+            const next = Number(event.target.value);
+            setTime(next);
+            seekVideo(next);
+          }}
           aria-label="Seek"
           className="h-1.5 min-w-[90px] flex-1 cursor-pointer appearance-none rounded-full bg-white/15 accent-cyan-400"
         />
@@ -161,6 +187,7 @@ export default function VideoPlayer({ video, article }) {
           type="button"
           onClick={() => {
             setTime(0);
+            seekVideo(0);
             setPlaying(false);
           }}
           aria-label="Restart"
